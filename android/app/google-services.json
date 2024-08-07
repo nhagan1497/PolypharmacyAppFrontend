@@ -12,7 +12,20 @@
           "package_name": "com.polypharmacy.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "860620522800-82spr6hmijlavgm477da081flrduis12.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polypharmacy.app",
+            "certificate_hash": "e0cd086a228c7af2585b550a908744ffbb5591e2"
+          }
+        },
+        {
+          "client_id": "860620522800-ve1t836kbc94u32kpk1lfljj57171tf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyATcbNb1W7IdbQ7Y5rM__PT-dhIQWdjdBA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860620522800-ve1t836kbc94u32kpk1lfljj57171tf0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "860620522800-6rj4mr0gup0mdcdh9k4l9gutsh9aqj7s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.polypharmacy"
+              }
+            }
+          ]
         }
       }
     }

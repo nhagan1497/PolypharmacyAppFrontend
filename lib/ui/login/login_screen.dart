@@ -1,4 +1,5 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -7,19 +8,28 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Polypharmacy',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       body: SignInScreen(
         providers: [
           EmailAuthProvider(),
+          GoogleProvider(
+            clientId: "860620522800-ve1t836kbc94u32kpk1lfljj57171tf0.apps.googleusercontent.com",
+            iOSPreferPlist: true,
+          ),
         ],
+        headerBuilder: (context, constraints, shrinkOffset) {
+          return const Padding(
+            padding: EdgeInsets.all(20),
+            child: Center(
+              child: Text(
+                "Polypharmacy",
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
