@@ -6,10 +6,21 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SignInScreen(
-      providers: [
-        EmailAuthProvider(),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Polypharmacy',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: SignInScreen(
+        providers: [
+          EmailAuthProvider(),
+        ],
+      ),
     );
   }
 }
