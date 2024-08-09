@@ -40,5 +40,5 @@ abstract class PolypharmacyApi {
   factory PolypharmacyApi({required Dio dio}) => _PolypharmacyApi(dio);
 
   @GET("/secure-data")
-  Future<String> getSecureData(@Query('auth_header') String token);
+  Future<String> getSecureData(@Header('auth-header') String token);
 }
