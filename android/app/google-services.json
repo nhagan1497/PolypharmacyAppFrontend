@@ -1,48 +1,48 @@
 {
   "project_info": {
-    "project_number": "860620522800",
-    "project_id": "polypharmacy-authentication",
-    "storage_bucket": "polypharmacy-authentication.appspot.com"
+    "project_number": "27887611849",
+    "project_id": "polypharmacyapp",
+    "storage_bucket": "polypharmacyapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:860620522800:android:f59833d6fe4371d33f34f5",
+        "mobilesdk_app_id": "1:27887611849:android:66467d4b716a2675498218",
         "android_client_info": {
           "package_name": "com.polypharmacy.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "860620522800-82spr6hmijlavgm477da081flrduis12.apps.googleusercontent.com",
+          "client_id": "27887611849-f573hg8b4odcgrg9qq2gv9ujdk91iguu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.polypharmacy.app",
-            "certificate_hash": "e0cd086a228c7af2585b550a908744ffbb5591e2"
+            "certificate_hash": "69b876b1d51701a83d5285d6ca70ead18277a820"
           }
         },
         {
-          "client_id": "860620522800-ve1t836kbc94u32kpk1lfljj57171tf0.apps.googleusercontent.com",
+          "client_id": "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyATcbNb1W7IdbQ7Y5rM__PT-dhIQWdjdBA"
+          "current_key": "AIzaSyDkgZS-blRyRL3pXK4fxQGbQUadd42poBM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "860620522800-ve1t836kbc94u32kpk1lfljj57171tf0.apps.googleusercontent.com",
+              "client_id": "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "860620522800-6rj4mr0gup0mdcdh9k4l9gutsh9aqj7s.apps.googleusercontent.com",
+              "client_id": "27887611849-garp69imd1thtgkf806i4sun1qqkqu6g.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.polypharmacy"
+                "bundle_id": "com.polypharmacy.app"
               }
             }
           ]

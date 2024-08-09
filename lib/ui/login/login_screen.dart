@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
           EmailAuthProvider(),
           GoogleProvider(
             clientId:
-                "860620522800-ve1t836kbc94u32kpk1lfljj57171tf0.apps.googleusercontent.com",
+                "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
             iOSPreferPlist: true,
           ),
         ],
