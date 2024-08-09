@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>860620522800-6rj4mr0gup0mdcdh9k4l9gutsh9aqj7s.apps.googleusercontent.com</string>
+	<string>27887611849-garp69imd1thtgkf806i4sun1qqkqu6g.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.860620522800-6rj4mr0gup0mdcdh9k4l9gutsh9aqj7s</string>
+	<string>com.googleusercontent.apps.27887611849-garp69imd1thtgkf806i4sun1qqkqu6g</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC5maNGsZacNS2cjY2C_-PbmIg_e6Lh_zk</string>
+	<string>AIzaSyAtOA2tTY3vJv133c1S2BSPAANwfvtn8Is</string>
 	<key>GCM_SENDER_ID</key>
-	<string>860620522800</string>
+	<string>27887611849</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.polypharmacy</string>
+	<string>com.polypharmacy.app</string>
 	<key>PROJECT_ID</key>
-	<string>polypharmacy-authentication</string>
+	<string>polypharmacyapp</string>
 	<key>STORAGE_BUCKET</key>
-	<string>polypharmacy-authentication.appspot.com</string>
+	<string>polypharmacyapp.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:860620522800:ios:c7e94a529693cd283f34f5</string>
+	<string>1:27887611849:ios:44741e9f4f1bff97498218</string>
 </dict>
 </plist>

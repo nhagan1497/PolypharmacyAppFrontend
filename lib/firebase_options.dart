@@ -50,19 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyATcbNb1W7IdbQ7Y5rM__PT-dhIQWdjdBA',
-    appId: '1:860620522800:android:f59833d6fe4371d33f34f5',
-    messagingSenderId: '860620522800',
-    projectId: 'polypharmacy-authentication',
-    storageBucket: 'polypharmacy-authentication.appspot.com',
+    apiKey: 'AIzaSyDkgZS-blRyRL3pXK4fxQGbQUadd42poBM',
+    appId: '1:27887611849:android:66467d4b716a2675498218',
+    messagingSenderId: '27887611849',
+    projectId: 'polypharmacyapp',
+    storageBucket: 'polypharmacyapp.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC5maNGsZacNS2cjY2C_-PbmIg_e6Lh_zk',
-    appId: '1:860620522800:ios:c7e94a529693cd283f34f5',
-    messagingSenderId: '860620522800',
-    projectId: 'polypharmacy-authentication',
-    storageBucket: 'polypharmacy-authentication.appspot.com',
-    iosBundleId: 'com.example.polypharmacy',
+    apiKey: 'AIzaSyAtOA2tTY3vJv133c1S2BSPAANwfvtn8Is',
+    appId: '1:27887611849:ios:44741e9f4f1bff97498218',
+    messagingSenderId: '27887611849',
+    projectId: 'polypharmacyapp',
+    storageBucket: 'polypharmacyapp.appspot.com',
+    iosClientId: '27887611849-garp69imd1thtgkf806i4sun1qqkqu6g.apps.googleusercontent.com',
+    iosBundleId: 'com.polypharmacy.app',
   );
+
 }
