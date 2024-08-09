@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/firebase_options.dart';
 import 'package:polypharmacy/ui/home/home_screen.dart';
 import 'package:polypharmacy/ui/login/login_screen.dart';
@@ -24,7 +25,7 @@ class PolypharmacyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AuthGate(),
+      home: const ProviderScope(child: AuthGate()),
     );
   }
 }

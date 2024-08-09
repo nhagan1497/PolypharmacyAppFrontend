@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:polypharmacy/repos/polypharmacy_repo.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final polypharmacyRepo = ref.watch(polypharmacyRepoProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -26,6 +29,9 @@ class HomeScreen extends StatelessWidget {
               },
               child: const Text('Sign Out'),
             ),
+            ElevatedButton(
+                onPressed: polypharmacyRepo.fetchSecureData,
+                child: const Text('Get Secure Data'))
           ],
         ),
       ),
