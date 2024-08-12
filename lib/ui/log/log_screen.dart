@@ -9,7 +9,7 @@ class LogScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final polypharmacyRepo = ref.watch(polypharmacyRepoProvider);
+    final polypharmacyRepo = ref.watch(polypharmacyRepoProvider).value;
     final FirebaseAuth auth = FirebaseAuth.instance;
 
     return Center(
@@ -28,7 +28,7 @@ class LogScreen extends ConsumerWidget {
             child: const Text('Sign Out'),
           ),
           ElevatedButton(
-              onPressed: polypharmacyRepo.fetchSecureData,
+              onPressed: polypharmacyRepo?.fetchSecureData,
               child: const Text('Get Secure Data'))
         ],
       ),

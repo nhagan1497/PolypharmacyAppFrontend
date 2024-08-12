@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:polypharmacy/ui/identification/identification_screen.dart';
 
 import '../log/log_screen.dart';
-import '../schedule/schedule_screen.dart';
+import '../med_list/med_list_screen.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -15,10 +15,27 @@ class HomeScreen extends HookWidget {
     final List<Widget> screens = [
       LogScreen(),
       IdentificationScreen(),
-      ScheduleScreen(),
+      MedListScreen(),
+    ];
+
+    final List<String> screenTitles = [
+      'Medication Log',
+      'Identify Medication',
+      'Medication List',
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            screenTitles[currentIndex.value],
+            style: const TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      ),
       body: IndexedStack(
         index: currentIndex.value,
         children: screens,
@@ -38,8 +55,8 @@ class HomeScreen extends HookWidget {
             label: 'Identify',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Schedule',
+            icon: Icon(Icons.medication_rounded),
+            label: 'Med List',
           ),
         ],
       ),
