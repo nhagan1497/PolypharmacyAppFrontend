@@ -7,6 +7,7 @@ part 'user_medication.g.dart';
 class UserMedication with _$UserMedication {
   const factory UserMedication({
     required String name,
+    required String dosage,
     required int quantity,
     required List<String> timesOfDay,
   }) = _UserMedication;

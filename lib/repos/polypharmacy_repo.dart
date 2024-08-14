@@ -38,17 +38,101 @@ class PolypharmacyRepo {
   }
 
   Future<List<PillSchedule>> getPillSchedules() async {
-    try {
-      final result = await _polypharmacyApi.getPillSchedules(1000);
-      print(result);
-      return result;
-    } on DioException catch (dioError) {
-      print(dioError.toString());
-      rethrow;
-    } catch(ex){
-      print(ex.toString());
-      rethrow;
-    }
+    // try {
+    //   final result = await _polypharmacyApi.getPillSchedules(1000);
+    //   print(result);
+    //   return result;
+    // } on DioException catch (dioError) {
+    //   print(dioError.toString());
+    //   rethrow;
+    // } catch(ex){
+    //   print(ex.toString());
+    //   rethrow;
+    // }
+    await Future.delayed(const Duration(seconds: 2));
+    return [
+      PillSchedule(
+        name: 'Aspirin',
+        dosage: '100mg',
+        pillId: 1,
+        quantity: 2,
+        time: DateTime(2024, 8, 14, 7, 0),
+        userId: 101,
+        id: 1,
+      ),
+      PillSchedule(
+        name: 'Aspirin',
+        dosage: '100mg',
+        pillId: 1,
+        quantity: 2,
+        time: DateTime(2024, 8, 14, 12, 0),
+        userId: 101,
+        id: 1,
+      ),
+      PillSchedule(
+        name: 'Aspirin',
+        dosage: '100mg',
+        pillId: 1,
+        quantity: 2,
+        time: DateTime(2024, 8, 14, 20, 0),
+        userId: 101,
+        id: 1,
+      ),
+      PillSchedule(
+        name: 'Ibuprofen',
+        dosage: '200mg',
+        pillId: 2,
+        quantity: 2,
+        time: DateTime(2024, 8, 14, 12, 0),
+        userId: 102,
+        id: 2,
+      ),
+      PillSchedule(
+        name: 'Paracetamol',
+        dosage: '500mg',
+        pillId: 3,
+        quantity: 3,
+        time: DateTime(2024, 8, 14, 7, 0),
+        userId: 103,
+        id: 3,
+      ),
+      PillSchedule(
+        name: 'Paracetamol',
+        dosage: '500mg',
+        pillId: 3,
+        quantity: 3,
+        time: DateTime(2024, 8, 14, 20, 0),
+        userId: 103,
+        id: 3,
+      ),
+      PillSchedule(
+        name: 'Amoxicillin',
+        dosage: '250mg',
+        pillId: 5,
+        quantity: 1,
+        time: DateTime(2024, 8, 14, 7, 0),
+        userId: 105,
+        id: 5,
+      ),
+      PillSchedule(
+        name: 'Amoxicillin',
+        dosage: '250mg',
+        pillId: 5,
+        quantity: 1,
+        time: DateTime(2024, 8, 14, 12, 0),
+        userId: 105,
+        id: 5,
+      ),
+      PillSchedule(
+        name: 'Amoxicillin',
+        dosage: '250mg',
+        pillId: 5,
+        quantity: 1,
+        time: DateTime(2024, 8, 14, 20, 0),
+        userId: 105,
+        id: 5,
+      ),
+    ];
   }
 
 }
