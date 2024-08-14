@@ -12,23 +12,40 @@ class MedListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final medList = ref.watch(medListStateProvider).valueOrNull;
 
-    return Center(
-      child: Column(children: [
-        ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const MedDialog();
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: medList?.length ?? 0,
+              itemBuilder: (context, index) {
+                return MedDisplayTile(medication: medList![index]);
               },
-            );
-          },
-          child: const Text('Add New Medication'),
-        ),
-        const SizedBox(height: 8),
-        ...?medList
-            ?.map((medication) => MedDisplayTile(medication: medication)),
-      ]),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const MedDialog();
+                  },
+                );
+              },
+              icon: const Icon(Icons.medical_services, size: 20),
+              label: const Text('Add New Medication'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20), // Oval shape
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
