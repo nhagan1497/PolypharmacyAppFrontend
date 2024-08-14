@@ -23,14 +23,17 @@ class MedListState extends _$MedListState {
     return groupedByPillId.entries.map((entry) {
       var pillSchedules = entry.value;
       var firstSchedule = pillSchedules.first;
+      var administrations = <String, int>{};
+
+      for (var schedule in pillSchedules) {
+        var time = DateFormat.jm().format(schedule.time);
+        administrations[time] = schedule.quantity ?? 0;
+      }
+
       return UserMedication(
         name: firstSchedule.name,
         dosage: firstSchedule.dosage,
-        quantity: firstSchedule.quantity ?? 0,
-        timesOfDay: pillSchedules.map((schedule) {
-          var time = schedule.time;
-          return DateFormat.jm().format(time); // Format time as "10:00AM"
-        }).toList(),
+        dailyAdministrations: administrations,
       );
     }).toList();
   }

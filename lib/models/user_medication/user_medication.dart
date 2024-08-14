@@ -8,8 +8,7 @@ class UserMedication with _$UserMedication {
   const factory UserMedication({
     required String name,
     required String dosage,
-    required int quantity,
-    required List<String> timesOfDay,
+    required Map<String, int> dailyAdministrations,
   }) = _UserMedication;
 
   factory UserMedication.fromJson(Map<String, dynamic> json) => _$UserMedicationFromJson(json);
