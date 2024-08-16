@@ -14,14 +14,17 @@ class ScheduleDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scheduleState = ref.watch(scheduleStateProvider);
     final scheduleStateActions = ref.watch(scheduleStateProvider.notifier);
-    final quantityController = TextEditingController();
+    final quantityController = useTextEditingController();
+    var selectedTime = useState<TimeOfDay?>(null);
     final showError = useState<String?>(null);
-    TimeOfDay? selectedTime;
 
-    if (index != null) {
-      quantityController.text = scheduleState.schedules[index!].quantity.toString();
+    if (index != null && selectedTime.value == null) {
       final time = scheduleState.schedules[index!].time;
-      selectedTime = TimeOfDay(hour: time.hour, minute: time.minute);
+      selectedTime.value = TimeOfDay(hour: time.hour, minute: time.minute);
+    }
+
+    if (index != null && quantityController.text.isEmpty) {
+      quantityController.text = scheduleState.schedules[index!].quantity.toString();
     }
 
     return AlertDialog(
@@ -35,17 +38,17 @@ class ScheduleDialog extends HookConsumerWidget {
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 20),
-          if (selectedTime != null)
-            Text('Selected Time: ${selectedTime!.format(context)}'),
+          if (selectedTime.value != null)
+            Text('Selected Time: ${selectedTime.value!.format(context)}'),
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () async {
               final TimeOfDay? picked = await showTimePicker(
                 context: context,
-                initialTime: selectedTime ?? const TimeOfDay(hour: 0, minute: 0),
+                initialTime: const TimeOfDay(hour: 0, minute: 0),
               );
               if (picked != null) {
-                selectedTime = picked;
+                selectedTime.value = picked;
               }
             },
             child: const Text('Select Time'),
@@ -73,13 +76,13 @@ class ScheduleDialog extends HookConsumerWidget {
             final quantity = quantityController.text;
             if (quantity.isEmpty || int.tryParse(quantity) == null || int.parse(quantity) <= 0) {
               showError.value = 'Please enter a valid quantity.';
-            } else if (selectedTime == null) {
+            } else if (selectedTime.value == null) {
               showError.value = 'Please select a valid time.';
             } else {
               if (index == null) {
-                scheduleStateActions.addScheduleToCreate(quantity, selectedTime!);
+                scheduleStateActions.addScheduleToCreate(quantity, selectedTime.value!);
               } else {
-                scheduleStateActions.addScheduleToUpdate(index!, quantity, selectedTime!);
+                scheduleStateActions.addScheduleToUpdate(index!, quantity, selectedTime.value!);
               }
               Navigator.of(context).pop();
             }
