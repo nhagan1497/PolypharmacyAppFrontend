@@ -63,18 +63,6 @@ class HomeScreen extends HookWidget {
           ),
         ],
       ),
-      floatingActionButton: currentIndex.value == 2
-          ? FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const MedicationScreen(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      )
-          : null,
     );
   }
 }

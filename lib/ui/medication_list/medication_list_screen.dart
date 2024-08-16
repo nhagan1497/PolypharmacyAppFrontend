@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../services/medication_state/medication_state.dart';
-import 'medication_dialog.dart';
 import 'medication_screen.dart';
 import 'medication_tile.dart';
 

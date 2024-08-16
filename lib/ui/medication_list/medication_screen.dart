@@ -17,9 +17,29 @@ class MedicationScreen extends HookWidget {
       ];
     }
 
-    Future<void> showAddScheduleDialog() async {
+    void editSchedule(int index, String quantity, TimeOfDay time) {
+      scheduleList.value = [
+        ...scheduleList.value.sublist(0, index),
+        {'quantity': quantity, 'time': time},
+        ...scheduleList.value.sublist(index + 1),
+      ];
+    }
+
+    void deleteSchedule(int index) {
+      scheduleList.value = [
+        ...scheduleList.value.sublist(0, index),
+        ...scheduleList.value.sublist(index + 1),
+      ];
+    }
+
+    Future<void> showAddScheduleDialog({int? index}) async {
       final quantityController = TextEditingController();
       TimeOfDay? selectedTime;
+
+      if (index != null) {
+        quantityController.text = scheduleList.value[index]['quantity'];
+        selectedTime = scheduleList.value[index]['time'];
+      }
 
       showDialog(
         context: context,
@@ -27,7 +47,7 @@ class MedicationScreen extends HookWidget {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
-                title: const Text('Medication Administration'),
+                title: Center(child: Text(index == null ? 'Add Schedule' : 'Edit Schedule')),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -37,11 +57,14 @@ class MedicationScreen extends HookWidget {
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 20),
+                    if (selectedTime != null)
+                      Text('Selected Time: ${selectedTime!.format(context)}'),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
                         final TimeOfDay? picked = await showTimePicker(
                           context: context,
-                          initialTime: TimeOfDay.now(),
+                          initialTime: selectedTime ?? const TimeOfDay(hour: 0, minute: 0),
                         );
                         if (picked != null) {
                           setState(() {
@@ -51,9 +74,6 @@ class MedicationScreen extends HookWidget {
                       },
                       child: const Text('Select Time'),
                     ),
-                    const SizedBox(height: 10),
-                    if (selectedTime != null)
-                      Text('Selected Time: ${selectedTime!.format(context)}'),
                     if (showError.value != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
@@ -72,7 +92,7 @@ class MedicationScreen extends HookWidget {
                     },
                   ),
                   TextButton(
-                    child: const Text('Add'),
+                    child: Text(index == null ? 'Add' : 'Update'),
                     onPressed: () {
                       final quantity = quantityController.text;
                       if (quantity.isEmpty || int.tryParse(quantity) == null || int.parse(quantity) <= 0) {
@@ -84,7 +104,11 @@ class MedicationScreen extends HookWidget {
                           showError.value = 'Please select a valid time.';
                         });
                       } else {
-                        addSchedule(quantity, selectedTime!);
+                        if (index == null) {
+                          addSchedule(quantity, selectedTime!);
+                        } else {
+                          editSchedule(index, quantity, selectedTime!);
+                        }
                         Navigator.of(context).pop();
                       }
                     },
@@ -129,30 +153,66 @@ class MedicationScreen extends HookWidget {
             children: <Widget>[
               TextField(
                 controller: medNameController,
-                decoration: const InputDecoration(labelText: 'Medication Name'),
-              ),
-
-              const SizedBox(height: 20),
-                Center(
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text('Quantity')),
-                      DataColumn(label: Text('Time')),
-                    ],
-                    rows: scheduleList.value.map((schedule) {
-                      return DataRow(cells: [
-                        DataCell(Text(schedule['quantity'])),
-                        DataCell(Text(schedule['time'].format(context))),
-                      ]);
-                    }).toList(),
-                  ),
+                decoration: const InputDecoration(
+                  labelText: 'Medication Name',
+                  labelStyle: TextStyle(fontSize: 20),
                 ),
+              ),
+              const SizedBox(height: 20),
+              if (scheduleList.value.isNotEmpty)
+              Center(
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return DataTable(
+                      columnSpacing: 32, // Adjust based on total number of columns
+                      headingRowHeight: 32.0, // Consistent height for the header row
+                      dataRowHeight: 40.0, // Consistent height for the data rows
+                      columns: const [
+                        DataColumn(label: Expanded(child: Center(child: Text('Time')))),
+                        DataColumn(label: Expanded(child: Center(child: Text('Quantity')))),
+                        DataColumn(label: Expanded(child: Center(child: Text('Edit/Delete')))),
+                      ],
+                      rows: scheduleList.value.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        Map<String, dynamic> schedule = entry.value;
+                        return DataRow(cells: [
+                          DataCell(Expanded(child: Center(child: Text(schedule['time'].format(context))))),
+                          DataCell(Expanded(child: Center(child: Text(schedule['quantity'])))),
+                          DataCell(
+                            Expanded(
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () {
+                                        showAddScheduleDialog(index: index);
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        deleteSchedule(index);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ]);
+                      }).toList(),
+                    );
+                  },
+                ),
+              ),
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton.icon(
                   onPressed: showAddScheduleDialog,
                   icon: const Icon(Icons.add),
-                  label: const Text('Add Administration'),
+                  label: const Text('Add Schedule'),
                 ),
               ),
               const SizedBox(height: 20),
