@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:polypharmacy/models/user_medication/user_medication.dart';
 
-class MedDisplayTile extends ConsumerWidget {
+class MedicationTile extends ConsumerWidget {
   final Medication medication;
 
-  const MedDisplayTile({super.key, required this.medication});
+  const MedicationTile({super.key, required this.medication});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

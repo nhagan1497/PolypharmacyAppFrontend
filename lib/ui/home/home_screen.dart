@@ -3,7 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:polypharmacy/ui/identification/identification_screen.dart';
 
 import '../log/log_screen.dart';
-import '../med_list/med_list_screen.dart';
+import '../medication_list/medication_list_screen.dart';
+import '../medication_list/medication_screen.dart'; // Import your MedicationScreen
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -13,9 +14,9 @@ class HomeScreen extends HookWidget {
     final currentIndex = useState(0);
 
     final List<Widget> screens = [
-      LogScreen(),
-      IdentificationScreen(),
-      MedListScreen(),
+      const LogScreen(),
+      const IdentificationScreen(),
+      const MedicationListScreen(),
     ];
 
     final List<String> screenTitles = [
@@ -31,7 +32,7 @@ class HomeScreen extends HookWidget {
             screenTitles[currentIndex.value],
             style: const TextStyle(
               fontSize: 36,
-              fontWeight: FontWeight.bold
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -43,7 +44,9 @@ class HomeScreen extends HookWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex.value,
         onTap: (index) {
-          currentIndex.value = index;
+          if (currentIndex.value != index) {
+            currentIndex.value = index;
+          }
         },
         items: const [
           BottomNavigationBarItem(
@@ -60,6 +63,18 @@ class HomeScreen extends HookWidget {
           ),
         ],
       ),
+      floatingActionButton: currentIndex.value == 2
+          ? FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const MedicationScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      )
+          : null,
     );
   }
 }

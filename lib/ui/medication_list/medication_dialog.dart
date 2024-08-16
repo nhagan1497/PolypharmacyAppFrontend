@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class MedDialog extends HookWidget {
-  const MedDialog({super.key});
+class MedicationDialog extends HookWidget {
+  const MedicationDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
