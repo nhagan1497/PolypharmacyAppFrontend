@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../../models/medication/medication.dart';
 
 class MedicationScreen extends HookWidget {
-  const MedicationScreen({super.key});
+  final Medication? medication;
+  const MedicationScreen({super.key, this.medication});
 
   @override
   Widget build(BuildContext context) {
-    final medNameController = useTextEditingController();
-    final scheduleList = useState<List<Map<String, dynamic>>>([]);
+    final medNameController = useTextEditingController(text: medication?.name ?? '');
+
+    final scheduleList = useState<List<Map<String, dynamic>>>(
+      medication?.schedules.map((schedule) => {
+        'quantity': schedule.quantity.toString(),
+        'time': TimeOfDay.fromDateTime(schedule.time) // Assuming time is a TimeOfDay object
+      }).toList() ?? [],
+    );
     final showError = useState<String?>(null);
 
     void addSchedule(String quantity, TimeOfDay time) {
