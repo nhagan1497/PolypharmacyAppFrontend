@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:polypharmacy/models/user_medication/user_medication.dart';
 
 class MedDisplayTile extends ConsumerWidget {
-  final UserMedication medication;
+  final Medication medication;
 
   const MedDisplayTile({super.key, required this.medication});
 
@@ -38,7 +39,8 @@ class MedDisplayTile extends ConsumerWidget {
                     icon: const Icon(Icons.edit, size: 20),
                     label: const Text('Edit'),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20), // Oval shape
                       ),
@@ -52,7 +54,8 @@ class MedDisplayTile extends ConsumerWidget {
                     icon: const Icon(Icons.delete, size: 20),
                     label: const Text('Delete'),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20), // Oval shape
                       ),
@@ -69,14 +72,14 @@ class MedDisplayTile extends ConsumerWidget {
             color: Colors.grey[200],
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: medication.dailyAdministrations.entries
-                  .map((entry) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(
-                  "Take ${entry.value} pills at ${entry.key}",
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ))
+              children: medication.schedules
+                  .map((sch) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          "Take ${sch.quantity} pills at ${DateFormat.jm().format(sch.time)}",
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      ))
                   .toList(),
             ),
           ),

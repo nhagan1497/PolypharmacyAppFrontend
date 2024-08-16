@@ -1,15 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../pill_schedule/pill_schedule.dart';
+
 part 'user_medication.freezed.dart';
 part 'user_medication.g.dart';
 
 @freezed
-class UserMedication with _$UserMedication {
-  const factory UserMedication({
+class Medication with _$UserMedication {
+  const factory Medication({
     required String name,
     required String dosage,
-    required Map<String, int> dailyAdministrations,
+    required List<PillSchedule> schedules,
+    required int pillId,
   }) = _UserMedication;
 
-  factory UserMedication.fromJson(Map<String, dynamic> json) => _$UserMedicationFromJson(json);
+  factory Medication.fromJson(Map<String, dynamic> json) => _$UserMedicationFromJson(json);
 }

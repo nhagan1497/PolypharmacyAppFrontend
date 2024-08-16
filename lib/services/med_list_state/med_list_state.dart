@@ -11,29 +11,24 @@ part 'med_list_state.g.dart';
 @riverpod
 class MedListState extends _$MedListState {
   @override
-  Future<IList<UserMedication>> build() async{
+  Future<IList<Medication>> build() async{
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     final pillSchedules = await polyPharmacyRepo.getPillSchedules();
-    final userMedications = aggregatePillSchedules(pillSchedules);
+    final userMedications = convertSchedulesToMedicationList(pillSchedules);
     return userMedications.lock;
   }
 
-  List<UserMedication> aggregatePillSchedules(List<PillSchedule> schedules) {
-    var groupedByPillId = groupBy(schedules, (PillSchedule schedule) => schedule.pillId);
+  List<Medication> convertSchedulesToMedicationList(List<PillSchedule> schedules) {
+    var groupedByPillId = groupBy(schedules, (PillSchedule schedule) => schedule.pillId!);
     return groupedByPillId.entries.map((entry) {
-      var pillSchedules = entry.value;
-      var firstSchedule = pillSchedules.first;
-      var administrations = <String, int>{};
+      final pillSchedules = entry.value;
+      final pillId = entry.key;
 
-      for (var schedule in pillSchedules) {
-        var time = DateFormat.jm().format(schedule.time);
-        administrations[time] = schedule.quantity ?? 0;
-      }
-
-      return UserMedication(
-        name: firstSchedule.name,
-        dosage: firstSchedule.dosage,
-        dailyAdministrations: administrations,
+      return Medication(
+        pillId: pillId,
+        name: pillSchedules.first.name,
+        dosage: pillSchedules.first.dosage,
+        schedules: pillSchedules,
       );
     }).toList();
   }
