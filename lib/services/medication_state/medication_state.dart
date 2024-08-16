@@ -31,4 +31,26 @@ class MedicationState extends _$MedicationState {
       );
     }).toList();
   }
+  
+  void alterSchedules(
+    List<PillSchedule> schedulesToCreate,
+    List<PillSchedule> schedulesToUpdate,
+    List<PillSchedule> schedulesToDelete,
+  ) {
+    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+
+    for (var scheduleToCreate in schedulesToCreate) {
+      var result = polyPharmacyRepo.postPillSchedule(scheduleToCreate);
+    }
+
+    for (var scheduleToUpdate in schedulesToUpdate) {
+      var result = polyPharmacyRepo.putPillSchedule(scheduleToUpdate.id!);
+    }
+
+    for (var scheduleToDelete in schedulesToDelete) {
+      var result = polyPharmacyRepo.deletePillSchedule(scheduleToDelete.id!);
+    }
+
+    ref.invalidateSelf();
+  }
 }

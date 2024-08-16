@@ -4,6 +4,8 @@ import 'package:polypharmacy/models/pill_schedule/pill_schedule.dart';
 import 'package:retrofit/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../models/http_responses/success.dart';
+
 part 'polypharmacy_repo.g.dart';
 
 @riverpod
@@ -144,6 +146,21 @@ class PolypharmacyRepo {
     ];
   }
 
+  Future<Success> postPillSchedule(PillSchedule pillSchedule) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return Success();
+  }
+
+  Future<Success> putPillSchedule(int pillScheduleId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return Success();
+  }
+
+  Future<Success> deletePillSchedule(int pillScheduleId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return Success();
+  }
+
 }
 
 @RestApi(baseUrl: "https://polypharmacyappbackend.azurewebsites.net")
@@ -156,5 +173,18 @@ abstract class PolypharmacyApi {
   @GET("/pill_schedule/")
   Future<List<PillSchedule>> getPillSchedules(
     @Query('limit') int limit
+  );
+
+  @GET("/pill_schedule/")
+  Future<List<PillSchedule>> postPillSchedule();
+
+  @PUT("/pill_schedule/{pill_schedule_id}")
+  Future<Success> putPillSchedule(
+      @Path('pill_schedule_id') int pillScheduleId,
+  );
+
+  @DELETE("/pill_schedule/{pill_schedule_id}")
+  Future<Success> deletePillSchedule(
+      @Path('pill_schedule_id') int pillScheduleId,
   );
 }
