@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:polypharmacy/models/user_medication/user_medication.dart';
+import '../../models/medication/medication.dart';
+import 'medication_screen.dart';
 
 class MedicationTile extends ConsumerWidget {
   final Medication medication;
@@ -34,7 +35,11 @@ class MedicationTile extends ConsumerWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Add your edit functionality here
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MedicationScreen(medication: medication,),
+                        ),
+                      );
                     },
                     icon: const Icon(Icons.edit, size: 20),
                     label: const Text('Edit'),

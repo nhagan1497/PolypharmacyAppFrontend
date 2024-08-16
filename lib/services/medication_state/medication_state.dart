@@ -1,9 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../models/medication/medication.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
-import '../../models/user_medication/user_medication.dart';
 import '../../repos/polypharmacy_repo.dart';
 
 part 'medication_state.g.dart';
