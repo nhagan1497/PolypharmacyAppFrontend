@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../models/medication/medication.dart';
+import '../../models/pill_schedule/pill_schedule.dart';
 
 class MedicationScreen extends HookWidget {
   final Medication? medication;
@@ -10,25 +11,51 @@ class MedicationScreen extends HookWidget {
   Widget build(BuildContext context) {
     final medNameController = useTextEditingController(text: medication?.name ?? '');
 
-    final scheduleList = useState<List<Map<String, dynamic>>>(
-      medication?.schedules.map((schedule) => {
-        'quantity': schedule.quantity.toString(),
-        'time': TimeOfDay.fromDateTime(schedule.time) // Assuming time is a TimeOfDay object
-      }).toList() ?? [],
+    // Initialize scheduleList with PillSchedule objects
+    final scheduleList = useState<List<PillSchedule>>(
+      medication?.schedules ?? [],
     );
     final showError = useState<String?>(null);
 
     void addSchedule(String quantity, TimeOfDay time) {
       scheduleList.value = [
         ...scheduleList.value,
-        {'quantity': quantity, 'time': time},
+        PillSchedule(
+          name: medNameController.value.toString(),
+          dosage: medication?.dosage ?? '0mg',
+          quantity: int.parse(quantity),
+          time: DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            time.hour,
+            time.minute,
+          ),
+          pillId: medication?.pillId ?? 0,
+          userId: 0,
+          id: 0,
+        ),
       ];
     }
 
     void editSchedule(int index, String quantity, TimeOfDay time) {
       scheduleList.value = [
         ...scheduleList.value.sublist(0, index),
-        {'quantity': quantity, 'time': time},
+        PillSchedule(
+          name: medNameController.value.toString(),
+          dosage: medication?.dosage ?? '0mg',
+          quantity: int.parse(quantity),
+          time: DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            time.hour,
+            time.minute,
+          ),
+          pillId: medication?.pillId ?? 0,
+          userId: 0,
+          id: 0,
+        ),
         ...scheduleList.value.sublist(index + 1),
       ];
     }
@@ -45,8 +72,9 @@ class MedicationScreen extends HookWidget {
       TimeOfDay? selectedTime;
 
       if (index != null) {
-        quantityController.text = scheduleList.value[index]['quantity'];
-        selectedTime = scheduleList.value[index]['time'];
+        quantityController.text = scheduleList.value[index].quantity.toString();
+        final time = scheduleList.value[index].time;
+        selectedTime = TimeOfDay(hour: time.hour, minute: time.minute);
       }
 
       showDialog(
@@ -168,53 +196,48 @@ class MedicationScreen extends HookWidget {
               ),
               const SizedBox(height: 20),
               if (scheduleList.value.isNotEmpty)
-              Center(
-                child: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return DataTable(
-                      columnSpacing: 32, // Adjust based on total number of columns
-                      headingRowHeight: 32.0, // Consistent height for the header row
-                      dataRowHeight: 40.0, // Consistent height for the data rows
-                      columns: const [
-                        DataColumn(label: Expanded(child: Center(child: Text('Time')))),
-                        DataColumn(label: Expanded(child: Center(child: Text('Quantity')))),
-                        DataColumn(label: Expanded(child: Center(child: Text('Edit/Delete')))),
-                      ],
-                      rows: scheduleList.value.asMap().entries.map((entry) {
-                        int index = entry.key;
-                        Map<String, dynamic> schedule = entry.value;
-                        return DataRow(cells: [
-                          DataCell(Expanded(child: Center(child: Text(schedule['time'].format(context))))),
-                          DataCell(Expanded(child: Center(child: Text(schedule['quantity'])))),
-                          DataCell(
-                            Expanded(
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () {
-                                        showAddScheduleDialog(index: index);
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () {
-                                        deleteSchedule(index);
-                                      },
-                                    ),
-                                  ],
+                Center(
+                  child: DataTable(
+                    columnSpacing: 32,
+                    headingRowHeight: 32.0,
+                    dataRowHeight: 40.0,
+                    columns: const [
+                      DataColumn(label: Center(child: Text('Time'))),
+                      DataColumn(label: Center(child: Text('Quantity'))),
+                      DataColumn(label: Center(child: Text('Edit/Delete'))),
+                    ],
+                    rows: scheduleList.value.asMap().entries.map((entry) {
+                      int index = entry.key;
+                      PillSchedule schedule = entry.value;
+
+                      return DataRow(cells: [
+                        DataCell(Center(child: Text(TimeOfDay.fromDateTime(schedule.time).format(context)))),
+                        DataCell(Center(child: Text(schedule.quantity.toString()))),
+                        DataCell(
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    showAddScheduleDialog(index: index);
+                                  },
                                 ),
-                              ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    deleteSchedule(index);
+                                  },
+                                ),
+                              ],
                             ),
                           ),
-                        ]);
-                      }).toList(),
-                    );
-                  },
+                        ),
+                      ]);
+                    }).toList(),
+                  ),
                 ),
-              ),
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton.icon(
@@ -226,7 +249,9 @@ class MedicationScreen extends HookWidget {
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton.icon(
-                  onPressed: showAddScheduleDialog,
+                  onPressed: () {
+                    // Implement save medication logic
+                  },
                   icon: const Icon(Icons.save),
                   label: const Text('Save Medication'),
                 ),
