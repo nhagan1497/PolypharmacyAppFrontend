@@ -11,7 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const PolypharmacyApp());
+  runApp(const ProviderScope(child: PolypharmacyApp()));
 }
 
 class PolypharmacyApp extends StatelessWidget {
@@ -25,7 +25,7 @@ class PolypharmacyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ProviderScope(child: AuthGate()),
+      home: const AuthGate(),
     );
   }
 }

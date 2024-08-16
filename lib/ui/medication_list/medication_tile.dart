@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../models/medication/medication.dart';
+import '../../services/medication_state/medication_state.dart';
 import 'medication_screen.dart';
 
 class MedicationTile extends ConsumerWidget {
@@ -11,6 +12,7 @@ class MedicationTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final medicationStateActions = ref.watch(medicationStateProvider.notifier);
     return Column(
       children: [
         const Divider(
@@ -35,6 +37,7 @@ class MedicationTile extends ConsumerWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
+                      medicationStateActions.setSelectedMedication(medication);
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => MedicationScreen(medication: medication,),

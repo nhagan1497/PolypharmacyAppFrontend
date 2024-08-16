@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/ui/identification/identification_screen.dart';
 
 import '../log/log_screen.dart';
 import '../medication_list/medication_list_screen.dart';
-import '../medication_list/medication_screen.dart'; // Import your MedicationScreen
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -25,43 +25,45 @@ class HomeScreen extends HookWidget {
       'Medication List',
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            screenTitles[currentIndex.value],
-            style: const TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
+    return ProviderScope(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Center(
+            child: Text(
+              screenTitles[currentIndex.value],
+              style: const TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
-      body: IndexedStack(
-        index: currentIndex.value,
-        children: screens,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex.value,
-        onTap: (index) {
-          if (currentIndex.value != index) {
-            currentIndex.value = index;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Log',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: 'Identify',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.medication_rounded),
-            label: 'Med List',
-          ),
-        ],
+        body: IndexedStack(
+          index: currentIndex.value,
+          children: screens,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex.value,
+          onTap: (index) {
+            if (currentIndex.value != index) {
+              currentIndex.value = index;
+            }
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              label: 'Log',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.camera),
+              label: 'Identify',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.medication_rounded),
+              label: 'Med List',
+            ),
+          ],
+        ),
       ),
     );
   }

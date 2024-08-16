@@ -10,7 +10,9 @@ class MedicationListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final medications = ref.watch(medicationStateProvider).valueOrNull;
+    final medicationState = ref.watch(medicationStateProvider).valueOrNull;
+    final medicationStateActions = ref.watch(medicationStateProvider.notifier);
+    final medications = medicationState?.medicationList;
 
     return Scaffold(
       body: Column(
@@ -27,9 +29,10 @@ class MedicationListScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton.icon(
               onPressed: () {
+                medicationStateActions.setSelectedMedication(null);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const MedicationScreen(),
+                    builder: (context) => const ProviderScope(child: MedicationScreen()),
                   ),
                 );
               },

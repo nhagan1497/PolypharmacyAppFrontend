@@ -179,12 +179,12 @@ abstract class PolypharmacyApi {
   Future<List<PillSchedule>> postPillSchedule();
 
   @PUT("/pill_schedule/{pill_schedule_id}")
-  Future<Success> putPillSchedule(
+  Future<void> putPillSchedule(
       @Path('pill_schedule_id') int pillScheduleId,
   );
 
   @DELETE("/pill_schedule/{pill_schedule_id}")
-  Future<Success> deletePillSchedule(
+  Future<void> deletePillSchedule(
       @Path('pill_schedule_id') int pillScheduleId,
   );
 }
