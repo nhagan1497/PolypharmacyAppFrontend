@@ -39,6 +39,11 @@ class PolypharmacyRepo {
     }
   }
 
+  Future<Success> deletePill(int pillId) async{
+    await Future.delayed(const Duration(seconds: 1));
+    return Success();
+  }
+
   Future<List<PillSchedule>> getPillSchedules() async {
     // try {
     //   final result = await _polypharmacyApi.getPillSchedules(1000);
@@ -169,7 +174,12 @@ abstract class PolypharmacyApi {
 
   @GET("/secure-data")
   Future<String> getSecureData();
-  
+
+  @DELETE("/pill/{pill_id}")
+  Future<void> deletePill(
+    @Path('pill_id') int pillId,
+  );
+
   @GET("/pill_schedule/")
   Future<List<PillSchedule>> getPillSchedules(
     @Query('limit') int limit

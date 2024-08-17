@@ -40,7 +40,9 @@ class MedicationTile extends ConsumerWidget {
                       medicationStateActions.setSelectedMedication(medication);
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => MedicationScreen(medication: medication,),
+                          builder: (context) => MedicationScreen(
+                            medication: medication,
+                          ),
                         ),
                       );
                     },
@@ -54,10 +56,34 @@ class MedicationTile extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8), // Space between buttons
+                  const SizedBox(width: 8),
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Add your delete functionality here
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Delete ${medication.name}?"),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text("Cancel"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text("Delete"),
+                                  onPressed: () {
+                                    medicationStateActions
+                                        .deleteMedicationAndSchedules(
+                                            medication);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          }
+                        );
                     },
                     icon: const Icon(Icons.delete, size: 20),
                     label: const Text('Delete'),

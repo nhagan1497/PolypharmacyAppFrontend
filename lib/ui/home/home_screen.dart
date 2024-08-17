@@ -11,7 +11,7 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = useState(0);
+    final currentIndex = useState(2);
 
     final List<Widget> screens = [
       const LogScreen(),

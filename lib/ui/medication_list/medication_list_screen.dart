@@ -10,21 +10,26 @@ class MedicationListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final medicationState = ref.watch(medicationStateProvider).valueOrNull;
+    final medicationState = ref.watch(medicationStateProvider);
     final medicationStateActions = ref.watch(medicationStateProvider.notifier);
-    final medications = medicationState?.medicationList;
 
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: medications?.length ?? 0,
-              itemBuilder: (context, index) {
-                return MedicationTile(medication: medications![index]);
-              },
-            ),
-          ),
+          switch (medicationState) {
+            AsyncData(:final value) => Expanded(
+                child: ListView.builder(
+                  itemCount: value.medicationList.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return MedicationTile(
+                        medication: value.medicationList[index]);
+                  },
+                ),
+              ),
+            AsyncError() => const Text('An unexpected error occurred.'),
+            _ =>
+              const Expanded(child: Center(child: CircularProgressIndicator())),
+          },
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton.icon(
@@ -32,14 +37,16 @@ class MedicationListScreen extends ConsumerWidget {
                 medicationStateActions.setSelectedMedication(null);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const ProviderScope(child: MedicationScreen()),
+                    builder: (context) =>
+                        const ProviderScope(child: MedicationScreen()),
                   ),
                 );
               },
               icon: const Icon(Icons.medical_services, size: 20),
               label: const Text('Add New Medication'),
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // Oval shape
                 ),

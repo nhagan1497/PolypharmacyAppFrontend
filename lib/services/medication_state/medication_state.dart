@@ -67,4 +67,17 @@ class MedicationState extends _$MedicationState {
     }).toList();
   }
 
+  Future<void> deleteMedicationAndSchedules(Medication medication) async {
+    state = const AsyncLoading();
+    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    final deletePillResult = polyPharmacyRepo.deletePill(medication.pillId);
+
+    final deleteScheduleFutures = medication.schedules.map((schedule) {
+      return polyPharmacyRepo.deletePillSchedule(schedule.id!);
+    }).toList();
+
+    await Future.wait([deletePillResult, ...deleteScheduleFutures]);
+    ref.invalidateSelf();
+  }
+
 }
