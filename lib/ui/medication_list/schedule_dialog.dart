@@ -34,7 +34,9 @@ class ScheduleDialog extends HookConsumerWidget {
         children: <Widget>[
           TextField(
             controller: quantityController,
-            decoration: const InputDecoration(labelText: 'Quantity'),
+            decoration: const InputDecoration(
+                labelText: 'Quantity',
+      ),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 20),

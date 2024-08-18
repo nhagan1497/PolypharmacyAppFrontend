@@ -22,8 +22,32 @@ class PolypharmacyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Polypharmacy App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.lightBlue[50],
+        appBarTheme: AppBarTheme(
+          backgroundColor:
+              Colors.blue[900],
+          foregroundColor:
+              Colors.white,
+        ),
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Colors.blue,
+          textTheme:
+              ButtonTextTheme.primary,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.blueAccent,
+          ),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.blue[900],
+          foregroundColor: Colors.white,
+        ),
       ),
       home: const AuthGate(),
     );

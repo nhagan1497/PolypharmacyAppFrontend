@@ -13,112 +13,108 @@ class MedicationTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medicationStateActions = ref.watch(medicationStateProvider.notifier);
-    return Column(
-      children: [
-        const Divider(
-          color: Colors.grey,
-          height: 20,
-          thickness: 2,
-          indent: 10,
-          endIndent: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  "${medication.name} - ${medication.dosage}",
-                  style: Theme.of(context).textTheme.titleLarge,
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Medication name and dosage
+            Text(
+              "${medication.name} - ${medication.dosage}",
+              style: Theme.of(context).textTheme.titleLarge,
+              overflow: TextOverflow.ellipsis,
+            ),
+            // Medication schedules
+            ListTile(
+              subtitle: Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: medication.schedules
+                      .map((sch) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Text(
+                      "• Take ${sch.quantity} pill${sch.quantity! > 1 ? "s" : ""} at ${DateFormat.jm().format(sch.time)}",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ))
+                      .toList(),
                 ),
               ),
-              Row(
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      medicationStateActions.setSelectedMedication(medication);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => MedicationScreen(
-                            medication: medication,
-                          ),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.edit, size: 20),
-                    label: const Text('Edit'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20), // Oval shape
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Delete ${medication.name}?"),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text("Cancel"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text("Delete"),
-                                  onPressed: () {
-                                    medicationStateActions
-                                        .deleteMedicationAndSchedules(
-                                            medication);
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          }
-                        );
-                    },
-                    icon: const Icon(Icons.delete, size: 20),
-                    label: const Text('Delete'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20), // Oval shape
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        ListTile(
-          subtitle: Container(
-            padding: const EdgeInsets.all(8.0),
-            color: Colors.grey[200],
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: medication.schedules
-                  .map((sch) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: Text(
-                          "Take ${sch.quantity} pills at ${DateFormat.jm().format(sch.time)}",
-                          style: const TextStyle(color: Colors.black),
-                        ),
-                      ))
-                  .toList(),
             ),
-          ),
+            // Edit and Delete buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    medicationStateActions.setSelectedMedication(medication);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => MedicationScreen(
+                          medication: medication,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.edit, size: 20),
+                  label: const Text('Edit'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20), // Oval shape
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Delete ${medication.name}?"),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text("Delete"),
+                                onPressed: () {
+                                  medicationStateActions
+                                      .deleteMedicationAndSchedules(medication);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  icon: const Icon(Icons.delete, size: 20),
+                  label: const Text('Delete'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20), // Oval shape
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

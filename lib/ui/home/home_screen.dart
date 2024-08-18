@@ -28,13 +28,11 @@ class HomeScreen extends HookWidget {
     return ProviderScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Center(
-            child: Text(
-              screenTitles[currentIndex.value],
-              style: const TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-              ),
+          centerTitle: true,
+          title: Text(
+            screenTitles[currentIndex.value],
+            style: const TextStyle(
+              fontSize: 36,
             ),
           ),
         ),
@@ -59,7 +57,7 @@ class HomeScreen extends HookWidget {
               label: 'Identify',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.medication_rounded),
+              icon: Icon(Icons.medical_information),
               label: 'Med List',
             ),
           ],
