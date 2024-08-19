@@ -1,3 +1,4 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,18 +12,20 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = useState(2);
+    final currentIndex = useState(1);
 
     final List<Widget> screens = [
       const LogScreen(),
-      const IdentificationScreen(),
       const MedicationListScreen(),
+      const IdentificationScreen(),
+      const ProfileScreen(),
     ];
 
     final List<String> screenTitles = [
       'Medication Log',
-      'Identify Medication',
       'Medication List',
+      'Identify Medication',
+      'Settings'
     ];
 
     return ProviderScope(
@@ -41,24 +44,29 @@ class HomeScreen extends HookWidget {
           children: screens,
         ),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: currentIndex.value,
           onTap: (index) {
             if (currentIndex.value != index) {
               currentIndex.value = index;
             }
           },
-          items: const [
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
               label: 'Log',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.medical_information),
+              label: 'Med List',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.camera),
               label: 'Identify',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.medical_information),
-              label: 'Med List',
+              icon: Icon(Icons.settings),
+              label: 'Settings',
             ),
           ],
         ),
