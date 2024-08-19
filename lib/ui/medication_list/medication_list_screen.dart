@@ -18,12 +18,15 @@ class MedicationListScreen extends ConsumerWidget {
         children: [
           switch (medicationState) {
             AsyncData(:final value) => Expanded(
-              child: ListView.builder(
-                itemCount: value.medicationList.length,
-                itemBuilder: (context, index) {
-                  return MedicationTile(
-                      medication: value.medicationList[index]);
-                },
+              child: RefreshIndicator(
+                onRefresh: () async => ref.refresh(medicationStateProvider.future),
+                child: ListView.builder(
+                  itemCount: value.medicationList.length,
+                  itemBuilder: (context, index) {
+                    return MedicationTile(
+                        medication: value.medicationList[index]);
+                  },
+                ),
               ),
             ),
             AsyncError() => const Text('An unexpected error occurred.'),
