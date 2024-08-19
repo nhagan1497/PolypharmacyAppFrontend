@@ -45,6 +45,8 @@ class HomeScreen extends HookWidget {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.blue[900],
+          unselectedItemColor: Colors.grey,
           currentIndex: currentIndex.value,
           onTap: (index) {
             if (currentIndex.value != index) {
