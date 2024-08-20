@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/ui/identification/identification_screen.dart';
+import 'package:polypharmacy/ui/login/blue_box_decoration.dart';
 
 import '../log/log_screen.dart';
 import '../medication_list/medication_list_screen.dart';
@@ -32,6 +33,9 @@ class HomeScreen extends HookWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          flexibleSpace: Container(
+            decoration: blueBoxDecoration,
+          ),
           title: Text(
             screenTitles[currentIndex.value],
             style: const TextStyle(
