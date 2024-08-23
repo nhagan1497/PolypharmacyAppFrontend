@@ -13,6 +13,7 @@ class MedicationStateData with _$MedicationStateData {
   const factory MedicationStateData({
     Medication? selectedMedication,
     @Default([]) List<Medication> medicationList,
+    @Default({}) Map<DateTime, List<Medication>> medicationRounds
   }) = _MedicationStateData;
 }
 
@@ -23,7 +24,12 @@ class MedicationState extends _$MedicationState {
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     final pillSchedules = await polyPharmacyRepo.getPillSchedules();
     final userMedications = _convertSchedulesToMedicationList(pillSchedules);
-    return MedicationStateData(medicationList: userMedications);
+    final userMedicationRounds = _convertSchedulesToMedicationRounds(pillSchedules);
+
+    return MedicationStateData(
+      medicationList: userMedications,
+      medicationRounds: userMedicationRounds
+    );
   }
 
   void alterSchedules(
@@ -65,6 +71,31 @@ class MedicationState extends _$MedicationState {
         schedules: pillSchedules,
       );
     }).toList();
+  }
+
+  Map<DateTime, List<Medication>> _convertSchedulesToMedicationRounds(List<PillSchedule> schedules) {
+    // Group schedules by time
+    var groupedByTime = groupBy(schedules, (PillSchedule schedule) => schedule.time);
+
+    // Convert the grouped schedules into a map of time to list of Medication objects
+    return groupedByTime.map((time, pillSchedules) {
+      // Group the pill schedules by pillId to create Medication objects
+      var groupedByPillId = groupBy(pillSchedules, (PillSchedule schedule) => schedule.pillId!);
+
+      var medications = groupedByPillId.entries.map((pillEntry) {
+        final pillId = pillEntry.key;
+        final schedulesForPill = pillEntry.value;
+
+        return Medication(
+          pillId: pillId,
+          name: schedulesForPill.first.name,
+          dosage: schedulesForPill.first.dosage,
+          schedules: schedulesForPill,
+        );
+      }).toList();
+
+      return MapEntry(time, medications);
+    });
   }
 
   Future<void> deleteMedicationAndSchedules(Medication medication) async {
