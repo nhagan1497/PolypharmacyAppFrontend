@@ -1,11 +1,11 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:polypharmacy/ui/identification/identification_screen.dart';
 import 'package:polypharmacy/ui/login/blue_box_decoration.dart';
 
-import '../log/log_screen.dart';
+import '../calendar/calendar_screen.dart';
 import '../medication_list/medication_list_screen.dart';
 import 'home_screen.dart';
 
@@ -18,7 +18,7 @@ class PolypharmacyAppScaffold extends HookWidget {
 
     final List<Widget> screens = [
       const HomeScreen(),
-      const LogScreen(),
+      const CalendarScreen(),
       const MedicationListScreen(),
       const IdentificationScreen(),
       const ProfileScreen(),
@@ -61,23 +61,23 @@ class PolypharmacyAppScaffold extends HookWidget {
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
+            icon: Icon(Icons.calendar_month_outlined),
             label: 'Schedule',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.medication_outlined),
+            icon: Icon(Symbols.prescriptions),
             label: 'Medications',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.photo_camera),
+            icon: Icon(Icons.photo_camera_outlined),
             label: 'Identify',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings_outlined),
             label: 'Settings',
           ),
         ],

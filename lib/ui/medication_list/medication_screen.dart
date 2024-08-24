@@ -5,6 +5,7 @@ import 'package:polypharmacy/ui/medication_list/schedule_dialog.dart';
 import '../../models/medication/medication.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
 import '../../services/schedule_state/dart/schedule_state/schedule_state.dart';
+import '../login/blue_box_decoration.dart';
 
 class MedicationScreen extends HookConsumerWidget {
   final Medication? medication;
@@ -18,6 +19,9 @@ class MedicationScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: blueBoxDecoration,
+        ),
         centerTitle: true,
         title: const Text(
           "Medication",

@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/ui/home/medication_round.dart';
 import 'package:polypharmacy/services/medication_state/medication_state.dart';
+
+import '../../utilities/time_helpers.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -15,34 +18,48 @@ class HomeScreen extends ConsumerWidget {
         children: [
           switch (medicationState) {
             AsyncData(:final value) => Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async => ref.refresh(medicationStateProvider.future),
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: value.medicationList
-                      .expand((medication) => medication.schedules.map((schedule) => schedule.time))
-                      .toSet()
-                      .length,
-                  itemBuilder: (context, index) {
-                    final distinctTimes = value.medicationList
-                        .expand((medication) => medication.schedules.map((schedule) => schedule.time))
-                        .toSet()
-                        .toList()
-                      ..sort((a, b) => a.compareTo(b));
-
-                    final time = distinctTimes[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: MedicationRound(time: time),
-                    );
-                  },
+                child: RefreshIndicator(
+                  onRefresh: () async =>
+                      ref.refresh(medicationStateProvider.future),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16.0),
+                    itemCount:
+                        getMedicationTimes(value.medicationList).length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "${getGreeting()}, ${FirebaseAuth.instance.currentUser?.displayName?.split(" ").first}!",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                "You have ${getMedicationTimes(value.medicationList).length} rounds of medication left to take today.",
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      final distinctTimes =
+                          getMedicationTimes(value.medicationList);
+                      final time = distinctTimes[index - 1];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: MedicationRound(time: time),
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
             AsyncError() => const Text('An unexpected error occurred.'),
-            _ => const Expanded(child: Center(child: CircularProgressIndicator())),
+            _ =>
+              const Expanded(child: Center(child: CircularProgressIndicator())),
           },
-          const SizedBox(height: 100),
         ],
       ),
     );

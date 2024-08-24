@@ -21,10 +21,15 @@ class MedicationListScreen extends ConsumerWidget {
               child: RefreshIndicator(
                 onRefresh: () async => ref.refresh(medicationStateProvider.future),
                 child: ListView.builder(
-                  itemCount: value.medicationList.length,
+                  itemCount: value.medicationList.length + 1, // Add one more item for the SizedBox
                   itemBuilder: (context, index) {
-                    return MedicationTile(
-                        medication: value.medicationList[index]);
+                    if (index < value.medicationList.length) {
+                      return MedicationTile(
+                        medication: value.medicationList[index],
+                      );
+                    } else {
+                      return const SizedBox(height: 80); // The SizedBox at the end
+                    }
                   },
                 ),
               ),
@@ -32,7 +37,6 @@ class MedicationListScreen extends ConsumerWidget {
             AsyncError() => const Text('An unexpected error occurred.'),
             _ => const Expanded(child: Center(child: CircularProgressIndicator())),
           },
-          const SizedBox(height: 100)
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -40,8 +44,7 @@ class MedicationListScreen extends ConsumerWidget {
           medicationStateActions.setSelectedMedication(null);
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) =>
-              const ProviderScope(child: MedicationScreen()),
+              builder: (context) => const ProviderScope(child: MedicationScreen()),
             ),
           );
         },

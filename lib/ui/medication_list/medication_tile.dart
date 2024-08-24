@@ -40,7 +40,7 @@ class MedicationTile extends ConsumerWidget {
                       .map((sch) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Text(
-                      "• Take ${sch.quantity} pill${sch.quantity! > 1 ? "s" : ""} at ${DateFormat.jm().format(sch.time)}",
+                      "• Take ${sch.quantity} at ${DateFormat.jm().format(sch.time)}",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ))

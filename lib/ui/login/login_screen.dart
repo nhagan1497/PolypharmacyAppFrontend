@@ -37,25 +37,28 @@ class LoginScreen extends StatelessWidget {
           Expanded(
             child: Align(
               alignment: Alignment.bottomRight,
-              child: SignInScreen(
-                resizeToAvoidBottomInset: false,
-                showPasswordVisibilityToggle: true,
-                providers: [
-                  EmailAuthProvider(),
-                  GoogleProvider(
-                    clientId:
-                    "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
-                    iOSPreferPlist: true,
-                  ),
-                ],
-                subtitleBuilder: (context, action) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0), // Reduced padding
-                    child: action == AuthAction.signIn
-                        ? const Text('Welcome to Polypharmacy, please sign in!')
-                        : const Text('Welcome to Polypharmacy, please sign up!'),
-                  );
-                },
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 120.0),
+                child: SignInScreen(
+                  resizeToAvoidBottomInset: false,
+                  showPasswordVisibilityToggle: true,
+                  providers: [
+                    EmailAuthProvider(),
+                    GoogleProvider(
+                      clientId:
+                      "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
+                      iOSPreferPlist: true,
+                    ),
+                  ],
+                  subtitleBuilder: (context, action) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0), // Reduced padding
+                      child: action == AuthAction.signIn
+                          ? const Text('Welcome to Polypharmacy, please sign in!')
+                          : const Text('Welcome to Polypharmacy, please sign up!'),
+                    );
+                  },
+                ),
               ),
             ),
           ),

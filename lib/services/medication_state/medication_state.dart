@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../models/medication/medication.dart';
@@ -10,26 +11,26 @@ part 'medication_state.freezed.dart';
 
 @freezed
 class MedicationStateData with _$MedicationStateData {
-  const factory MedicationStateData({
-    Medication? selectedMedication,
-    @Default([]) List<Medication> medicationList,
-    @Default({}) Map<DateTime, List<Medication>> medicationRounds
-  }) = _MedicationStateData;
+  const factory MedicationStateData(
+          {Medication? selectedMedication,
+          @Default([]) List<Medication> medicationList,
+          @Default({}) Map<DateTime, List<Medication>> medicationRounds}) =
+      _MedicationStateData;
 }
 
 @riverpod
 class MedicationState extends _$MedicationState {
   @override
-  Future<MedicationStateData> build() async{
+  Future<MedicationStateData> build() async {
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     final pillSchedules = await polyPharmacyRepo.getPillSchedules();
     final userMedications = _convertSchedulesToMedicationList(pillSchedules);
-    final userMedicationRounds = _convertSchedulesToMedicationRounds(pillSchedules);
+    final userMedicationRounds =
+        _convertSchedulesToMedicationRounds(pillSchedules);
 
     return MedicationStateData(
-      medicationList: userMedications,
-      medicationRounds: userMedicationRounds
-    );
+        medicationList: userMedications,
+        medicationRounds: userMedicationRounds);
   }
 
   void alterSchedules(
@@ -55,11 +56,14 @@ class MedicationState extends _$MedicationState {
   }
 
   void setSelectedMedication(Medication? medication) {
-    state = state.whenData((data) => data.copyWith(selectedMedication: medication));
+    state =
+        state.whenData((data) => data.copyWith(selectedMedication: medication));
   }
 
-  List<Medication> _convertSchedulesToMedicationList(List<PillSchedule> schedules) {
-    var groupedByPillId = groupBy(schedules, (PillSchedule schedule) => schedule.pillId!);
+  List<Medication> _convertSchedulesToMedicationList(
+      List<PillSchedule> schedules) {
+    var groupedByPillId =
+        groupBy(schedules, (PillSchedule schedule) => schedule.pillId!);
     return groupedByPillId.entries.map((entry) {
       final pillSchedules = entry.value;
       final pillId = entry.key;
@@ -73,14 +77,17 @@ class MedicationState extends _$MedicationState {
     }).toList();
   }
 
-  Map<DateTime, List<Medication>> _convertSchedulesToMedicationRounds(List<PillSchedule> schedules) {
+  Map<DateTime, List<Medication>> _convertSchedulesToMedicationRounds(
+      List<PillSchedule> schedules) {
     // Group schedules by time
-    var groupedByTime = groupBy(schedules, (PillSchedule schedule) => schedule.time);
+    var groupedByTime =
+        groupBy(schedules, (PillSchedule schedule) => schedule.time);
 
     // Convert the grouped schedules into a map of time to list of Medication objects
     return groupedByTime.map((time, pillSchedules) {
       // Group the pill schedules by pillId to create Medication objects
-      var groupedByPillId = groupBy(pillSchedules, (PillSchedule schedule) => schedule.pillId!);
+      var groupedByPillId =
+          groupBy(pillSchedules, (PillSchedule schedule) => schedule.pillId!);
 
       var medications = groupedByPillId.entries.map((pillEntry) {
         final pillId = pillEntry.key;
@@ -110,5 +117,34 @@ class MedicationState extends _$MedicationState {
     await Future.wait([deletePillResult, ...deleteScheduleFutures]);
     ref.invalidateSelf();
   }
+}
 
+List<Map<String, Object?>>? getMedicationsForTime(
+  WidgetRef ref,
+  DateTime time,
+) {
+  final medicationState = ref.watch(medicationStateProvider).valueOrNull;
+
+  // Filter medications by the given time and map to include dosage and quantity
+  final medicationsInRound = medicationState?.medicationList
+      .where((medication) =>
+          medication.schedules.any((schedule) => schedule.time == time))
+      .expand((medication) => medication.schedules
+          .where((schedule) => schedule.time == time)
+          .map((schedule) => {
+                'name': medication.name,
+                'dosage': medication.dosage,
+                'quantity': schedule.quantity
+              }))
+      .toList();
+
+  return medicationsInRound;
+}
+
+List<DateTime> getMedicationTimes(List<Medication> medications) {
+  return medications
+      .expand((medication) => medication.schedules.map((schedule) => schedule.time))
+      .toSet()
+      .toList()
+  ..sort((a, b) => a.compareTo(b));
 }
