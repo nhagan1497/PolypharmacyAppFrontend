@@ -70,7 +70,7 @@ class PolypharmacyAppScaffold extends HookWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Symbols.prescriptions),
-            label: 'Medications',
+            label: 'Medicine',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.photo_camera_outlined),

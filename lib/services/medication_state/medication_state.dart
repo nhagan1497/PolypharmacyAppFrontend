@@ -14,6 +14,7 @@ class MedicationStateData with _$MedicationStateData {
   const factory MedicationStateData(
           {Medication? selectedMedication,
           @Default([]) List<Medication> medicationList,
+          @Default([]) List<PillSchedule> pillSchedules,
           @Default({}) Map<DateTime, List<Medication>> medicationRounds}) =
       _MedicationStateData;
 }
@@ -29,6 +30,7 @@ class MedicationState extends _$MedicationState {
         _convertSchedulesToMedicationRounds(pillSchedules);
 
     return MedicationStateData(
+        pillSchedules: pillSchedules,
         medicationList: userMedications,
         medicationRounds: userMedicationRounds);
   }

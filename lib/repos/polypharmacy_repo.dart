@@ -15,9 +15,7 @@ Future<PolypharmacyRepo> polypharmacyRepo(PolypharmacyRepoRef ref) async {
   final authToken = await user!.getIdToken();
 
   final dio = Dio();
-  dio.options.headers = {
-    'auth-header' : "Bearer ${authToken!}"
-  };
+  dio.options.headers = {'auth-header': "Bearer ${authToken!}"};
   return PolypharmacyRepo(
     PolypharmacyApi(dio: dio),
   );
@@ -30,7 +28,7 @@ class PolypharmacyRepo {
     _polypharmacyApi = polypharmacyApi;
   }
 
-  Future<Success> deletePill(int pillId) async{
+  Future<Success> deletePill(int pillId) async {
     await Future.delayed(const Duration(seconds: 1));
     return Success();
   }
@@ -172,8 +170,7 @@ class PolypharmacyRepo {
     final pill1 = PillConsumption(
       pillId: 1,
       quantity: 1,
-      time: today7AM,
-      userId: 1001,
+      time: DateTime(2024, 8, 14, 7, 0),
       id: 1,
     );
 
@@ -181,7 +178,6 @@ class PolypharmacyRepo {
       pillId: 2,
       quantity: 2,
       time: today7AM,
-      userId: 1001,
       id: 2,
     );
 
@@ -189,11 +185,27 @@ class PolypharmacyRepo {
       pillId: 3,
       quantity: 1,
       time: today7AM,
-      userId: 1001,
       id: 3,
     );
 
     return [pill1, pill2, pill3];
+  }
+
+  Future<PillConsumption> postPillConsumption(
+      PillConsumption pillConsumption) async {
+    await Future.delayed(const Duration(seconds: 1));
+    // final result = await _polypharmacyApi.postPillConsumption(pillConsumption);
+    return PillConsumption(
+        pillId: pillConsumption.pillId,
+        quantity: pillConsumption.hashCode,
+        time: pillConsumption.time,
+        id: 4);
+  }
+
+  Future<Success> deletePillConsumption(int pillConsumptionId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    // final result = await _polypharmacyApi.deletePillConsumption(pillConsumptionId);
+    return Success();
   }
 }
 
@@ -206,24 +218,32 @@ abstract class PolypharmacyApi {
     @Path('pill_id') int pillId,
   );
 
-  @GET("/pill_schedule/")
-  Future<List<PillSchedule>> getPillSchedules(
-    @Query('limit') int limit
-  );
+  @GET("/pill_schedule")
+  Future<List<PillSchedule>> getPillSchedules(@Query('limit') int limit);
 
-  @GET("/pill_schedule/")
+  @GET("/pill_schedule")
   Future<List<PillSchedule>> postPillSchedule();
 
   @PUT("/pill_schedule/{pill_schedule_id}")
   Future<void> putPillSchedule(
-      @Path('pill_schedule_id') int pillScheduleId,
+    @Path('pill_schedule_id') int pillScheduleId,
   );
 
   @DELETE("/pill_schedule/{pill_schedule_id}")
   Future<void> deletePillSchedule(
-      @Path('pill_schedule_id') int pillScheduleId,
+    @Path('pill_schedule_id') int pillScheduleId,
   );
 
-  @GET("/pill_consumption/")
+  @GET("/pill_consumption")
   Future<List<PillConsumption>> getPillConsumptions();
+
+  @GET("/pill_consumption")
+  Future<List<PillConsumption>> postPillConsumption(
+    @Body() PillConsumption pillConsumption,
+  );
+
+  @DELETE("/pill_consumption/{pill_consumption_id}")
+  Future<PillConsumption> deletePillConsumption(
+    @Path('pill_consumption_id') int pillConsumptionId,
+  );
 }

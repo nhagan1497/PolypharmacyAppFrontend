@@ -13,7 +13,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medicationState = ref.watch(medicationStateProvider);
-    final pillConsumptionState = ref.watch(pillConsumptionStateProvider);
+    ref.watch(pillConsumptionStateProvider);
 
     return Scaffold(
       body: Column(

@@ -1,25 +1,33 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:polypharmacy/models/pill_consumption/pill_consumption.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../repos/polypharmacy_repo.dart';
 
 part 'pill_consumption_state.g.dart';
-part 'pill_consumption_state.freezed.dart';
-
-@freezed
-class PillConsumptionStateData with _$PillConsumptionStateData {
-  const factory PillConsumptionStateData(
-          {@Default([]) List<PillConsumption> pillConsumptions}) =
-      _PillConsumptionStateData;
-}
 
 @riverpod
 class PillConsumptionState extends _$PillConsumptionState {
   @override
-  Future<PillConsumptionStateData> build() async {
+  Future<IList<PillConsumption>> build() async {
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     final pillConsumptions = await polyPharmacyRepo.getPillConsumptions();
-    return PillConsumptionStateData(pillConsumptions: pillConsumptions);
+    return pillConsumptions.lock;
+  }
+
+  Future<void> addPillConsumption(PillConsumption pillConsumption) async {
+    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    state = AsyncData(state.value!.add(pillConsumption));
+
+    final pillConsumptionWithId = await polyPharmacyRepo.postPillConsumption(pillConsumption);
+
+    final previousState = await future;
+    state = AsyncData(previousState.remove(pillConsumption).add(pillConsumptionWithId));
+  }
+
+  Future<void> deletePillConsumption(PillConsumption pillConsumption) async {
+    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    state = AsyncData(state.value!.remove(pillConsumption));
+    await polyPharmacyRepo.deletePillConsumption(pillConsumption.id!);
   }
 }
