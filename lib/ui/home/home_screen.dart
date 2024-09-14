@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/ui/home/medication_round.dart';
 import 'package:polypharmacy/services/medication_state/medication_state.dart';
 
+import '../../services/pill_consumption_state/pill_consumption_state.dart';
 import '../../utilities/time_helpers.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -12,6 +13,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medicationState = ref.watch(medicationStateProvider);
+    final pillConsumptionState = ref.watch(pillConsumptionStateProvider);
 
     return Scaffold(
       body: Column(
@@ -38,7 +40,7 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               const SizedBox(height: 16),
                               Text(
-                                "You have ${getMedicationTimes(value.medicationList).length} rounds of medication left to take today.",
+                                "You have ${getMedicationTimes(value.medicationList).length} rounds of medication today.",
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ],

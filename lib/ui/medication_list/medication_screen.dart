@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:polypharmacy/ui/medication_list/schedule_dialog.dart';
 import '../../models/medication/medication.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
-import '../../services/schedule_state/dart/schedule_state/schedule_state.dart';
+import '../../services/schedule_state/schedule_state.dart';
 import '../login/blue_box_decoration.dart';
 
 class MedicationScreen extends HookConsumerWidget {

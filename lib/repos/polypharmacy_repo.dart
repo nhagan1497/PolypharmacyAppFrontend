@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:polypharmacy/models/pill_consumption/pill_consumption.dart';
 import 'package:polypharmacy/models/pill_schedule/pill_schedule.dart';
 import 'package:retrofit/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -27,16 +28,6 @@ class PolypharmacyRepo {
 
   PolypharmacyRepo(PolypharmacyApi polypharmacyApi) {
     _polypharmacyApi = polypharmacyApi;
-  }
-
-  Future<String> fetchSecureData() async {
-    try {
-      final result = await _polypharmacyApi.getSecureData();
-      print(result);
-      return result;
-    } on DioException catch (dioError) {
-      rethrow;
-    }
   }
 
   Future<Success> deletePill(int pillId) async{
@@ -166,14 +157,49 @@ class PolypharmacyRepo {
     return Success();
   }
 
+  Future<List<PillConsumption>> getPillConsumptions() async {
+    // final result = await _polypharmacyApi.getPillConsumptions();
+    await Future.delayed(const Duration(seconds: 2));
+    final today7AM = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      7, // 7:00 AM
+      0, // Minutes
+      0, // Seconds
+    );
+
+    final pill1 = PillConsumption(
+      pillId: 1,
+      quantity: 1,
+      time: today7AM,
+      userId: 1001,
+      id: 1,
+    );
+
+    final pill2 = PillConsumption(
+      pillId: 2,
+      quantity: 2,
+      time: today7AM,
+      userId: 1001,
+      id: 2,
+    );
+
+    final pill3 = PillConsumption(
+      pillId: 3,
+      quantity: 1,
+      time: today7AM,
+      userId: 1001,
+      id: 3,
+    );
+
+    return [pill1, pill2, pill3];
+  }
 }
 
 @RestApi(baseUrl: "https://polypharmacyappbackend.azurewebsites.net")
 abstract class PolypharmacyApi {
   factory PolypharmacyApi({required Dio dio}) => _PolypharmacyApi(dio);
-
-  @GET("/secure-data")
-  Future<String> getSecureData();
 
   @DELETE("/pill/{pill_id}")
   Future<void> deletePill(
@@ -197,4 +223,7 @@ abstract class PolypharmacyApi {
   Future<void> deletePillSchedule(
       @Path('pill_schedule_id') int pillScheduleId,
   );
+
+  @GET("/pill_consumption/")
+  Future<List<PillConsumption>> getPillConsumptions();
 }

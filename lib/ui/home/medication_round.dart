@@ -72,13 +72,6 @@ class MedicationRound extends HookConsumerWidget {
                 );
               },
             ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                },
-                child: const Text("Submit"),
-              ),
-            ),
           ],
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/medication/medication.dart';
-import '../../services/schedule_state/dart/schedule_state/schedule_state.dart';
+import '../../services/schedule_state/schedule_state.dart';
 
 class ScheduleDialog extends HookConsumerWidget {
   final Medication? medication;
