@@ -49,10 +49,18 @@ class HomeScreen extends ConsumerWidget {
                       }
                       final distinctTimes =
                           getMedicationTimes(value.medicationList);
-                      final time = distinctTimes[index - 1];
+                      final ingestionTime = distinctTimes[index - 1];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: MedicationRound(time: time),
+                        child: MedicationRound(
+                            time: DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day,
+                          ingestionTime.hour,
+                          ingestionTime.minute, // Minutes
+                          0, // Seconds
+                        )),
                       );
                     },
                   ),

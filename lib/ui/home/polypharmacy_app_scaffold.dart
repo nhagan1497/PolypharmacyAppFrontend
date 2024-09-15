@@ -19,16 +19,16 @@ class PolypharmacyAppScaffold extends HookWidget {
     final List<Widget> screens = [
       const HomeScreen(),
       const CalendarScreen(),
-      const MedicationListScreen(),
       const IdentificationScreen(),
+      const MedicationListScreen(),
       const ProfileScreen(),
     ];
 
     final List<String> screenTitles = [
       'Home',
       'Schedule',
-      'Medications',
       'Identify Medication',
+      'Medications',
       'Settings'
     ];
 
@@ -69,12 +69,12 @@ class PolypharmacyAppScaffold extends HookWidget {
             label: 'Schedule',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Symbols.prescriptions),
-            label: 'Medicine',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.photo_camera_outlined),
             label: 'Identify',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Symbols.prescriptions),
+            label: 'Medicine',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),
