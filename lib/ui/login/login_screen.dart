@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 120.0),
+                padding: const EdgeInsets.only(bottom: 42.0),
                 child: SignInScreen(
                   resizeToAvoidBottomInset: false,
                   showPasswordVisibilityToggle: true,
