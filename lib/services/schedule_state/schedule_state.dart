@@ -20,7 +20,7 @@ class ScheduleStateData with _$ScheduleStateData {
 @riverpod
 class ScheduleState extends _$ScheduleState {
   @override
-  ScheduleStateData build(){
+  ScheduleStateData build() {
     final medicationState = ref.watch(medicationStateProvider).valueOrNull;
     final selectedMedication = medicationState?.selectedMedication;
     return ScheduleStateData(schedules: selectedMedication?.schedules ?? []);
@@ -28,9 +28,8 @@ class ScheduleState extends _$ScheduleState {
 
   void addScheduleToCreate(String quantity, TimeOfDay time) {
     final schedule = _createPillSchedule(quantity, time);
-    state = state.copyWith(
-        schedulesToCreate: {...state.schedulesToCreate, schedule}
-    );
+    state = state
+        .copyWith(schedulesToCreate: {...state.schedulesToCreate, schedule});
     _addToSchedules(schedule);
   }
 
@@ -38,15 +37,12 @@ class ScheduleState extends _$ScheduleState {
     final medicationState = ref.read(medicationStateProvider).value!;
     final selectedMedication = medicationState.selectedMedication;
     final schedule = _createPillSchedule(quantity, time);
-    if (selectedMedication == null){
-      state = state.copyWith(
-          schedulesToCreate: {...state.schedulesToCreate, schedule}
-      );
-    }
-    else {
-      state = state.copyWith(
-          schedulesToUpdate: {...state.schedulesToUpdate, schedule}
-      );
+    if (selectedMedication == null) {
+      state = state
+          .copyWith(schedulesToCreate: {...state.schedulesToCreate, schedule});
+    } else {
+      state = state
+          .copyWith(schedulesToUpdate: {...state.schedulesToUpdate, schedule});
     }
     deleteSchedule(index);
     _addToSchedules(schedule);
@@ -56,29 +52,27 @@ class ScheduleState extends _$ScheduleState {
     final scheduleToDelete = state.schedules[index];
     final medicationState = ref.read(medicationStateProvider).value!;
     final selectedMedication = medicationState.selectedMedication;
-    if (selectedMedication != null){
+    if (selectedMedication != null) {
       state = state.copyWith(
-          schedulesToDelete: {...state.schedulesToDelete, scheduleToDelete}
-      );
+          schedulesToDelete: {...state.schedulesToDelete, scheduleToDelete});
     }
     deleteSchedule(index);
   }
 
-  void deleteSchedule(int index){
+  void deleteSchedule(int index) {
     final schedule = state.schedules[index];
     state = state.copyWith(
-        schedules: state.schedules.where((element) => element != schedule).toList()
-    );
+        schedules:
+            state.schedules.where((element) => element != schedule).toList());
   }
 
   void _addToSchedules(PillSchedule schedule) {
-    if (!state.schedules.contains(schedule))
-    {
+    if (!state.schedules.contains(schedule)) {
       state = state.copyWith(schedules: [...state.schedules, schedule]);
     }
   }
 
-  PillSchedule _createPillSchedule(String quantity, TimeOfDay time){
+  PillSchedule _createPillSchedule(String quantity, TimeOfDay time) {
     final medicationState = ref.read(medicationStateProvider).value!;
     return PillSchedule(
         name: "",
@@ -93,7 +87,6 @@ class ScheduleState extends _$ScheduleState {
           time.minute,
         ),
         userId: 0,
-        id: 0
-    );
+        id: 0);
   }
 }

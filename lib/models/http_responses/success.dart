@@ -1,1 +1,1 @@
-class Success{}
+class Success {}

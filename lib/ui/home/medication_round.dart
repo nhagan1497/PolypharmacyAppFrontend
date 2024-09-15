@@ -25,7 +25,7 @@ class MedicationRound extends HookConsumerWidget {
     return Card(
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.all(12.0), // Slightly reduced padding
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,16 +35,13 @@ class MedicationRound extends HookConsumerWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
-            ...?medicationsInRound?.asMap().entries.map(
-              (entry) {
-                final index = entry.key;
-                final medication = entry.value;
+            ...?medicationsInRound?.map(
+              (medication) {
                 final quantity = medication.schedules
                     .firstWhere((schedule) => schedule.time == time)
                     .quantity;
                 final loggedConsumption = pillConsumptions.firstWhereOrNull(
                     (pc) => pc.pillId == medication.pillId && pc.time == time);
-
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 4.0), // Reduced vertical padding

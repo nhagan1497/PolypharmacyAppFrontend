@@ -145,8 +145,9 @@ List<Map<String, Object?>>? getMedicationsForTime(
 
 List<DateTime> getMedicationTimes(List<Medication> medications) {
   return medications
-      .expand((medication) => medication.schedules.map((schedule) => schedule.time))
+      .expand(
+          (medication) => medication.schedules.map((schedule) => schedule.time))
       .toSet()
       .toList()
-  ..sort((a, b) => a.compareTo(b));
+    ..sort((a, b) => a.compareTo(b));
 }

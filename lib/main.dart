@@ -28,15 +28,12 @@ class PolypharmacyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.lightBlue[50],
         appBarTheme: AppBarTheme(
-          backgroundColor:
-              Colors.blue[900],
-          foregroundColor:
-              Colors.white,
+          backgroundColor: Colors.blue[900],
+          foregroundColor: Colors.white,
         ),
         buttonTheme: const ButtonThemeData(
           buttonColor: Colors.blue,
-          textTheme:
-              ButtonTextTheme.primary,
+          textTheme: ButtonTextTheme.primary,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

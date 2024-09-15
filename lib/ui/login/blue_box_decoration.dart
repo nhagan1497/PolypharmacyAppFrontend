@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 var blueBoxDecoration = BoxDecoration(
   gradient: LinearGradient(
     colors: [

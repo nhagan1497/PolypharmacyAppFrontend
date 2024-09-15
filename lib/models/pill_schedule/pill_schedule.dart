@@ -16,7 +16,8 @@ class PillSchedule with _$PillSchedule {
     required int? id,
   }) = _PillSchedule;
 
-  factory PillSchedule.fromJson(Map<String, dynamic> json) => _$PillScheduleFromJson(json);
+  factory PillSchedule.fromJson(Map<String, dynamic> json) =>
+      _$PillScheduleFromJson(json);
 }
 
 DateTime _fromJson(String date) => DateFormat("HH:mm:ss.SSS").parse(date);

@@ -19,10 +19,12 @@ class PillConsumptionState extends _$PillConsumptionState {
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     state = AsyncData(state.value!.add(pillConsumption));
 
-    final pillConsumptionWithId = await polyPharmacyRepo.postPillConsumption(pillConsumption);
+    final pillConsumptionWithId =
+        await polyPharmacyRepo.postPillConsumption(pillConsumption);
 
     final previousState = await future;
-    state = AsyncData(previousState.remove(pillConsumption).add(pillConsumptionWithId));
+    state = AsyncData(
+        previousState.remove(pillConsumption).add(pillConsumptionWithId));
   }
 
   Future<void> deletePillConsumption(PillConsumption pillConsumption) async {

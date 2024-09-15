@@ -14,5 +14,6 @@ class Medication with _$Medication {
     required int pillId,
   }) = _Medication;
 
-  factory Medication.fromJson(Map<String, dynamic> json) => _$MedicationFromJson(json);
+  factory Medication.fromJson(Map<String, dynamic> json) =>
+      _$MedicationFromJson(json);
 }

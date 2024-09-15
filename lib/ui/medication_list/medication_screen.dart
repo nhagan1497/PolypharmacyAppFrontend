@@ -13,7 +13,8 @@ class MedicationScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final medNameController = useTextEditingController(text: medication?.name ?? '');
+    final medNameController =
+        useTextEditingController(text: medication?.name ?? '');
     final scheduleState = ref.watch(scheduleStateProvider);
     final scheduleStateActions = ref.watch(scheduleStateProvider.notifier);
 
@@ -37,11 +38,14 @@ class MedicationScreen extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Material(
-                elevation: 5.0, // Adjust the elevation to control the shadow depth
+                elevation:
+                    5.0, // Adjust the elevation to control the shadow depth
                 shadowColor: Colors.grey, // Set the shadow color
-                borderRadius: BorderRadius.circular(8.0), // Optional: Set border radius
+                borderRadius:
+                    BorderRadius.circular(8.0), // Optional: Set border radius
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0), // Set the same border radius here
+                  borderRadius: BorderRadius.circular(
+                      8.0), // Set the same border radius here
                   child: TextField(
                     controller: medNameController,
                     decoration: InputDecoration(
@@ -69,15 +73,23 @@ class MedicationScreen extends HookConsumerWidget {
                           columns: const [
                             DataColumn(label: Center(child: Text('Time'))),
                             DataColumn(label: Center(child: Text('Quantity'))),
-                            DataColumn(label: Center(child: Text('    Edit/Delete'))),
+                            DataColumn(
+                                label: Center(child: Text('    Edit/Delete'))),
                           ],
-                          rows: scheduleState.schedules.asMap().entries.map((entry) {
+                          rows: scheduleState.schedules
+                              .asMap()
+                              .entries
+                              .map((entry) {
                             int index = entry.key;
                             PillSchedule schedule = entry.value;
 
                             return DataRow(cells: [
-                              DataCell(Center(child: Text(TimeOfDay.fromDateTime(schedule.time).format(context)))),
-                              DataCell(Center(child: Text(schedule.quantity.toString()))),
+                              DataCell(Center(
+                                  child: Text(
+                                      TimeOfDay.fromDateTime(schedule.time)
+                                          .format(context)))),
+                              DataCell(Center(
+                                  child: Text(schedule.quantity.toString()))),
                               DataCell(
                                 Center(
                                   child: Row(
@@ -89,7 +101,8 @@ class MedicationScreen extends HookConsumerWidget {
                                           showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
-                                              return ScheduleDialog(index: index);
+                                              return ScheduleDialog(
+                                                  index: index);
                                             },
                                           );
                                         },
@@ -97,7 +110,8 @@ class MedicationScreen extends HookConsumerWidget {
                                       IconButton(
                                         icon: const Icon(Icons.delete),
                                         onPressed: () {
-                                          scheduleStateActions.addScheduleToDelete(index);
+                                          scheduleStateActions
+                                              .addScheduleToDelete(index);
                                         },
                                       ),
                                     ],
@@ -111,7 +125,8 @@ class MedicationScreen extends HookConsumerWidget {
                         const Center(
                           child: Text(
                             "No times have been scheduled.",
-                            style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+                            style: TextStyle(
+                                fontSize: 16, fontStyle: FontStyle.italic),
                           ),
                         ),
                       const SizedBox(height: 8),

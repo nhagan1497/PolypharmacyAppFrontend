@@ -123,4 +123,4 @@ scripts:
       $windows: "flutter pub get && dart run build_runner build --delete-conflicting-outputs"
   gen: "dart run build_runner build --delete-conflicting-outputs"
   watch: "dart run build_runner watch --delete-conflicting-outputs"
-  cleanup: "dart format . && dart fix --apply"
+  cleanup: "dart fix --apply && dart format ."
