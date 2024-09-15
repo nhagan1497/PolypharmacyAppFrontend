@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/medication/medication.dart';
-import '../../services/schedule_state/dart/schedule_state/schedule_state.dart';
+import '../../services/schedule_state/schedule_state.dart';
 
 class ScheduleDialog extends HookConsumerWidget {
   final Medication? medication;
@@ -24,19 +24,21 @@ class ScheduleDialog extends HookConsumerWidget {
     }
 
     if (index != null && quantityController.text.isEmpty) {
-      quantityController.text = scheduleState.schedules[index!].quantity.toString();
+      quantityController.text =
+          scheduleState.schedules[index!].quantity.toString();
     }
 
     return AlertDialog(
-      title: Center(child: Text(index == null ? 'Add Schedule' : 'Edit Schedule')),
+      title:
+          Center(child: Text(index == null ? 'Add Schedule' : 'Edit Schedule')),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           TextField(
             controller: quantityController,
             decoration: const InputDecoration(
-                labelText: 'Quantity',
-      ),
+              labelText: 'Quantity',
+            ),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 20),
@@ -76,15 +78,19 @@ class ScheduleDialog extends HookConsumerWidget {
           child: Text(index == null ? 'Add' : 'Update'),
           onPressed: () {
             final quantity = quantityController.text;
-            if (quantity.isEmpty || int.tryParse(quantity) == null || int.parse(quantity) <= 0) {
+            if (quantity.isEmpty ||
+                int.tryParse(quantity) == null ||
+                int.parse(quantity) <= 0) {
               showError.value = 'Please enter a valid quantity.';
             } else if (selectedTime.value == null) {
               showError.value = 'Please select a valid time.';
             } else {
               if (index == null) {
-                scheduleStateActions.addScheduleToCreate(quantity, selectedTime.value!);
+                scheduleStateActions.addScheduleToCreate(
+                    quantity, selectedTime.value!);
               } else {
-                scheduleStateActions.addScheduleToUpdate(index!, quantity, selectedTime.value!);
+                scheduleStateActions.addScheduleToUpdate(
+                    index!, quantity, selectedTime.value!);
               }
               Navigator.of(context).pop();
             }

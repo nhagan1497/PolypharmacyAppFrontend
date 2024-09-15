@@ -18,21 +18,29 @@ class MedicationListScreen extends ConsumerWidget {
         children: [
           switch (medicationState) {
             AsyncData(:final value) => Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async => ref.refresh(medicationStateProvider.future),
-                child: ListView.builder(
-                  itemCount: value.medicationList.length,
-                  itemBuilder: (context, index) {
-                    return MedicationTile(
-                        medication: value.medicationList[index]);
-                  },
+                child: RefreshIndicator(
+                  onRefresh: () async =>
+                      ref.refresh(medicationStateProvider.future),
+                  child: ListView.builder(
+                    itemCount: value.medicationList.length +
+                        1, // Add one more item for the SizedBox
+                    itemBuilder: (context, index) {
+                      if (index < value.medicationList.length) {
+                        return MedicationTile(
+                          medication: value.medicationList[index],
+                        );
+                      } else {
+                        return const SizedBox(
+                            height: 80); // The SizedBox at the end
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
             AsyncError() => const Text('An unexpected error occurred.'),
-            _ => const Expanded(child: Center(child: CircularProgressIndicator())),
+            _ =>
+              const Expanded(child: Center(child: CircularProgressIndicator())),
           },
-          const SizedBox(height: 100)
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -41,7 +49,7 @@ class MedicationListScreen extends ConsumerWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
-              const ProviderScope(child: MedicationScreen()),
+                  const ProviderScope(child: MedicationScreen()),
             ),
           );
         },

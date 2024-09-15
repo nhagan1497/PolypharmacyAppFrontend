@@ -59,6 +59,8 @@ dependencies:
   intl: ^0.19.0
   collection: ^1.18.0
   flutter_launcher_icons: ^0.13.1
+  material_symbols_icons: ^4.2784.0
+  table_calendar: ^3.1.2
 
 dev_dependencies:
   flutter_test:
@@ -121,4 +123,4 @@ scripts:
       $windows: "flutter pub get && dart run build_runner build --delete-conflicting-outputs"
   gen: "dart run build_runner build --delete-conflicting-outputs"
   watch: "dart run build_runner watch --delete-conflicting-outputs"
-  cleanup: "dart format . && dart fix --apply"
+  cleanup: "dart fix --apply && dart format ."

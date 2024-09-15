@@ -63,8 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '27887611849',
     projectId: 'polypharmacyapp',
     storageBucket: 'polypharmacyapp.appspot.com',
-    iosClientId: '27887611849-garp69imd1thtgkf806i4sun1qqkqu6g.apps.googleusercontent.com',
+    iosClientId:
+        '27887611849-garp69imd1thtgkf806i4sun1qqkqu6g.apps.googleusercontent.com',
     iosBundleId: 'com.polypharmacy.app',
   );
-
 }

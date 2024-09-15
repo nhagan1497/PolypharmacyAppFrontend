@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/firebase_options.dart';
-import 'package:polypharmacy/ui/home/home_screen.dart';
+import 'package:polypharmacy/ui/home/polypharmacy_app_scaffold.dart';
 import 'package:polypharmacy/ui/login/login_screen.dart';
 
 Future<void> main() async {
@@ -28,15 +28,12 @@ class PolypharmacyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.lightBlue[50],
         appBarTheme: AppBarTheme(
-          backgroundColor:
-              Colors.blue[900],
-          foregroundColor:
-              Colors.white,
+          backgroundColor: Colors.blue[900],
+          foregroundColor: Colors.white,
         ),
         buttonTheme: const ButtonThemeData(
           buttonColor: Colors.blue,
-          textTheme:
-              ButtonTextTheme.primary,
+          textTheme: ButtonTextTheme.primary,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -65,7 +62,7 @@ class AuthGate extends StatelessWidget {
         if (!snapshot.hasData) {
           return const LoginScreen();
         }
-        return const HomeScreen();
+        return const PolypharmacyAppScaffold();
       },
     );
   }

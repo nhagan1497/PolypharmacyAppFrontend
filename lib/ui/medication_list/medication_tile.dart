@@ -38,12 +38,12 @@ class MedicationTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: medication.schedules
                       .map((sch) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Text(
-                      "• Take ${sch.quantity} pill${sch.quantity! > 1 ? "s" : ""} at ${DateFormat.jm().format(sch.time)}",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ))
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: Text(
+                              "• Take ${sch.quantity} at ${DateFormat.jm().format(sch.time)}",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ))
                       .toList(),
                 ),
               ),
@@ -66,8 +66,8 @@ class MedicationTile extends ConsumerWidget {
                   icon: const Icon(Icons.edit, size: 20),
                   label: const Text('Edit'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20), // Oval shape
                     ),
@@ -103,8 +103,8 @@ class MedicationTile extends ConsumerWidget {
                   icon: const Icon(Icons.delete, size: 20),
                   label: const Text('Delete'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20), // Oval shape
                     ),

@@ -22,9 +22,13 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 48), // Reduced space
                 Text(
                   "Polypharmacy",
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(color: Colors.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium
+                      ?.copyWith(color: Colors.white),
                 ),
-                const SizedBox(height: 4), // Reduced space between text and icon
+                const SizedBox(
+                    height: 4), // Reduced space between text and icon
                 const Icon(
                   Icons.medication_outlined, // "prescription" icon
                   color: Colors.white,
@@ -37,32 +41,38 @@ class LoginScreen extends StatelessWidget {
           Expanded(
             child: Align(
               alignment: Alignment.bottomRight,
-              child: SignInScreen(
-                resizeToAvoidBottomInset: false,
-                showPasswordVisibilityToggle: true,
-                providers: [
-                  EmailAuthProvider(),
-                  GoogleProvider(
-                    clientId:
-                    "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
-                    iOSPreferPlist: true,
-                  ),
-                ],
-                subtitleBuilder: (context, action) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0), // Reduced padding
-                    child: action == AuthAction.signIn
-                        ? const Text('Welcome to Polypharmacy, please sign in!')
-                        : const Text('Welcome to Polypharmacy, please sign up!'),
-                  );
-                },
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 120.0),
+                child: SignInScreen(
+                  resizeToAvoidBottomInset: false,
+                  showPasswordVisibilityToggle: true,
+                  providers: [
+                    EmailAuthProvider(),
+                    GoogleProvider(
+                      clientId:
+                          "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
+                      iOSPreferPlist: true,
+                    ),
+                  ],
+                  subtitleBuilder: (context, action) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0), // Reduced padding
+                      child: action == AuthAction.signIn
+                          ? const Text(
+                              'Welcome to Polypharmacy, please sign in!')
+                          : const Text(
+                              'Welcome to Polypharmacy, please sign up!'),
+                    );
+                  },
+                ),
               ),
             ),
           ),
         ],
       ),
       bottomNavigationBar: Container(
-        height: 60,  // Set a fixed height for the bottom bar
+        height: 60, // Set a fixed height for the bottom bar
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: blueBoxDecoration,
         child: const Center(
