@@ -5,6 +5,8 @@ PODS:
   - AppAuth/Core (1.7.5)
   - AppAuth/ExternalUserAgent (1.7.5):
     - AppAuth/Core
+  - camera_avfoundation (0.0.1):
+    - Flutter
   - desktop_webview_auth (0.0.1):
     - Flutter
   - Firebase/Auth (10.29.0):
@@ -87,6 +89,7 @@ PODS:
   - RecaptchaInterop (100.0.0)
 
 DEPENDENCIES:
+  - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - desktop_webview_auth (from `.symlinks/plugins/desktop_webview_auth/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -111,6 +114,8 @@ SPEC REPOS:
     - RecaptchaInterop
 
 EXTERNAL SOURCES:
+  camera_avfoundation:
+    :path: ".symlinks/plugins/camera_avfoundation/ios"
   desktop_webview_auth:
     :path: ".symlinks/plugins/desktop_webview_auth/ios"
   firebase_auth:
@@ -126,6 +131,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
+  camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
   desktop_webview_auth: d645139460ef203d50bd0cdb33356785dd939cce
   Firebase: cec914dab6fd7b1bd8ab56ea07ce4e03dd251c2d
   firebase_auth: 8dbfcdd635cc4fb2ea213aeee8c9a979b3d3373b
