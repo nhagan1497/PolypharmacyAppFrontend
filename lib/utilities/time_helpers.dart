@@ -6,6 +6,21 @@ String formatTime(DateTime time) {
   return '$hour:$minute $period';
 }
 
+String formatDateTime(DateTime dateTime) {
+  final day = dateTime.day;
+  final month = dateTime.month;
+  final year = dateTime.year % 100; // Get last two digits of the year
+
+  final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
+  final minute = dateTime.minute.toString().padLeft(2, '0');
+  final period = dateTime.hour >= 12 ? 'PM' : 'AM';
+
+  final dateFormatted = '$month/$day/$year';
+  final timeFormatted = '$hour:$minute $period';
+
+  return '$dateFormatted \n$timeFormatted';
+}
+
 String getGreeting() {
   final hour = DateTime.now().hour;
   if (hour < 12) {
@@ -15,4 +30,12 @@ String getGreeting() {
   } else {
     return 'Good evening';
   }
+}
+
+bool isSameTime(DateTime time1, DateTime time2) {
+  return time1.hour == time2.hour && time1.minute == time2.minute;
+}
+
+DateTime getTimeOnly (DateTime time) {
+  return DateTime(1970, 1, 1, time.hour, time.minute);
 }

@@ -52,7 +52,7 @@ class PolypharmacyRepo {
         dosage: '100mg',
         pillId: 1,
         quantity: 1,
-        time: DateTime(2024, 8, 14, 7, 0),
+        time: DateTime(1970, 1, 1, 7, 0),
         userId: 101,
         id: 1,
       ),
@@ -61,7 +61,7 @@ class PolypharmacyRepo {
         dosage: '100mg',
         pillId: 1,
         quantity: 2,
-        time: DateTime(2024, 8, 14, 12, 0),
+        time: DateTime(1970, 1, 1, 12, 0),
         userId: 101,
         id: 1,
       ),
@@ -70,7 +70,7 @@ class PolypharmacyRepo {
         dosage: '100mg',
         pillId: 1,
         quantity: 3,
-        time: DateTime(2024, 8, 14, 20, 0),
+        time: DateTime(1970, 1, 1, 20, 0),
         userId: 101,
         id: 1,
       ),
@@ -79,7 +79,7 @@ class PolypharmacyRepo {
         dosage: '200mg',
         pillId: 2,
         quantity: 2,
-        time: DateTime(2024, 8, 14, 12, 0),
+        time: DateTime(1970, 1, 1, 12, 0),
         userId: 102,
         id: 2,
       ),
@@ -88,7 +88,7 @@ class PolypharmacyRepo {
         dosage: '500mg',
         pillId: 3,
         quantity: 3,
-        time: DateTime(2024, 8, 14, 7, 0),
+        time: DateTime(1970, 1, 1, 7, 0),
         userId: 103,
         id: 3,
       ),
@@ -97,7 +97,7 @@ class PolypharmacyRepo {
         dosage: '500mg',
         pillId: 3,
         quantity: 3,
-        time: DateTime(2024, 8, 14, 20, 0),
+        time: DateTime(1970, 1, 1, 20, 0),
         userId: 103,
         id: 3,
       ),
@@ -106,7 +106,7 @@ class PolypharmacyRepo {
         dosage: '25mg',
         pillId: 4,
         quantity: 2,
-        time: DateTime(2024, 8, 14, 20, 0),
+        time: DateTime(1970, 1, 1, 20, 0),
         userId: 105,
         id: 5,
       ),
@@ -115,7 +115,7 @@ class PolypharmacyRepo {
         dosage: '250mg',
         pillId: 5,
         quantity: 1,
-        time: DateTime(2024, 8, 14, 7, 0),
+        time: DateTime(1970, 1, 1, 7, 0),
         userId: 105,
         id: 5,
       ),
@@ -124,7 +124,7 @@ class PolypharmacyRepo {
         dosage: '250mg',
         pillId: 5,
         quantity: 1,
-        time: DateTime(2024, 8, 14, 12, 0),
+        time: DateTime(1970, 1, 1, 12, 0),
         userId: 105,
         id: 5,
       ),
@@ -133,7 +133,7 @@ class PolypharmacyRepo {
         dosage: '250mg',
         pillId: 5,
         quantity: 2,
-        time: DateTime(2024, 8, 14, 20, 0),
+        time: DateTime(1970, 1, 1, 20, 0),
         userId: 105,
         id: 5,
       ),
@@ -167,17 +167,26 @@ class PolypharmacyRepo {
       0, // Seconds
     );
 
+    final today12PM = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      12, // 12:00 AM
+      0, // Minutes
+      0, // Seconds
+    );
+
     final pill1 = PillConsumption(
       pillId: 1,
       quantity: 1,
-      time: DateTime(2024, 8, 14, 7, 0),
+      time: today7AM,
       id: 1,
     );
 
     final pill2 = PillConsumption(
       pillId: 2,
       quantity: 2,
-      time: today7AM,
+      time: today12PM,
       id: 2,
     );
 
