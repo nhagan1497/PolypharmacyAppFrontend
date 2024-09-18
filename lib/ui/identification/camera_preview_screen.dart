@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:convert';
 
-import '../../services/image_state/image_state.dart'; // For base64 encoding
+import '../../services/image_state/image_state.dart';
+import '../login/blue_box_decoration.dart'; // For base64 encoding
 
 class CameraPreviewScreen extends StatefulHookConsumerWidget {
   const CameraPreviewScreen({super.key});
@@ -53,7 +54,18 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
     final imageStateActions = ref.watch(imageStateProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Camera Preview")),
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: blueBoxDecoration,
+        ),
+        centerTitle: true,
+        title: const Text(
+          "Photograph Meds",
+          style: TextStyle(
+            fontSize: 36,
+          ),
+        ),
+      ),
       body: Center(
         child: cameraController != null && cameraController!.value.isInitialized
             ? CameraPreview(cameraController!)
@@ -67,9 +79,7 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
               imageStateActions.setImage(image);
               imageStateActions
                   .setImageBase64(base64Encode(await image.readAsBytes()));
-              if (mounted) {
-                Navigator.of(context).pop();
-              }
+              Navigator.of(context).pop();
             } catch (e) {
               print('Error capturing image: $e');
             }
@@ -77,6 +87,7 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
         },
         child: const Icon(Icons.camera_alt),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

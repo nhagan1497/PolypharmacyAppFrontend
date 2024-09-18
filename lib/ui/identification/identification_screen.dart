@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/pill/pill.dart';
 import '../../services/image_state/image_state.dart';
 import '../../services/pill_identification_state/pill_identification_state.dart';
-import 'camera_preview_screen.dart';
+import 'identification_start_screen.dart';
 import 'identified_pill_screen.dart';
 
 class IdentificationScreen extends HookConsumerWidget {
@@ -24,59 +24,38 @@ class IdentificationScreen extends HookConsumerWidget {
     }
 
     if (pillIdentificationState?.isLoading == true) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    } else if (identifiedPill != null) {
-      return IdentifiedPillScreen(discoveredPill: identifiedPill);
+      return const AnalyzingPillScreen();
+    }
+    else if (identifiedPill != null) {
+      return IdentifiedPillScreen(identifiedMedication: identifiedPill);
     } else {
       return const IdentifyMedicationStartScreen();
     }
   }
 }
 
-class IdentifyMedicationStartScreen extends StatelessWidget {
-  const IdentifyMedicationStartScreen({
+class AnalyzingPillScreen extends StatelessWidget {
+  const AnalyzingPillScreen({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.search,
-              size: 100.0,
-              color: Theme.of(context).colorScheme.primary,
+            Text(
+              'Analyzing Image...',
             ),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Use Pill ID artificial intelligence to analyze pictures of any medication you may have dropped or spilled',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to camera preview screen
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const ProviderScope(child: CameraPreviewScreen()),
-                  ),
-                );
-              },
-              child: const Text('Open Camera'),
-            ),
+            SizedBox(height: 16),
+            CircularProgressIndicator(),
           ],
         ),
       ),
     );
   }
 }
+

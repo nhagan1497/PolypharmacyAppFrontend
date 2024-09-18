@@ -14,49 +14,65 @@ class MedicationListScreen extends ConsumerWidget {
     final medicationStateActions = ref.watch(medicationStateProvider.notifier);
 
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          switch (medicationState) {
-            AsyncData(:final value) => Expanded(
-                child: RefreshIndicator(
+          Positioned.fill(
+            child: switch (medicationState) {
+              AsyncData(:final value) => RefreshIndicator(
                   onRefresh: () async =>
                       ref.refresh(medicationStateProvider.future),
                   child: ListView.builder(
-                    itemCount: value.medicationList.length +
-                        1, // Add one more item for the SizedBox
+                    padding: const EdgeInsets.only(
+                        bottom: 80), // Add padding to avoid overlap
+                    itemCount: value.medicationList.length,
                     itemBuilder: (context, index) {
-                      if (index < value.medicationList.length) {
-                        return MedicationTile(
-                          medication: value.medicationList[index],
-                        );
-                      } else {
-                        return const SizedBox(
-                            height: 80); // The SizedBox at the end
-                      }
+                      return MedicationTile(
+                        medication: value.medicationList[index],
+                      );
                     },
                   ),
                 ),
+              AsyncError() =>
+                const Center(child: Text('An unexpected error occurred.')),
+              _ => const Center(child: CircularProgressIndicator()),
+            },
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: Center(
+              child: SizedBox(
+                width: 200, // Set a fixed width for the button
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    medicationStateActions.setSelectedMedication(null);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const ProviderScope(child: MedicationScreen()),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.medication_sharp),
+                  label: const Text('Add New Medication'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Theme.of(context)
+                        .floatingActionButtonTheme
+                        .backgroundColor,
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    elevation: 6.0,
+                  ),
+                ),
               ),
-            AsyncError() => const Text('An unexpected error occurred.'),
-            _ =>
-              const Expanded(child: Center(child: CircularProgressIndicator())),
-          },
+            ),
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          medicationStateActions.setSelectedMedication(null);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  const ProviderScope(child: MedicationScreen()),
-            ),
-          );
-        },
-        icon: const Icon(Icons.medication_sharp),
-        label: const Text('Add New Medication'),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
