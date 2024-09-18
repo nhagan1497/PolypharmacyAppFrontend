@@ -6,6 +6,7 @@ import 'package:retrofit/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/http_responses/success.dart';
+import '../models/pill/pill.dart';
 
 part 'polypharmacy_repo.g.dart';
 
@@ -145,6 +146,15 @@ class PolypharmacyRepo {
     return Success();
   }
 
+  Future<Pill> postPillIdentification(String imageBase64) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return const Pill(
+      name: 'Aspirin',
+      dosage: '100mg',
+      manufacturer: 'Bayer',
+    );
+  }
+
   Future<Success> putPillSchedule(int pillScheduleId) async {
     await Future.delayed(const Duration(seconds: 1));
     return Success();
@@ -238,6 +248,9 @@ abstract class PolypharmacyApi {
     @Path('pill_schedule_id') int pillScheduleId,
   );
 
+  @POST("/pill_identification")
+  Future<PillConsumption> postPillIdentification();
+
   @DELETE("/pill_schedule/{pill_schedule_id}")
   Future<void> deletePillSchedule(
     @Path('pill_schedule_id') int pillScheduleId,
@@ -255,4 +268,6 @@ abstract class PolypharmacyApi {
   Future<PillConsumption> deletePillConsumption(
     @Path('pill_consumption_id') int pillConsumptionId,
   );
+
+
 }
