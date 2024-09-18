@@ -41,17 +41,18 @@ class AnalyzingPillScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return  Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Analyzing Image...',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            SizedBox(height: 16),
-            CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            const CircularProgressIndicator(),
           ],
         ),
       ),
