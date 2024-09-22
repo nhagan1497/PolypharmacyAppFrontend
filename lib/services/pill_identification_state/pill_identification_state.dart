@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,8 +11,8 @@ part 'pill_identification_state.g.dart';
 @riverpod
 class PillIdentificationState extends _$PillIdentificationState {
   @override
-  Future<Pill> build(MultipartFile imageMultipartFile) async {
+  Future<Pill> build(File imageFile) async {
     final polypharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
-    return await polypharmacyRepo.postPillIdentification(imageMultipartFile);
+    return await polypharmacyRepo.postPillIdentification(imageFile: imageFile);
   }
 }

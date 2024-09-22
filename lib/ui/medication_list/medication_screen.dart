@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:polypharmacy/ui/medication_list/schedule_dialog.dart';
-import '../../models/medication/medication.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
 import '../../services/medication_state/medication_state.dart';
 import '../../services/schedule_state/schedule_state.dart';

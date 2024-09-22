@@ -23,8 +23,9 @@ class MedicationStateData with _$MedicationStateData {
 class MedicationState extends _$MedicationState {
   @override
   Future<MedicationStateData> build() async {
-    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
-    final pillSchedules = await polyPharmacyRepo.getPillSchedules();
+    //final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    // final pillSchedules = await polyPharmacyRepo.getPillSchedules(null, 100);
+
     final userMedications = _convertSchedulesToMedicationList(pillSchedules);
     final userMedicationRounds =
         _convertSchedulesToMedicationRounds(pillSchedules);
@@ -152,3 +153,96 @@ List<DateTime> getMedicationTimes(List<Medication> medications) {
       .toList()
     ..sort((a, b) => a.compareTo(b));
 }
+
+List<PillSchedule> pillSchedules = [
+  PillSchedule(
+    name: 'Aspirin',
+    dosage: '100mg',
+    pillId: 1,
+    quantity: 1,
+    time: DateTime(1970, 1, 1, 7, 0),
+    userId: 101,
+    id: 1,
+  ),
+  PillSchedule(
+    name: 'Aspirin',
+    dosage: '100mg',
+    pillId: 1,
+    quantity: 2,
+    time: DateTime(1970, 1, 1, 12, 0),
+    userId: 101,
+    id: 1,
+  ),
+  PillSchedule(
+    name: 'Aspirin',
+    dosage: '100mg',
+    pillId: 1,
+    quantity: 3,
+    time: DateTime(1970, 1, 1, 20, 0),
+    userId: 101,
+    id: 1,
+  ),
+  PillSchedule(
+    name: 'Ibuprofen',
+    dosage: '200mg',
+    pillId: 2,
+    quantity: 2,
+    time: DateTime(1970, 1, 1, 12, 0),
+    userId: 102,
+    id: 2,
+  ),
+  PillSchedule(
+    name: 'Paracetamol',
+    dosage: '500mg',
+    pillId: 3,
+    quantity: 3,
+    time: DateTime(1970, 1, 1, 7, 0),
+    userId: 103,
+    id: 3,
+  ),
+  PillSchedule(
+    name: 'Paracetamol',
+    dosage: '500mg',
+    pillId: 3,
+    quantity: 3,
+    time: DateTime(1970, 1, 1, 20, 0),
+    userId: 103,
+    id: 3,
+  ),
+  PillSchedule(
+    name: 'Prozac',
+    dosage: '25mg',
+    pillId: 4,
+    quantity: 2,
+    time: DateTime(1970, 1, 1, 20, 0),
+    userId: 105,
+    id: 5,
+  ),
+  PillSchedule(
+    name: 'Amoxicillin',
+    dosage: '250mg',
+    pillId: 5,
+    quantity: 1,
+    time: DateTime(1970, 1, 1, 7, 0),
+    userId: 105,
+    id: 5,
+  ),
+  PillSchedule(
+    name: 'Amoxicillin',
+    dosage: '250mg',
+    pillId: 5,
+    quantity: 1,
+    time: DateTime(1970, 1, 1, 12, 0),
+    userId: 105,
+    id: 5,
+  ),
+  PillSchedule(
+    name: 'Amoxicillin',
+    dosage: '250mg',
+    pillId: 5,
+    quantity: 2,
+    time: DateTime(1970, 1, 1, 20, 0),
+    userId: 105,
+    id: 5,
+  ),
+];

@@ -10,9 +10,49 @@ part 'pill_consumption_state.g.dart';
 class PillConsumptionState extends _$PillConsumptionState {
   @override
   Future<IList<PillConsumption>> build() async {
-    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
-    final pillConsumptions = await polyPharmacyRepo.getPillConsumptions();
-    return pillConsumptions.lock;
+    // final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    // final pillConsumptions = await polyPharmacyRepo.getPillConsumptions();
+
+    final today7AM = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      7, // 7:00 AM
+      0, // Minutes
+      0, // Seconds
+    );
+
+    final today12PM = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      12, // 12:00 AM
+      0, // Minutes
+      0, // Seconds
+    );
+
+    final pill1 = PillConsumption(
+      pillId: 1,
+      quantity: 1,
+      time: today7AM,
+      id: 1,
+    );
+
+    final pill2 = PillConsumption(
+      pillId: 2,
+      quantity: 2,
+      time: today12PM,
+      id: 2,
+    );
+
+    final pill3 = PillConsumption(
+      pillId: 3,
+      quantity: 1,
+      time: today7AM,
+      id: 3,
+    );
+
+    return [pill1, pill2, pill3].lock;
   }
 
   Future<void> addPillConsumption(PillConsumption pillConsumption) async {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -77,8 +79,8 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
           if (cameraController != null && cameraController!.value.isInitialized) {
             try {
               final imageXFile = await cameraController!.takePicture();
-              final imageMultipartFile = MultipartFile.fromFileSync(imageXFile.path);
-              imageStateActions.setImageData(imageXFile, imageMultipartFile);
+              final imageFile = File(imageXFile.path);
+              imageStateActions.setImageData(imageFile);
               Navigator.of(context).pop();
             } catch (e) {
               print('Error capturing image: $e');
