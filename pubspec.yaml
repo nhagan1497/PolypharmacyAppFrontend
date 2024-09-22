@@ -36,7 +36,7 @@ dependencies:
   flutter:
     sdk: flutter
   retrofit: ^4.1.0
-  logger: any
+  logger: ^2.4.0
   json_annotation: ^4.9.0
 
 

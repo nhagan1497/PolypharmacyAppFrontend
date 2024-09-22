@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../utilities/riverpod_observer.dart';
 import 'camera_preview_screen.dart';
 
 class IdentifyMedicationStartScreen extends StatelessWidget {
@@ -37,7 +38,7 @@ class IdentifyMedicationStartScreen extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                    const ProviderScope(child: CameraPreviewScreen()),
+                        ProviderScope(observers: [RiverpodObserver()], child: const CameraPreviewScreen()),
                   ),
                 );
               },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../services/medication_state/medication_state.dart';
+import '../../utilities/riverpod_observer.dart';
 import 'medication_screen.dart';
 import 'medication_tile.dart';
 
@@ -50,7 +51,7 @@ class MedicationListScreen extends ConsumerWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) =>
-                            const ProviderScope(child: MedicationScreen()),
+                            ProviderScope(observers: [RiverpodObserver()], child: const MedicationScreen()),
                       ),
                     );
                   },

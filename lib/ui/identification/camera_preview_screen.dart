@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -75,10 +76,9 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
         onPressed: () async {
           if (cameraController != null && cameraController!.value.isInitialized) {
             try {
-              final image = await cameraController!.takePicture();
-              imageStateActions.setImage(image);
-              imageStateActions
-                  .setImageBase64(base64Encode(await image.readAsBytes()));
+              final imageXFile = await cameraController!.takePicture();
+              final imageMultipartFile = MultipartFile.fromFileSync(imageXFile.path);
+              imageStateActions.setImageData(imageXFile, imageMultipartFile);
               Navigator.of(context).pop();
             } catch (e) {
               print('Error capturing image: $e');

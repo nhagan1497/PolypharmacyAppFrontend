@@ -27,7 +27,7 @@ class IdentifiedPillScreen extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 16),
-            if (imageState.image != null)
+            if (imageState.imageMultipartFile != null)
               ClipRRect(
                 borderRadius: BorderRadius.circular(8), // Rounding the corners
                 child: Container(
@@ -37,7 +37,7 @@ class IdentifiedPillScreen extends ConsumerWidget {
                     border: Border.all(color: Colors.grey), // Optional border
                   ),
                   child: Image.file(
-                    File(imageState.image!.path),
+                    File(imageState.imageXFile!.path),
                     fit: BoxFit.cover, // Adjust to fit the container
                   ),
                 ),

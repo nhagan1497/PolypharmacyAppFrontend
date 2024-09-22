@@ -58,8 +58,9 @@ class MedicationState extends _$MedicationState {
   }
 
   void setSelectedMedication(Medication? medication) {
-    state =
-        state.whenData((data) => data.copyWith(selectedMedication: medication));
+    final currentState = state.value!;
+    final updatedState = currentState.copyWith(selectedMedication: medication);
+    state = AsyncData(updatedState);
   }
 
   List<Medication> _convertSchedulesToMedicationList(

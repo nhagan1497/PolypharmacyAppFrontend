@@ -57,9 +57,7 @@ class MedicationTile extends ConsumerWidget {
                     medicationStateActions.setSelectedMedication(medication);
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MedicationScreen(
-                          medication: medication,
-                        ),
+                        builder: (context) => const MedicationScreen(),
                       ),
                     );
                   },

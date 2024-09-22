@@ -5,13 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/firebase_options.dart';
 import 'package:polypharmacy/ui/home/polypharmacy_app_scaffold.dart';
 import 'package:polypharmacy/ui/login/login_screen.dart';
+import 'package:polypharmacy/utilities/riverpod_observer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ProviderScope(child: PolypharmacyApp()));
+  runApp(ProviderScope(
+      observers: [RiverpodObserver()], child: const PolypharmacyApp()));
 }
 
 class PolypharmacyApp extends StatelessWidget {

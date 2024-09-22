@@ -15,9 +15,9 @@ class IdentificationScreen extends HookConsumerWidget {
     AsyncValue<Pill>? pillIdentificationState;
     Pill? identifiedPill;
 
-    if (imageState.imageBase64 != null) {
+    if (imageState.imageMultipartFile != null) {
       pillIdentificationState =
-          ref.watch(pillIdentificationStateProvider(imageState.imageBase64!));
+          ref.watch(pillIdentificationStateProvider(imageState.imageMultipartFile!));
       if (pillIdentificationState?.value != null) {
         identifiedPill = pillIdentificationState!.value!;
       }

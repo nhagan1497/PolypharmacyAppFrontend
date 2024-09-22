@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/http_responses/success.dart';
 import '../models/pill/pill.dart';
+import '../utilities/dio_interceptor.dart';
 
 part 'polypharmacy_repo.g.dart';
 
@@ -17,6 +18,7 @@ Future<PolypharmacyRepo> polypharmacyRepo(PolypharmacyRepoRef ref) async {
 
   final dio = Dio();
   dio.options.headers = {'auth-header': "Bearer ${authToken!}"};
+  dio.interceptors.add(DioInterceptor());
   return PolypharmacyRepo(
     PolypharmacyApi(dio: dio),
   );
@@ -29,9 +31,34 @@ class PolypharmacyRepo {
     _polypharmacyApi = polypharmacyApi;
   }
 
+  // **************************************************************************
+  // * Pill Endpoints                                                         *
+  // **************************************************************************
+
+  Future<List<Pill>> getPills() async {
+    try {
+      final result = await _polypharmacyApi.getPills();
+      return result;
+    } on DioException catch (dioError) {
+      rethrow;
+    } catch(ex){
+      rethrow;
+    }
+  }
+
   Future<Success> deletePill(int pillId) async {
     await Future.delayed(const Duration(seconds: 1));
     return Success();
+  }
+
+  Future<Pill> postPillIdentification(MultipartFile imageMultipartFile) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return const Pill(
+      id: 1,
+      name: 'Aspirin',
+      dosage: '100mg',
+      manufacturer: 'Bayer',
+    );
   }
 
   Future<List<PillSchedule>> getPillSchedules() async {
@@ -146,14 +173,7 @@ class PolypharmacyRepo {
     return Success();
   }
 
-  Future<Pill> postPillIdentification(String imageBase64) async {
-    await Future.delayed(const Duration(seconds: 3));
-    return const Pill(
-      name: 'Aspirin',
-      dosage: '100mg',
-      manufacturer: 'Bayer',
-    );
-  }
+
 
   Future<Success> putPillSchedule(int pillScheduleId) async {
     await Future.delayed(const Duration(seconds: 1));
@@ -232,30 +252,23 @@ class PolypharmacyRepo {
 abstract class PolypharmacyApi {
   factory PolypharmacyApi({required Dio dio}) => _PolypharmacyApi(dio);
 
+  // **************************************************************************
+  // * Pill Endpoints                                                         *
+  // **************************************************************************
+  @GET("/pills")
+  Future<List<Pill>> getPills();
+
   @DELETE("/pill/{pill_id}")
   Future<void> deletePill(
     @Path('pill_id') int pillId,
   );
 
-  @GET("/pill_schedule")
-  Future<List<PillSchedule>> getPillSchedules(@Query('limit') int limit);
-
-  @GET("/pill_schedule")
-  Future<List<PillSchedule>> postPillSchedule();
-
-  @PUT("/pill_schedule/{pill_schedule_id}")
-  Future<void> putPillSchedule(
-    @Path('pill_schedule_id') int pillScheduleId,
-  );
-
-  @POST("/pill_identification")
+  @POST("pills/identify")
   Future<PillConsumption> postPillIdentification();
 
-  @DELETE("/pill_schedule/{pill_schedule_id}")
-  Future<void> deletePillSchedule(
-    @Path('pill_schedule_id') int pillScheduleId,
-  );
-
+  // **************************************************************************
+  // * Pill Consumption Endpoints                                             *
+  // **************************************************************************
   @GET("/pill_consumption")
   Future<List<PillConsumption>> getPillConsumptions();
 
@@ -269,5 +282,22 @@ abstract class PolypharmacyApi {
     @Path('pill_consumption_id') int pillConsumptionId,
   );
 
+  // **************************************************************************
+  // * Pill Schedule Endpoints                                                *
+  // **************************************************************************
+  @GET("/pill_schedule")
+  Future<List<PillSchedule>> getPillSchedules(@Query('limit') int limit);
 
+  @GET("/pill_schedule")
+  Future<List<PillSchedule>> postPillSchedule();
+
+  @PUT("/pill_schedule/{pill_schedule_id}")
+  Future<void> putPillSchedule(
+    @Path('pill_schedule_id') int pillScheduleId,
+  );
+
+  @DELETE("/pill_schedule/{pill_schedule_id}")
+  Future<void> deletePillSchedule(
+    @Path('pill_schedule_id') int pillScheduleId,
+  );
 }
