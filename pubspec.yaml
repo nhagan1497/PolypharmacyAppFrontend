@@ -61,6 +61,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   material_symbols_icons: ^4.2784.0
   table_calendar: ^3.1.2
+  camera: ^0.11.0+2
 
 dev_dependencies:
   flutter_test:
