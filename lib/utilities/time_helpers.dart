@@ -36,6 +36,6 @@ bool isSameTime(DateTime time1, DateTime time2) {
   return time1.hour == time2.hour && time1.minute == time2.minute;
 }
 
-DateTime getTimeOnly (DateTime time) {
+DateTime getTimeOnly(DateTime time) {
   return DateTime(1970, 1, 1, time.hour, time.minute);
 }

@@ -37,8 +37,9 @@ class IdentifyMedicationStartScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) =>
-                        ProviderScope(observers: [RiverpodObserver()], child: const CameraPreviewScreen()),
+                    builder: (context) => ProviderScope(
+                        observers: [RiverpodObserver()],
+                        child: const CameraPreviewScreen()),
                   ),
                 );
               },

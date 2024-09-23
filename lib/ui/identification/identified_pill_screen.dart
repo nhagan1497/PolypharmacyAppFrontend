@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/pill/pill.dart';
@@ -37,7 +36,7 @@ class IdentifiedPillScreen extends ConsumerWidget {
                     border: Border.all(color: Colors.grey), // Optional border
                   ),
                   child: Image.file(
-                    File(imageState.imageFile!.path),
+                    imageState.imageFile!,
                     fit: BoxFit.cover, // Adjust to fit the container
                   ),
                 ),

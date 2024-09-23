@@ -1,10 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 
 import 'logger.dart';
 
 class DioInterceptor extends Interceptor {
-
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final logMessage = '''

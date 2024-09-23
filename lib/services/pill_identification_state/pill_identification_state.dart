@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../models/pill/pill.dart';
@@ -13,6 +12,11 @@ class PillIdentificationState extends _$PillIdentificationState {
   @override
   Future<Pill> build(File imageFile) async {
     final polypharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
-    return await polypharmacyRepo.postPillIdentification(imageFile: imageFile);
+    // return const Pill(
+    //   id: 1,
+    //   name: "Ibuprofen",
+    //   dosage: "200mg", manufacturer: 'Pfizer',
+    // );
+    return await polypharmacyRepo.postPillIdentification(image: imageFile);
   }
 }

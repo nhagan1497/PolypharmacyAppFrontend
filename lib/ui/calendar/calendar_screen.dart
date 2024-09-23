@@ -73,8 +73,7 @@ class CalendarScreen extends HookConsumerWidget {
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: MedicationRound(
-                      time: medicationDateTime),
+                  child: MedicationRound(time: medicationDateTime),
                 );
               },
             ),

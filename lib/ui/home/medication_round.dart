@@ -17,7 +17,8 @@ class MedicationRound extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medicationState = ref.watch(medicationStateProvider).value!;
-    final medicationsInRound = medicationState.medicationRounds[getTimeOnly(time)];
+    final medicationsInRound =
+        medicationState.medicationRounds[getTimeOnly(time)];
     final pillConsumptions = ref.watch(pillConsumptionStateProvider).value!;
     final pillConsumptionActions =
         ref.read(pillConsumptionStateProvider.notifier);
@@ -42,7 +43,7 @@ class MedicationRound extends HookConsumerWidget {
                     .quantity;
 
                 final loggedConsumption = pillConsumptions.firstWhereOrNull(
-                        (pc) => pc.pillId == medication.pillId && pc.time == time);
+                    (pc) => pc.pillId == medication.pillId && pc.time == time);
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(

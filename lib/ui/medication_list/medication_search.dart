@@ -12,7 +12,8 @@ class MedicationSearch extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pillsState = ref.watch(pillsStateProvider);
-    final currentlySelectedMedication = ref.watch(medicationStateProvider).value!.selectedMedication;
+    final currentlySelectedMedication =
+        ref.watch(medicationStateProvider).value!.selectedMedication;
     final medicationStateActions = ref.watch(medicationStateProvider.notifier);
 
     // useState for managing search query state
@@ -22,32 +23,37 @@ class MedicationSearch extends HookConsumerWidget {
     final searchController = useTextEditingController(text: searchQuery.value);
 
     useEffect(() {
-      searchController.text = searchQuery.value; // Sync search bar with searchQuery
+      searchController.text =
+          searchQuery.value; // Sync search bar with searchQuery
       return;
     }, [searchQuery.value]);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min, // Ensure the column takes minimum space needed
+        mainAxisSize:
+            MainAxisSize.min, // Ensure the column takes minimum space needed
         children: [
           // Search Bar
           SearchBar(
             hintText: 'Search medication',
-            controller: searchController, // Use the controller for two-way binding
+            controller:
+                searchController, // Use the controller for two-way binding
             onChanged: (value) {
-              searchQuery.value = value; // Update the search query as the user types
+              searchQuery.value =
+                  value; // Update the search query as the user types
             },
             leading: const Icon(Icons.search),
           ),
 
-          if (searchQuery.value.isNotEmpty && currentlySelectedMedication == null)
+          if (searchQuery.value.isNotEmpty &&
+              currentlySelectedMedication == null)
             pillsState.when(
               data: (pills) {
                 final filteredPills = pills
                     .where((pill) => pill.name
-                    .toLowerCase()
-                    .contains(searchQuery.value.toLowerCase()))
+                        .toLowerCase()
+                        .contains(searchQuery.value.toLowerCase()))
                     .toList();
 
                 if (filteredPills.isEmpty) {
@@ -61,7 +67,8 @@ class MedicationSearch extends HookConsumerWidget {
                   // Use Flexible instead of Expanded
                   child: ListView.builder(
                     shrinkWrap: true, // Shrink the ListView to fit the content
-                    physics: const NeverScrollableScrollPhysics(), // Disable scrolling inside the ListView
+                    physics:
+                        const NeverScrollableScrollPhysics(), // Disable scrolling inside the ListView
                     itemCount: filteredPills.length,
                     itemBuilder: (context, index) {
                       final pill = filteredPills[index];
@@ -75,7 +82,8 @@ class MedicationSearch extends HookConsumerWidget {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 1,
                               blurRadius: 5,
-                              offset: const Offset(0, 2), // changes position of shadow
+                              offset: const Offset(
+                                  0, 2), // changes position of shadow
                             ),
                           ],
                         ),

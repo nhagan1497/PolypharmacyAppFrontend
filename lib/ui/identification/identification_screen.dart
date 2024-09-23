@@ -25,8 +25,7 @@ class IdentificationScreen extends HookConsumerWidget {
 
     if (pillIdentificationState?.isLoading == true) {
       return const AnalyzingPillScreen();
-    }
-    else if (identifiedPill != null) {
+    } else if (identifiedPill != null) {
       return IdentifiedPillScreen(identifiedMedication: identifiedPill);
     } else {
       return const IdentifyMedicationStartScreen();
@@ -41,7 +40,7 @@ class AnalyzingPillScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
@@ -59,4 +58,3 @@ class AnalyzingPillScreen extends StatelessWidget {
     );
   }
 }
-

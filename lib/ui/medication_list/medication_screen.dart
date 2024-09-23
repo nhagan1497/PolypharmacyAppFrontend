@@ -47,7 +47,6 @@ class MedicationScreen extends HookConsumerWidget {
                       },
                       icon: const Icon(Icons.search),
                       label: const Text('Search for New Medication'),
-
                     ),
                   ),
                 ),
@@ -171,7 +170,6 @@ class MedicationScreen extends HookConsumerWidget {
                         ),
                       ),
                     ),
-
             ],
           ),
         ),

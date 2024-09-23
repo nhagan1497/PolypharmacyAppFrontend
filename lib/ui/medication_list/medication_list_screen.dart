@@ -50,8 +50,9 @@ class MedicationListScreen extends ConsumerWidget {
                     medicationStateActions.setSelectedMedication(null);
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ProviderScope(observers: [RiverpodObserver()], child: const MedicationScreen()),
+                        builder: (context) => ProviderScope(
+                            observers: [RiverpodObserver()],
+                            child: const MedicationScreen()),
                       ),
                     );
                   },
