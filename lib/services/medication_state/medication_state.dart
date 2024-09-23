@@ -75,8 +75,8 @@ class MedicationState extends _$MedicationState {
 
       return Medication(
         pillId: pillId,
-        name: pillSchedules.first.name,
-        dosage: pillSchedules.first.dosage,
+        name: "Fix name", //pillSchedules.first.name,
+        dosage: "Fix dosage", //pillSchedules.first.dosage,
         schedules: pillSchedules,
       );
     }).toList();
@@ -100,8 +100,8 @@ class MedicationState extends _$MedicationState {
 
         return Medication(
           pillId: pillId,
-          name: schedulesForPill.first.name,
-          dosage: schedulesForPill.first.dosage,
+          name: "Fix name", //schedulesForPill.first.name,
+          dosage: "Fix dosage", //,schedulesForPill.first.dosage,
           schedules: schedulesForPill,
         );
       }).toList();
@@ -148,7 +148,8 @@ List<Map<String, Object?>>? getMedicationsForTime(
 
 List<TimeOfDay> getMedicationTimes(List<Medication> medications) {
   return medications
-      .expand((medication) => medication.schedules.map((schedule) => schedule.time))
+      .expand(
+          (medication) => medication.schedules.map((schedule) => schedule.time))
       .toSet()
       .toList()
     ..sort((a, b) {
@@ -159,96 +160,65 @@ List<TimeOfDay> getMedicationTimes(List<Medication> medications) {
     });
 }
 
-
 List<PillSchedule> pillSchedules = [
   const PillSchedule(
-    name: 'Aspirin',
-    dosage: '100mg',
+    id: 0,
     pillId: 1,
     quantity: 1,
     time: TimeOfDay(hour: 7, minute: 0),
-    userId: 101,
-    id: 1,
   ),
   const PillSchedule(
-    name: 'Aspirin',
-    dosage: '100mg',
+    id: 0,
     pillId: 1,
     quantity: 2,
     time: TimeOfDay(hour: 12, minute: 0),
-    userId: 101,
-    id: 1,
   ),
   const PillSchedule(
-    name: 'Aspirin',
-    dosage: '100mg',
+    id: 0,
     pillId: 1,
     quantity: 3,
     time: TimeOfDay(hour: 20, minute: 0),
-    userId: 101,
-    id: 1,
   ),
   const PillSchedule(
-    name: 'Ibuprofen',
-    dosage: '200mg',
+    id: 0,
     pillId: 2,
     quantity: 2,
     time: TimeOfDay(hour: 12, minute: 0),
-    userId: 102,
-    id: 2,
   ),
   const PillSchedule(
-    name: 'Paracetamol',
-    dosage: '500mg',
+    id: 0,
     pillId: 3,
     quantity: 3,
     time: TimeOfDay(hour: 7, minute: 0),
-    userId: 103,
-    id: 3,
   ),
   const PillSchedule(
-    name: 'Paracetamol',
-    dosage: '500mg',
+    id: 0,
     pillId: 3,
     quantity: 3,
     time: TimeOfDay(hour: 20, minute: 0),
-    userId: 103,
-    id: 3,
   ),
   const PillSchedule(
-    name: 'Prozac',
-    dosage: '25mg',
+    id: 0,
     pillId: 4,
     quantity: 2,
     time: TimeOfDay(hour: 20, minute: 0),
-    userId: 105,
-    id: 5,
   ),
   const PillSchedule(
-    name: 'Amoxicillin',
-    dosage: '250mg',
+    id: 0,
     pillId: 5,
     quantity: 1,
     time: TimeOfDay(hour: 7, minute: 0),
-    userId: 105,
-    id: 5,
   ),
   const PillSchedule(
-    name: 'Amoxicillin',
-    dosage: '250mg',
+    id: 0,
     pillId: 5,
     quantity: 1,
     time: TimeOfDay(hour: 12, minute: 0),
-    userId: 105,
-    id: 5,
   ),
   const PillSchedule(
-    name: 'Amoxicillin',
-    dosage: '250mg',
+    id: 0,
     pillId: 5,
     quantity: 2,
     time: TimeOfDay(hour: 20, minute: 0),
-    userId: 105,
-    id: 5,
   ),
 ];

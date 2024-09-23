@@ -19,13 +19,13 @@ class ScheduleDialog extends HookConsumerWidget {
     final showError = useState<String?>(null);
 
     if (index != null && selectedTime.value == null) {
-      final time = scheduleState.schedules[index!].time;
+      final time = scheduleState.value!.schedules[index!].time;
       selectedTime.value = TimeOfDay(hour: time.hour, minute: time.minute);
     }
 
     if (index != null && quantityController.text.isEmpty) {
       quantityController.text =
-          scheduleState.schedules[index!].quantity.toString();
+          scheduleState.value!.schedules[index!].quantity.toString();
     }
 
     return AlertDialog(
@@ -90,7 +90,7 @@ class ScheduleDialog extends HookConsumerWidget {
                     quantity, selectedTime.value!);
               } else {
                 scheduleStateActions.updateSchedule(
-                   quantity, selectedTime.value!);
+                   index!, quantity, selectedTime.value!);
               }
               Navigator.of(context).pop();
             }

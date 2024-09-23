@@ -78,17 +78,19 @@ abstract class PolypharmacyRepo {
       @Query('limit') int? limit // default - 10
       );
 
-  @GET("/pill_schedule/")
-  Future<List<PillSchedule>> postPillSchedule(
-      @Body() PillSchedule pillSchedule);
+  @POST("/pill_schedule/")
+
+  Future<PillSchedule> postPillSchedule(
+      @Header('content-type') String contentType,
+      {@Body() required PillSchedule pillSchedule});
 
   @PUT("/pill_schedule/{pill_schedule_id}/")
-  Future<void> putPillSchedule(
-    @Path('pill_schedule_id') int pillScheduleId,
-  );
+  Future<PillSchedule> putPillSchedule(
+      {@Path('pill_schedule_id') required int pillScheduleId,
+      @Body() required PillSchedule pillSchedule});
 
   @DELETE("/pill_schedule/{pill_schedule_id}/")
-  Future<void> deletePillSchedule(
-    @Path('pill_schedule_id') int pillScheduleId,
-  );
+  Future<PillSchedule> deletePillSchedule({
+    @Path('pill_schedule_id') required int pillScheduleId,
+  });
 }

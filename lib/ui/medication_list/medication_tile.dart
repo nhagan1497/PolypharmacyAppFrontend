@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../models/medication/medication.dart';
 import '../../services/medication_state/medication_state.dart';
+import '../../utilities/time_helpers.dart';
 import 'medication_screen.dart';
 
 class MedicationTile extends ConsumerWidget {
@@ -40,7 +41,7 @@ class MedicationTile extends ConsumerWidget {
                       .map((sch) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 2),
                             child: Text(
-                              "• Take ${sch.quantity} at ${sch.time}",
+                              "• Take ${sch.quantity} at ${formatTime(sch.time)}",
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ))
