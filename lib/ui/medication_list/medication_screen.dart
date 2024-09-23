@@ -89,8 +89,8 @@ class MedicationScreen extends HookConsumerWidget {
 
                                   return DataRow(cells: [
                                     DataCell(Center(
-                                        child: Text(TimeOfDay.fromDateTime(
-                                                schedule.time)
+                                        child: Text(
+                                                schedule.time
                                             .format(context)))),
                                     DataCell(Center(
                                         child: Text(
@@ -118,7 +118,7 @@ class MedicationScreen extends HookConsumerWidget {
                                               icon: const Icon(Icons.delete),
                                               onPressed: () {
                                                 scheduleStateActions
-                                                    .addScheduleToDelete(index);
+                                                    .addScheduleToDelete(schedule);
                                               },
                                             ),
                                           ],

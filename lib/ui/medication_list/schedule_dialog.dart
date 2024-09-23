@@ -86,11 +86,11 @@ class ScheduleDialog extends HookConsumerWidget {
               showError.value = 'Please select a valid time.';
             } else {
               if (index == null) {
-                scheduleStateActions.addScheduleToCreate(
+                scheduleStateActions.addSchedule(
                     quantity, selectedTime.value!);
               } else {
-                scheduleStateActions.addScheduleToUpdate(
-                    index!, quantity, selectedTime.value!);
+                scheduleStateActions.updateSchedule(
+                   quantity, selectedTime.value!);
               }
               Navigator.of(context).pop();
             }

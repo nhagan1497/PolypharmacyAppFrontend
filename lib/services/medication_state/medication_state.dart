@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,11 +16,11 @@ class MedicationStateData with _$MedicationStateData {
           {Medication? selectedMedication,
           @Default([]) List<Medication> medicationList,
           @Default([]) List<PillSchedule> pillSchedules,
-          @Default({}) Map<DateTime, List<Medication>> medicationRounds}) =
+          @Default({}) Map<TimeOfDay, List<Medication>> medicationRounds}) =
       _MedicationStateData;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class MedicationState extends _$MedicationState {
   @override
   Future<MedicationStateData> build() async {
@@ -41,21 +42,21 @@ class MedicationState extends _$MedicationState {
     List<PillSchedule> schedulesToUpdate,
     List<PillSchedule> schedulesToDelete,
   ) {
-    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
-
-    for (var scheduleToCreate in schedulesToCreate) {
-      var result = polyPharmacyRepo.postPillSchedule(scheduleToCreate);
-    }
-
-    for (var scheduleToUpdate in schedulesToUpdate) {
-      var result = polyPharmacyRepo.putPillSchedule(scheduleToUpdate.id!);
-    }
-
-    for (var scheduleToDelete in schedulesToDelete) {
-      var result = polyPharmacyRepo.deletePillSchedule(scheduleToDelete.id!);
-    }
-
-    ref.invalidateSelf();
+    // final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    //
+    // for (var scheduleToCreate in schedulesToCreate) {
+    //   var result = polyPharmacyRepo.postPillSchedule(scheduleToCreate);
+    // }
+    //
+    // for (var scheduleToUpdate in schedulesToUpdate) {
+    //   var result = polyPharmacyRepo.putPillSchedule(scheduleToUpdate.id!);
+    // }
+    //
+    // for (var scheduleToDelete in schedulesToDelete) {
+    //   var result = polyPharmacyRepo.deletePillSchedule(scheduleToDelete.id!);
+    // }
+    //
+    // ref.invalidateSelf();
   }
 
   void setSelectedMedication(Medication? medication) {
@@ -81,7 +82,7 @@ class MedicationState extends _$MedicationState {
     }).toList();
   }
 
-  Map<DateTime, List<Medication>> _convertSchedulesToMedicationRounds(
+  Map<TimeOfDay, List<Medication>> _convertSchedulesToMedicationRounds(
       List<PillSchedule> schedules) {
     // Group schedules by time
     var groupedByTime =
@@ -110,16 +111,16 @@ class MedicationState extends _$MedicationState {
   }
 
   Future<void> deleteMedicationAndSchedules(Medication medication) async {
-    state = const AsyncLoading();
-    final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
-    final deletePillResult = polyPharmacyRepo.deletePill(medication.pillId);
-
-    final deleteScheduleFutures = medication.schedules.map((schedule) {
-      return polyPharmacyRepo.deletePillSchedule(schedule.id!);
-    }).toList();
-
-    await Future.wait([deletePillResult, ...deleteScheduleFutures]);
-    ref.invalidateSelf();
+    // state = const AsyncLoading();
+    // final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    // final deletePillResult = polyPharmacyRepo.deletePill(medication.pillId);
+    //
+    // final deleteScheduleFutures = medication.schedules.map((schedule) {
+    //   return polyPharmacyRepo.deletePillSchedule(schedule.id!);
+    // }).toList();
+    //
+    // await Future.wait([deletePillResult, ...deleteScheduleFutures]);
+    // ref.invalidateSelf();
   }
 }
 
@@ -145,103 +146,108 @@ List<Map<String, Object?>>? getMedicationsForTime(
   return medicationsInRound;
 }
 
-List<DateTime> getMedicationTimes(List<Medication> medications) {
+List<TimeOfDay> getMedicationTimes(List<Medication> medications) {
   return medications
-      .expand(
-          (medication) => medication.schedules.map((schedule) => schedule.time))
+      .expand((medication) => medication.schedules.map((schedule) => schedule.time))
       .toSet()
       .toList()
-    ..sort((a, b) => a.compareTo(b));
+    ..sort((a, b) {
+      // Convert TimeOfDay to minutes since midnight for comparison
+      final aMinutes = a.hour * 60 + a.minute;
+      final bMinutes = b.hour * 60 + b.minute;
+      return aMinutes.compareTo(bMinutes);
+    });
 }
 
+
 List<PillSchedule> pillSchedules = [
-  PillSchedule(
+  const PillSchedule(
     name: 'Aspirin',
     dosage: '100mg',
     pillId: 1,
     quantity: 1,
-    time: DateTime(1970, 1, 1, 7, 0),
+    time: TimeOfDay(hour: 7, minute: 0),
     userId: 101,
     id: 1,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Aspirin',
     dosage: '100mg',
     pillId: 1,
     quantity: 2,
-    time: DateTime(1970, 1, 1, 12, 0),
+    time: TimeOfDay(hour: 12, minute: 0),
     userId: 101,
     id: 1,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Aspirin',
     dosage: '100mg',
     pillId: 1,
     quantity: 3,
-    time: DateTime(1970, 1, 1, 20, 0),
+    time: TimeOfDay(hour: 20, minute: 0),
     userId: 101,
     id: 1,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Ibuprofen',
     dosage: '200mg',
     pillId: 2,
     quantity: 2,
-    time: DateTime(1970, 1, 1, 12, 0),
+    time: TimeOfDay(hour: 12, minute: 0),
     userId: 102,
     id: 2,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Paracetamol',
     dosage: '500mg',
     pillId: 3,
     quantity: 3,
-    time: DateTime(1970, 1, 1, 7, 0),
+    time: TimeOfDay(hour: 7, minute: 0),
     userId: 103,
     id: 3,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Paracetamol',
     dosage: '500mg',
     pillId: 3,
     quantity: 3,
-    time: DateTime(1970, 1, 1, 20, 0),
+    time: TimeOfDay(hour: 20, minute: 0),
     userId: 103,
     id: 3,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Prozac',
     dosage: '25mg',
     pillId: 4,
     quantity: 2,
-    time: DateTime(1970, 1, 1, 20, 0),
+    time: TimeOfDay(hour: 20, minute: 0),
     userId: 105,
     id: 5,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Amoxicillin',
     dosage: '250mg',
     pillId: 5,
     quantity: 1,
-    time: DateTime(1970, 1, 1, 7, 0),
+    time: TimeOfDay(hour: 7, minute: 0),
     userId: 105,
     id: 5,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Amoxicillin',
     dosage: '250mg',
     pillId: 5,
     quantity: 1,
-    time: DateTime(1970, 1, 1, 12, 0),
+    time: TimeOfDay(hour: 12, minute: 0),
     userId: 105,
     id: 5,
   ),
-  PillSchedule(
+  const PillSchedule(
     name: 'Amoxicillin',
     dosage: '250mg',
     pillId: 5,
     quantity: 2,
-    time: DateTime(1970, 1, 1, 20, 0),
+    time: TimeOfDay(hour: 20, minute: 0),
     userId: 105,
     id: 5,
   ),

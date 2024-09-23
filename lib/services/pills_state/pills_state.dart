@@ -13,7 +13,7 @@ part 'pills_state.g.dart';
 class PillsState extends _$PillsState {
   @override
   Future<IList<Pill>> build() async {
-    final polypharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    final polypharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
     final pills = await polypharmacyRepo.getPills();
     return pills.lock;
   }
@@ -39,7 +39,6 @@ class PillsState extends _$PillsState {
       schedules: [],
     ));
 
-    ref.invalidate(imageStateProvider);
     ref.invalidateSelf();
   }
 }

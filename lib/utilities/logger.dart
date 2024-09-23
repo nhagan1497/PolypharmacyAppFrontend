@@ -1,5 +1,9 @@
 import 'package:logger/logger.dart';
 
 var logger = Logger(
-  printer: PrettyPrinter(),
-);
+    printer: PrefixPrinter(
+  PrettyPrinter(
+    printEmojis: false,
+    colors: true,
+  ),
+));

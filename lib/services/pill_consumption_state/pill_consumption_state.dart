@@ -1,4 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
 import 'package:polypharmacy/models/pill_consumption/pill_consumption.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,39 +14,32 @@ class PillConsumptionState extends _$PillConsumptionState {
     // final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     // final pillConsumptions = await polyPharmacyRepo.getPillConsumptions();
 
-    final today7AM = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day,
-      7, // 7:00 AM
-      0, // Minutes
-      0, // Seconds
+    const today7AM = TimeOfDay(
+      hour: 7, // 12:00 AM
+      minute: 0, // Minutes
     );
 
-    final today12PM = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day,
-      12, // 12:00 AM
-      0, // Minutes
-      0, // Seconds
+
+    const today12PM = TimeOfDay(
+      hour: 12, // 12:00 AM
+      minute: 0, // Minutes
     );
 
-    final pill1 = PillConsumption(
+    const pill1 = PillConsumption(
       pillId: 1,
       quantity: 1,
       time: today7AM,
       id: 1,
     );
 
-    final pill2 = PillConsumption(
+    const pill2 = PillConsumption(
       pillId: 2,
       quantity: 2,
       time: today12PM,
       id: 2,
     );
 
-    final pill3 = PillConsumption(
+    const pill3 = PillConsumption(
       pillId: 3,
       quantity: 1,
       time: today7AM,

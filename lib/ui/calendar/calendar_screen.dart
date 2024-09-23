@@ -63,17 +63,9 @@ class CalendarScreen extends HookConsumerWidget {
                     .value?.medicationRounds.keys
                     .elementAt(index);
 
-                final medicationDateTime = DateTime(
-                  selectedDay.value.year,
-                  selectedDay.value.month,
-                  selectedDay.value.day,
-                  ingestionTime?.hour ?? 0,
-                  ingestionTime?.minute ?? 0,
-                );
-
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: MedicationRound(time: medicationDateTime),
+                  child: MedicationRound(time: ingestionTime!),
                 );
               },
             ),
