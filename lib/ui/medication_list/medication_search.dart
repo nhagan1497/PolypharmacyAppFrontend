@@ -5,6 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/medication/medication.dart';
 import '../../services/medication_state/medication_state.dart';
 import '../../services/pills_state/pills_state.dart';
+import '../../utilities/error_widget.dart';
+import '../../utilities/riverpod_observer.dart';
+import 'medication_create_screen.dart';
 
 class MedicationSearch extends HookConsumerWidget {
   const MedicationSearch({super.key});
@@ -56,62 +59,89 @@ class MedicationSearch extends HookConsumerWidget {
                         .contains(searchQuery.value.toLowerCase()))
                     .toList();
 
-                if (filteredPills.isEmpty) {
-                  return const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('No matches found'),
-                  );
-                }
-
-                return Flexible(
-                  // Use Flexible instead of Expanded
-                  child: ListView.builder(
-                    shrinkWrap: true, // Shrink the ListView to fit the content
+                return Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: ListView(
+                    shrinkWrap:
+                        true,
                     physics:
                         const NeverScrollableScrollPhysics(), // Disable scrolling inside the ListView
-                    itemCount: filteredPills.length,
-                    itemBuilder: (context, index) {
-                      final pill = filteredPills[index];
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 4.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(
-                                  0, 2), // changes position of shadow
+                    children: [
+                      ...filteredPills.map((pill) => Container(
+                            margin: const EdgeInsets.symmetric(vertical: 4.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(
+                                      0, 2), // changes position of shadow
+                                ),
+                              ],
                             ),
-                          ],
+                            child: ListTile(
+                              title: Text("${pill.name} - ${pill.dosage}"),
+                              onTap: () {
+                                // Update the selected medication
+                                medicationStateActions.setSelectedMedication(
+                                  Medication(
+                                    name: pill.name,
+                                    dosage: pill.dosage,
+                                    pillId: pill.id,
+                                    schedules: [],
+                                  ),
+                                );
+                                searchQuery.value = pill.name;
+                                searchController.text = pill.name;
+                                FocusScope.of(context).unfocus();
+                              },
+                            ),
+                          )),
+                      if (filteredPills.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Center(
+                            child: Text(
+                              'No matches found',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ),
                         ),
-                        child: ListTile(
-                          title: Text("${pill.name} - ${pill.dosage}"),
-                          onTap: () {
-                            // Update the selected medication
-                            medicationStateActions.setSelectedMedication(
-                              Medication(
-                                name: pill.name,
-                                dosage: pill.dosage,
-                                pillId: pill.id,
-                                schedules: [],
-                              ),
-                            );
-                            searchQuery.value = pill.name;
-                            searchController.text = pill.name;
-                            FocusScope.of(context).unfocus();
-                          },
-                        ),
-                      );
-                    },
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ProviderScope(
+                                  observers: [RiverpodObserver()],
+                                  child: const MedicationCreateScreen()),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.add),
+                        label: const Text('Create New Medication'),
+                      ),
+                    ],
                   ),
                 );
               },
-              loading: () => const CircularProgressIndicator(),
-              error: (error, _) => Text('Error: $error'),
-            ),
+              loading: () => const Column(
+                children: [
+                  SizedBox(height: 16),
+                  Center(child: CircularProgressIndicator()),
+                ],
+              ),
+              error: (error, _) => const Column(
+                children: [
+                  SizedBox(height: 16),
+                  CustomErrorWidget(
+                      errorMessage:
+                          "An error occurred while trying to get global medication list. Please try again later."),
+                ],
+              ),
+            )
         ],
       ),
     );

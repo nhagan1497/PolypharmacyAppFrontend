@@ -33,16 +33,25 @@ abstract class PolypharmacyRepo {
   @GET("/pills/")
   Future<List<Pill>> getPills();
 
-  @DELETE("/pill/{pill_id}/")
-  Future<void> deletePill(
-    @Path('pill_id') int pillId,
-  );
-
   @POST("/pills/identify/")
   @MultiPart()
   Future<Pill> postPillIdentification({
     @Part(name: "image", contentType: "image/png") required File image,
   });
+
+  @POST("/pills/")
+  @MultiPart()
+  Future<Pill> postPill({
+    @Part(name: "image", contentType: "image/png") required File image,
+    @Query('name') required String name,
+    @Query('dosage') required String dosage,
+    @Query('manufacturer') required String manufacturer,
+  });
+
+  @DELETE("/pill/{pill_id}/")
+  Future<void> deletePill(
+    @Path('pill_id') int pillId,
+  );
 
   // **************************************************************************
   // * Pill Consumption Endpoints                                             *

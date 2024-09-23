@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:polypharmacy/utilities/custom_loading_widget.dart';
 import '../../models/pill/pill.dart';
 import '../../services/image_state/image_state.dart';
 import '../../services/pill_identification_state/pill_identification_state.dart';
@@ -24,7 +25,7 @@ class IdentificationScreen extends HookConsumerWidget {
     }
 
     if (pillIdentificationState?.isLoading == true) {
-      return const AnalyzingPillScreen();
+      return const CustomLoadingWidget(loadingMessage: "Analyzing image...");
     } else if (identifiedPill != null) {
       return IdentifiedPillScreen(identifiedMedication: identifiedPill);
     } else {
@@ -33,28 +34,3 @@ class IdentificationScreen extends HookConsumerWidget {
   }
 }
 
-class AnalyzingPillScreen extends StatelessWidget {
-  const AnalyzingPillScreen({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Analyzing Image...',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 16),
-            const CircularProgressIndicator(),
-          ],
-        ),
-      ),
-    );
-  }
-}
