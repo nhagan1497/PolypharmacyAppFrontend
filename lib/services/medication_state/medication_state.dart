@@ -8,6 +8,7 @@ import '../../models/medication/medication.dart';
 import '../../models/pill/pill.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
 import '../../repos/polypharmacy_repo.dart';
+import '../../utilities/logger.dart';
 import '../schedule_state/schedule_state.dart';
 
 part 'medication_state.g.dart';
@@ -60,11 +61,20 @@ class MedicationState extends _$MedicationState {
     return groupedByPillId.entries.map((entry) {
       final pillSchedules = entry.value;
       final pillId = entry.key;
-      final matchingPill = pills.firstWhere((pill) => pill.id == pillId);
+      Pill? matchingPill;
+
+      try {
+        matchingPill = pills.firstWhere((pill) => pill.id == pillId);
+      } catch (e, s) {
+        logger.e(
+            "Schedule had pill_id: $pillId but no matching pill was found",
+            error: e,
+            stackTrace: s);
+      }
 
       return Medication(
         pillId: pillId,
-        name: matchingPill.name,
+        name: matchingPill!.name,
         dosage: matchingPill.dosage,
         schedules: pillSchedules,
       );
@@ -83,11 +93,20 @@ class MedicationState extends _$MedicationState {
       var medications = groupedByPillId.entries.map((pillEntry) {
         final pillId = pillEntry.key;
         final schedulesForPill = pillEntry.value;
-        final matchingPill = pills.firstWhere((pill) => pill.id == pillId);
+
+        Pill? matchingPill;
+        try {
+          matchingPill = pills.firstWhere((pill) => pill.id == pillId);
+        } catch (e, s) {
+          logger.e(
+              "Schedule had pill_id: $pillId but no matching pill was found",
+              error: e,
+              stackTrace: s);
+        }
 
         return Medication(
           pillId: pillId,
-          name: matchingPill.name,
+          name: matchingPill!.name,
           dosage: matchingPill.dosage,
           schedules: schedulesForPill,
         );
@@ -102,7 +121,7 @@ class MedicationState extends _$MedicationState {
     try {
       final scheduleStateActions = ref.read(scheduleStateProvider.notifier);
       scheduleStateActions.sendPillScheduleDeleteRequests(medication.schedules);
-    } catch(_){ }
+    } catch (_) {}
 
     // Give the backend a second to delete the schedules before fetching again
     await Future.delayed(const Duration(seconds: 2));
@@ -111,10 +130,10 @@ class MedicationState extends _$MedicationState {
   }
 }
 
-
 List<TimeOfDay> getMedicationTimes(List<Medication> medications) {
   final Set<TimeOfDay> uniqueTimes = medications
-      .expand((medication) => medication.schedules.map((schedule) => schedule.time))
+      .expand(
+          (medication) => medication.schedules.map((schedule) => schedule.time))
       .toSet();
 
   final List<TimeOfDay> sortedTimes = uniqueTimes.toList()
