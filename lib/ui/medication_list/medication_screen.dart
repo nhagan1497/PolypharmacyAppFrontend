@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,6 +8,7 @@ import '../../services/medication_state/medication_state.dart';
 import '../../services/schedule_state/schedule_state.dart';
 import '../../utilities/custom_error_widget.dart';
 import '../../utilities/custom_loading_widget.dart';
+import '../../utilities/time_helpers.dart';
 import '../login/blue_box_decoration.dart';
 import 'medication_search.dart';
 
@@ -117,7 +119,7 @@ class MedicationScreen extends HookConsumerWidget {
                                                     child: Text(
                                                         '    Edit/Delete'))),
                                           ],
-                                          rows: scheduleState.value!.schedules
+                                          rows: scheduleState.value!.schedules.sorted((a, b) => compareTimeOfDay(a.time, b.time))
                                               .asMap()
                                               .entries
                                               .map((entry) {

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -38,7 +39,7 @@ class MedicationTile extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: medication.schedules
+                  children: medication.schedules.sorted((a, b) => compareTimeOfDay(a.time, b.time))
                       .map((sch) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 2),
                             child: Text(

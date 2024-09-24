@@ -41,3 +41,9 @@ bool isSameTime(TimeOfDay time1, TimeOfDay time2) {
 DateTime getTimeOnly(DateTime time) {
   return DateTime(1970, 1, 1, time.hour, time.minute);
 }
+
+int compareTimeOfDay(TimeOfDay a, TimeOfDay b) {
+  final int aMinutes = a.hour * 60 + a.minute;
+  final int bMinutes = b.hour * 60 + b.minute;
+  return aMinutes.compareTo(bMinutes);
+}
