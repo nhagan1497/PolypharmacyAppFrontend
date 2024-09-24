@@ -59,13 +59,14 @@ class CalendarScreen extends HookConsumerWidget {
               itemCount:
                   medicationState.value?.medicationRounds.keys.length ?? 0,
               itemBuilder: (context, index) {
-                final ingestionTime = medicationState
-                    .value?.medicationRounds.keys
+                final sortedTimes = getMedicationTimes(
+                    medicationState.value!.medicationList);
+                final ingestionTime = sortedTimes
                     .elementAt(index);
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: MedicationRound(time: ingestionTime!),
+                  child: MedicationRound(time: ingestionTime, date: selectedDay.value,),
                 );
               },
             ),

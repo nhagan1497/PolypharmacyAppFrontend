@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/medication/medication.dart';
 import '../../services/medication_state/medication_state.dart';
 import '../../services/pills_state/pills_state.dart';
-import '../../utilities/error_widget.dart';
+import '../../utilities/custom_error_widget.dart';
 import '../../utilities/riverpod_observer.dart';
 import 'medication_create_screen.dart';
 

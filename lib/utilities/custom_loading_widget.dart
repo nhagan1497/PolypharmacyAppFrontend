@@ -21,7 +21,7 @@ class CustomLoadingWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 16),
-            const CircularProgressIndicator(),
+            const CircularProgressIndicator(color: Colors.blue,),
           ],
         ),
       ),

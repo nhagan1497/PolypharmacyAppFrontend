@@ -8,11 +8,23 @@ import '../../utilities/time_helpers.dart';
 
 class MedicationRound extends HookConsumerWidget {
   final TimeOfDay time;
+  final DateTime date;
 
   const MedicationRound({
     super.key,
     required this.time,
+    required this.date,
   });
+
+  DateTime getCombinedDateTime() {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,7 +62,7 @@ class MedicationRound extends HookConsumerWidget {
                             .quantity;
 
                         final loggedConsumption = pillConsumptions.firstWhereOrNull(
-                                (pc) => pc.pillId == medication.pillId && pc.time == time);
+                                (pc) => pc.pillId == medication.pillId && pc.time == getCombinedDateTime());
 
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -60,8 +72,8 @@ class MedicationRound extends HookConsumerWidget {
                                 pillConsumptionActions.addPillConsumption(
                                   PillConsumption(
                                     pillId: medication.pillId,
-                                    time: time,
-                                    quantity: quantity!,
+                                    time: getCombinedDateTime(),
+                                    quantity: quantity,
                                   ),
                                 );
                               } else {
@@ -79,7 +91,7 @@ class MedicationRound extends HookConsumerWidget {
                                       pillConsumptionActions.addPillConsumption(
                                         PillConsumption(
                                           pillId: medication.pillId,
-                                          time: time,
+                                          time: getCombinedDateTime(),
                                           quantity: quantity!,
                                         ),
                                       );

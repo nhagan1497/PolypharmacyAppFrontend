@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../services/medication_state/medication_state.dart';
+import '../../services/pill_consumption_state/pill_consumption_state.dart';
 import '../../utilities/riverpod_observer.dart';
 import 'medication_screen.dart';
 import 'medication_tile.dart';
@@ -13,6 +15,7 @@ class MedicationListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final medicationState = ref.watch(medicationStateProvider);
     final medicationStateActions = ref.watch(medicationStateProvider.notifier);
+    ref.watch(pillConsumptionStateProvider);
 
     return Scaffold(
       body: Stack(
@@ -20,22 +23,44 @@ class MedicationListScreen extends ConsumerWidget {
           Positioned.fill(
             child: switch (medicationState) {
               AsyncData(:final value) => RefreshIndicator(
-                  onRefresh: () async =>
-                      ref.refresh(medicationStateProvider.future),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(
-                        bottom: 80), // Add padding to avoid overlap
-                    itemCount: value.medicationList.length,
-                    itemBuilder: (context, index) {
-                      return MedicationTile(
-                        medication: value.medicationList[index],
-                      );
-                    },
+                onRefresh: () async =>
+                    ref.refresh(medicationStateProvider.future),
+                child: value.medicationList.isEmpty
+                    ? const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Symbols.pill, // Use Symbols.pill if necessary
+                        size: 80, // Adjust icon size as needed
+                        color: Colors.blue, // Customize color
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "Add prescriptions to your account using the button below.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
+                )
+                    : ListView.builder(
+                  padding: const EdgeInsets.only(
+                      bottom: 80), // Add padding to avoid overlap
+                  itemCount: value.medicationList.length,
+                  itemBuilder: (context, index) {
+                    return MedicationTile(
+                      medication: value.medicationList[index],
+                    );
+                  },
                 ),
+              ),
               AsyncError() =>
-                const Center(child: Text('An unexpected error occurred.')),
-              _ => const Center(child: CircularProgressIndicator()),
+              const Center(child: Text('An unexpected error occurred.')),
+              _ => const Center(child: CircularProgressIndicator(color: Colors.blue)),
             },
           ),
           Positioned(

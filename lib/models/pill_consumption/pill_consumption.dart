@@ -10,7 +10,7 @@ class PillConsumption with _$PillConsumption {
     @JsonKey(name: 'pill_id') required int pillId,
     required int quantity,
     @JsonKey(fromJson: _fromJson, toJson: _toJson)
-    required TimeOfDay time,
+    required DateTime time,
     @Default(null) int? id,
   }) = _PillConsumption;
 
@@ -18,13 +18,10 @@ class PillConsumption with _$PillConsumption {
       _$PillConsumptionFromJson(json);
 }
 
-TimeOfDay _fromJson(String dateTime) {
-  final date = DateTime.parse(dateTime);
-  return TimeOfDay(hour: date.hour, minute: date.minute);
+DateTime _fromJson(String dateTime) {
+  return DateTime.parse(dateTime);
 }
 
-String _toJson(TimeOfDay time) {
-  final now = DateTime.now();
-  final dateTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-  return dateTime.toUtc().toIso8601String();
+String _toJson(DateTime time) {
+  return time.toIso8601String();
 }

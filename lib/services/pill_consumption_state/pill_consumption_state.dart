@@ -11,42 +11,9 @@ part 'pill_consumption_state.g.dart';
 class PillConsumptionState extends _$PillConsumptionState {
   @override
   Future<IList<PillConsumption>> build() async {
-    // final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
-    // final pillConsumptions = await polyPharmacyRepo.getPillConsumptions();
-
-    const today7AM = TimeOfDay(
-      hour: 7, // 12:00 AM
-      minute: 0, // Minutes
-    );
-
-
-    const today12PM = TimeOfDay(
-      hour: 12, // 12:00 AM
-      minute: 0, // Minutes
-    );
-
-    const pill1 = PillConsumption(
-      pillId: 1,
-      quantity: 1,
-      time: today7AM,
-      id: 1,
-    );
-
-    const pill2 = PillConsumption(
-      pillId: 2,
-      quantity: 2,
-      time: today12PM,
-      id: 2,
-    );
-
-    const pill3 = PillConsumption(
-      pillId: 3,
-      quantity: 1,
-      time: today7AM,
-      id: 3,
-    );
-
-    return [pill1, pill2, pill3].lock;
+    final polyPharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
+    final pillConsumptions = await polyPharmacyRepo.getPillConsumptions(0, 1000);
+    return pillConsumptions.lock;
   }
 
   Future<void> addPillConsumption(PillConsumption pillConsumption) async {
@@ -54,7 +21,7 @@ class PillConsumptionState extends _$PillConsumptionState {
     state = AsyncData(state.value!.add(pillConsumption));
 
     final pillConsumptionWithId =
-        await polyPharmacyRepo.postPillConsumption(pillConsumption);
+        await polyPharmacyRepo.postPillConsumption(contentType: "application/json", pillConsumption: pillConsumption);
 
     final previousState = await future;
     state = AsyncData(
@@ -64,6 +31,6 @@ class PillConsumptionState extends _$PillConsumptionState {
   Future<void> deletePillConsumption(PillConsumption pillConsumption) async {
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     state = AsyncData(state.value!.remove(pillConsumption));
-    await polyPharmacyRepo.deletePillConsumption(pillConsumption.id!);
+    await polyPharmacyRepo.deletePillConsumption(pillConsumptionId: pillConsumption.id!);
   }
 }

@@ -20,7 +20,7 @@ class ScheduleStateData with _$ScheduleStateData {
   }) = _ScheduleStateData;
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ScheduleState extends _$ScheduleState {
   @override
   Future<ScheduleStateData> build() async {
@@ -76,41 +76,33 @@ class ScheduleState extends _$ScheduleState {
 
     state = AsyncData(currentState.copyWith(
        successfullyUpdatedSchedules: true));
+    ref.invalidate(medicationStateProvider);
   }
 
   Future<void> sendPillScheduleCreateRequests(List<PillSchedule> schedulesToCreate) async {
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
-    final json = schedulesToCreate.first.toJson();
-
     final futures = schedulesToCreate.map((schedule) {
-      return polypharmacyRepo.postPillSchedule("application/json", pillSchedule: schedule);
+      return polypharmacyRepo.postPillSchedule(contentType: "application/json", pillSchedule: schedule);
     }).toList();
-
     await Future.wait(futures);
   }
 
 
   Future<void> sendPillScheduleUpdateRequests(List<PillSchedule> schedulesToUpdate) async {
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
-
     final futures = schedulesToUpdate.map((schedule) {
       return polypharmacyRepo.putPillSchedule(pillScheduleId: schedule.id, pillSchedule: schedule);
     }).toList();
-
     await Future.wait(futures);
   }
 
   Future<void> sendPillScheduleDeleteRequests(List<PillSchedule> schedulesToDelete) async {
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
-
     final futures = schedulesToDelete.map((schedule) {
       return polypharmacyRepo.deletePillSchedule(pillScheduleId: schedule.id);
     }).toList();
-
     await Future.wait(futures);
   }
-
-
 
   void addSchedule(String quantity, TimeOfDay time) {
     final currentState = state.value!;

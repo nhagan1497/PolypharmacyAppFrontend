@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:polypharmacy/services/medication_state/medication_state.dart';
+import 'package:polypharmacy/services/pill_consumption_state/pill_consumption_state.dart';
+import 'package:polypharmacy/services/schedule_state/schedule_state.dart';
 import 'package:polypharmacy/utilities/custom_loading_widget.dart';
 import '../../models/pill/pill.dart';
 import '../../services/image_state/image_state.dart';
@@ -12,7 +15,11 @@ class IdentificationScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(pillConsumptionStateProvider);
+    ref.watch(medicationStateProvider);
+    ref.watch(scheduleStateProvider);
     final imageState = ref.watch(imageStateProvider);
+
     AsyncValue<Pill>? pillIdentificationState;
     Pill? identifiedPill;
 

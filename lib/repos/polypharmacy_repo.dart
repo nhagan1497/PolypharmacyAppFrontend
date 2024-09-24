@@ -57,17 +57,21 @@ abstract class PolypharmacyRepo {
   // * Pill Consumption Endpoints                                             *
   // **************************************************************************
   @GET("/pill_consumption/")
-  Future<List<PillConsumption>> getPillConsumptions();
+  Future<List<PillConsumption>> getPillConsumptions(
+      @Query('skip') int? skip, // default - 0
+      @Query('limit') int? limit // default - 10
+      );
 
-  @GET("/pill_consumption/")
-  Future<PillConsumption> postPillConsumption(
-    @Body() PillConsumption pillConsumption,
-  );
+  @POST("/pill_consumption/")
+  Future<PillConsumption> postPillConsumption({
+    @Header('content-type') required String contentType,
+    @Body() required PillConsumption pillConsumption,
+  });
 
-  @DELETE("/pill_consumption/{pill_consumption_id}/")
-  Future<PillConsumption> deletePillConsumption(
-    @Path('pill_consumption_id') int pillConsumptionId,
-  );
+  @DELETE("/pill_consumption/{pill_consumption_id}")
+  Future<PillConsumption> deletePillConsumption({
+    @Path('pill_consumption_id') required int pillConsumptionId,
+  });
 
   // **************************************************************************
   // * Pill Schedule Endpoints                                                *
@@ -79,10 +83,9 @@ abstract class PolypharmacyRepo {
       );
 
   @POST("/pill_schedule/")
-
   Future<PillSchedule> postPillSchedule(
-      @Header('content-type') String contentType,
-      {@Body() required PillSchedule pillSchedule});
+      {@Header('content-type') required String contentType,
+      @Body() required PillSchedule pillSchedule});
 
   @PUT("/pill_schedule/{pill_schedule_id}/")
   Future<PillSchedule> putPillSchedule(

@@ -91,7 +91,7 @@ class MedicationTile extends ConsumerWidget {
                                 child: const Text("Delete"),
                                 onPressed: () {
                                   medicationStateActions
-                                      .deleteMedicationAndSchedules(medication);
+                                      .deleteSchedulesForMedication(medication);
                                   Navigator.of(context).pop();
                                 },
                               ),
