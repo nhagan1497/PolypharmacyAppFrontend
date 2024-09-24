@@ -11,7 +11,7 @@ part 'pill_identification_state.g.dart';
 class PillIdentificationState extends _$PillIdentificationState {
   @override
   Future<Pill> build(File imageFile) async {
-    final polypharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
+    final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
     return await polypharmacyRepo.postPillIdentification(image: imageFile);
   }
 }

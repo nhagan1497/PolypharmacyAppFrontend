@@ -30,7 +30,6 @@ class MedicationState extends _$MedicationState {
     final results = await Future.wait([
       polyPharmacyRepo.getPillSchedules(null, 100),
       polyPharmacyRepo.getPills(),
-      ref.read(pillConsumptionStateProvider.future), // make sure pill consumption state is loaded first
     ]);
 
     final List<PillSchedule> pillSchedules = results[0] as List<PillSchedule>;

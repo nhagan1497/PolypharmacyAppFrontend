@@ -87,6 +87,7 @@ class HomeScreen extends ConsumerWidget {
                               ),
                           ],
                     AsyncError() => [
+                        const SizedBox(height: 200),
                         const Center(
                           child: CustomErrorWidget(
                             errorMessage:
@@ -103,9 +104,7 @@ class HomeScreen extends ConsumerWidget {
             // Center the CircularProgressIndicator
             if (medicationState is AsyncLoading)
               const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.blue,
-                ),
+                child: CircularProgressIndicator(),
               ),
           ],
         ),

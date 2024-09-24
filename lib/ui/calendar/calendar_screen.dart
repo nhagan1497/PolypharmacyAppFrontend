@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../services/medication_state/medication_state.dart';
+import '../../utilities/custom_error_widget.dart';
 import '../home/medication_round.dart';
 
 class CalendarScreen extends HookConsumerWidget {
@@ -52,23 +53,31 @@ class CalendarScreen extends HookConsumerWidget {
               focusedDay.value = newFocusedDay;
             },
           ),
-          // MedicationRounds as a list below the calendar
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount:
-                  medicationState.value?.medicationRounds.keys.length ?? 0,
-              itemBuilder: (context, index) {
-                final sortedTimes = getMedicationTimes(
-                    medicationState.value!.medicationList);
-                final ingestionTime = sortedTimes
-                    .elementAt(index);
-
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: MedicationRound(time: ingestionTime, date: selectedDay.value,),
+            child: medicationState.when(
+              data: (medicationData) {
+                final sortedTimes =
+                    getMedicationTimes(medicationData.medicationList);
+                return ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: sortedTimes.length,
+                  itemBuilder: (context, index) {
+                    final ingestionTime = sortedTimes.elementAt(index);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: MedicationRound(
+                        time: ingestionTime,
+                        date: selectedDay.value,
+                      ),
+                    );
+                  },
                 );
               },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => const CustomErrorWidget(
+                errorMessage:
+                    "An error occurred while fetching medications. Please try again later.",
+              ),
             ),
           ),
         ],

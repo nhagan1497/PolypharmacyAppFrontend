@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:polypharmacy/utilities/custom_error_widget.dart';
 
 import '../../services/medication_state/medication_state.dart';
 import '../../services/pill_consumption_state/pill_consumption_state.dart';
@@ -59,8 +60,8 @@ class MedicationListScreen extends ConsumerWidget {
                 ),
               ),
               AsyncError() =>
-              const Center(child: Text('An unexpected error occurred.')),
-              _ => const Center(child: CircularProgressIndicator(color: Colors.blue)),
+              const CustomErrorWidget(errorMessage: "An error occurred while fetching medications. Please try again later."),
+              _ => const Center(child: CircularProgressIndicator()),
             },
           ),
           Positioned(
@@ -72,7 +73,6 @@ class MedicationListScreen extends ConsumerWidget {
                 width: 200, // Set a fixed width for the button
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    medicationStateActions.setSelectedMedication(null);
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ProviderScope(
@@ -80,7 +80,9 @@ class MedicationListScreen extends ConsumerWidget {
                             child: const MedicationScreen()),
                       ),
                     );
+                    medicationStateActions.setSelectedMedication(null);
                   },
+
                   icon: const Icon(Icons.medication_sharp),
                   label: const Text('Add New Medication'),
                   style: ElevatedButton.styleFrom(

@@ -29,11 +29,10 @@ class MedicationRound extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medicationState = ref.watch(medicationStateProvider).value!;
-    final medicationsInRound =
-    medicationState.medicationRounds[time];
+    final medicationsInRound = medicationState.medicationRounds[time];
     final pillConsumptionAsyncValue = ref.watch(pillConsumptionStateProvider);
     final pillConsumptionActions =
-    ref.read(pillConsumptionStateProvider.notifier);
+        ref.read(pillConsumptionStateProvider.notifier);
 
     return Card(
       elevation: 3,
@@ -55,14 +54,16 @@ class MedicationRound extends HookConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ...?medicationsInRound?.map(
-                          (medication) {
+                      (medication) {
                         final quantity = medication.schedules
-                            .firstWhere((schedule) =>
-                            isSameTime(schedule.time, time))
+                            .firstWhere(
+                                (schedule) => isSameTime(schedule.time, time))
                             .quantity;
 
-                        final loggedConsumption = pillConsumptions.firstWhereOrNull(
-                                (pc) => pc.pillId == medication.pillId && pc.time == getCombinedDateTime());
+                        final loggedConsumption =
+                            pillConsumptions.firstWhereOrNull((pc) =>
+                                pc.pillId == medication.pillId &&
+                                pc.time == getCombinedDateTime());
 
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -77,8 +78,8 @@ class MedicationRound extends HookConsumerWidget {
                                   ),
                                 );
                               } else {
-                                pillConsumptionActions.deletePillConsumption(
-                                    loggedConsumption);
+                                pillConsumptionActions
+                                    .deletePillConsumption(loggedConsumption);
                               }
                             },
                             child: Row(
@@ -96,8 +97,9 @@ class MedicationRound extends HookConsumerWidget {
                                         ),
                                       );
                                     } else {
-                                      pillConsumptionActions.deletePillConsumption(
-                                          loggedConsumption!);
+                                      pillConsumptionActions
+                                          .deletePillConsumption(
+                                              loggedConsumption!);
                                     }
                                   },
                                 ),
@@ -106,12 +108,13 @@ class MedicationRound extends HookConsumerWidget {
                                     '$quantity x ${medication.name} (${medication.dosage})',
                                     style: loggedConsumption != null
                                         ? Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                      decoration: TextDecoration.lineThrough,
-                                      color: Colors.grey,
-                                    )
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              color: Colors.grey,
+                                            )
                                         : Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
