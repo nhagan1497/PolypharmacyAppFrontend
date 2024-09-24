@@ -8,6 +8,7 @@ import '../../models/medication/medication.dart';
 import '../../models/pill/pill.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
 import '../../repos/polypharmacy_repo.dart';
+import '../schedule_state/schedule_state.dart';
 
 part 'medication_state.g.dart';
 part 'medication_state.freezed.dart';
@@ -96,7 +97,18 @@ class MedicationState extends _$MedicationState {
     });
   }
 
-  Future<void> deleteSchedulesForMedication(Medication medication) async {}
+  Future<void> deleteSchedulesForMedication(Medication medication) async {
+    state = const AsyncLoading();
+    try {
+      final scheduleStateActions = ref.read(scheduleStateProvider.notifier);
+      scheduleStateActions.sendPillScheduleDeleteRequests(medication.schedules);
+    } catch(_){ }
+
+    // Give the backend a second to delete the schedules before fetching again
+    await Future.delayed(const Duration(seconds: 2));
+
+    ref.invalidateSelf();
+  }
 }
 
 

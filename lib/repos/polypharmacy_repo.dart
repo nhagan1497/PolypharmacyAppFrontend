@@ -92,8 +92,9 @@ abstract class PolypharmacyRepo {
       {@Path('pill_schedule_id') required int pillScheduleId,
       @Body() required PillSchedule pillSchedule});
 
-  @DELETE("/pill_schedule/{pill_schedule_id}/")
+  @DELETE("/pill_schedule/{pill_schedule_id}")
   Future<PillSchedule> deletePillSchedule({
+  @Header('accept') String accept = "application/json",
     @Path('pill_schedule_id') required int pillScheduleId,
   });
 }

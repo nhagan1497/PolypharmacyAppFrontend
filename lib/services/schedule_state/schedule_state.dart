@@ -69,7 +69,7 @@ class ScheduleState extends _$ScheduleState {
       futures.add(_sendPillScheduleUpdateRequests(updatedSchedules));
     }
     if (deletedSchedules.isNotEmpty) {
-      futures.add(_sendPillScheduleDeleteRequests(deletedSchedules));
+      futures.add(sendPillScheduleDeleteRequests(deletedSchedules));
     }
 
     await Future.wait(futures);
@@ -118,7 +118,7 @@ class ScheduleState extends _$ScheduleState {
     await Future.wait(futures);
   }
 
-  Future<void> _sendPillScheduleDeleteRequests(List<PillSchedule> schedulesToDelete) async {
+  Future<void> sendPillScheduleDeleteRequests(List<PillSchedule> schedulesToDelete) async {
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
     final futures = schedulesToDelete.map((schedule) {
       return polypharmacyRepo.deletePillSchedule(pillScheduleId: schedule.id);

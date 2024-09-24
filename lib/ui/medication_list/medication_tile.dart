@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:polypharmacy/ui/medication_list/remove_medication_button.dart';
 import '../../models/medication/medication.dart';
 import '../../services/medication_state/medication_state.dart';
 import '../../utilities/time_helpers.dart';
@@ -73,42 +74,7 @@ class MedicationTile extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Delete ${medication.name}?"),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text("Cancel"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text("Delete"),
-                                onPressed: () {
-                                  medicationStateActions
-                                      .deleteSchedulesForMedication(medication);
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  icon: const Icon(Icons.delete, size: 20),
-                  label: const Text('Delete'),
-                  style: ElevatedButton.styleFrom(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // Oval shape
-                    ),
-                  ),
-                ),
+                RemoveMedicationButton(medication: medication),
               ],
             ),
           ],
@@ -117,3 +83,4 @@ class MedicationTile extends ConsumerWidget {
     );
   }
 }
+
