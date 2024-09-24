@@ -119,7 +119,10 @@ class MedicationScreen extends HookConsumerWidget {
                                                     child: Text(
                                                         '    Edit/Delete'))),
                                           ],
-                                          rows: scheduleState.value!.schedules.sorted((a, b) => compareTimeOfDay(a.time, b.time))
+                                          rows: scheduleState.value!.schedules
+                                              .sorted((a, b) =>
+                                                  compareTimeOfDay(
+                                                      a.time, b.time))
                                               .asMap()
                                               .entries
                                               .map((entry) {

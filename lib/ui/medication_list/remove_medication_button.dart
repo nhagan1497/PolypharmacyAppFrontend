@@ -45,8 +45,7 @@ class RemoveMedicationButton extends ConsumerWidget {
       icon: const Icon(Icons.delete, size: 20),
       label: const Text('Remove'),
       style: ElevatedButton.styleFrom(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), // Oval shape
         ),

@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:polypharmacy/ui/medication_list/remove_medication_button.dart';
 import '../../models/medication/medication.dart';
 import '../../services/medication_state/medication_state.dart';
@@ -39,7 +38,8 @@ class MedicationTile extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: medication.schedules.sorted((a, b) => compareTimeOfDay(a.time, b.time))
+                  children: medication.schedules
+                      .sorted((a, b) => compareTimeOfDay(a.time, b.time))
                       .map((sch) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 2),
                             child: Text(
@@ -84,4 +84,3 @@ class MedicationTile extends ConsumerWidget {
     );
   }
 }
-

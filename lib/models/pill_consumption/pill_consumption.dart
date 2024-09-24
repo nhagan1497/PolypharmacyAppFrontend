@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'pill_consumption.freezed.dart';
@@ -9,8 +8,7 @@ class PillConsumption with _$PillConsumption {
   const factory PillConsumption({
     @JsonKey(name: 'pill_id') required int pillId,
     required int quantity,
-    @JsonKey(fromJson: _fromJson, toJson: _toJson)
-    required DateTime time,
+    @JsonKey(fromJson: _fromJson, toJson: _toJson) required DateTime time,
     @Default(null) int? id,
   }) = _PillConsumption;
 

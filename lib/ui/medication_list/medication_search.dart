@@ -62,8 +62,7 @@ class MedicationSearch extends HookConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: ListView(
-                    shrinkWrap:
-                        true,
+                    shrinkWrap: true,
                     physics:
                         const NeverScrollableScrollPhysics(), // Disable scrolling inside the ListView
                     children: [

@@ -24,8 +24,10 @@ class MedicationCreateScreen extends HookConsumerWidget {
     final imageState = ref.watch(imageStateProvider);
     final pillsState = ref.watch(pillsStateProvider);
     final pillsStateActions = ref.watch(pillsStateProvider.notifier);
-    final currentlySelectedMedication = ref.watch(medicationStateProvider).value?.selectedMedication;
-    final submitPressed = useState(false); // Tracks if the submit button was pressed
+    final currentlySelectedMedication =
+        ref.watch(medicationStateProvider).value?.selectedMedication;
+    final submitPressed =
+        useState(false); // Tracks if the submit button was pressed
 
     // Pop the screen if currentlySelectedMedication is not null
     useEffect(() {
@@ -54,10 +56,13 @@ class MedicationCreateScreen extends HookConsumerWidget {
         padding: const EdgeInsets.all(16.0),
         child: pillsState.when(
           loading: () => const Center(
-            child: CustomLoadingWidget(loadingMessage: "Submitting medication..."),
+            child:
+                CustomLoadingWidget(loadingMessage: "Submitting medication..."),
           ),
           error: (error, stackTrace) => const Center(
-            child: CustomErrorWidget(errorMessage: "An error occured while submitting a new medication. Please try again later."),
+            child: CustomErrorWidget(
+                errorMessage:
+                    "An error occured while submitting a new medication. Please try again later."),
           ),
           data: (pillsData) => SingleChildScrollView(
             child: Card(
@@ -111,16 +116,19 @@ class MedicationCreateScreen extends HookConsumerWidget {
                       if (imageState.imageFile != null)
                         Center(
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8), // Rounding the corners
+                            borderRadius: BorderRadius.circular(
+                                8), // Rounding the corners
                             child: Container(
                               width: 200,
                               height: 200,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey), // Optional border
+                                border: Border.all(
+                                    color: Colors.grey), // Optional border
                               ),
                               child: Image.file(
                                 imageState.imageFile!,
-                                fit: BoxFit.cover, // Adjust to fit the container
+                                fit:
+                                    BoxFit.cover, // Adjust to fit the container
                               ),
                             ),
                           ),
@@ -150,14 +158,18 @@ class MedicationCreateScreen extends HookConsumerWidget {
                                   ),
                                 );
                               },
-                              child: Text(imageState.imageFile == null ? 'Photograph Medication' : 'Retake Picture'),
+                              child: Text(imageState.imageFile == null
+                                  ? 'Photograph Medication'
+                                  : 'Retake Picture'),
                             ),
                             const SizedBox(height: 16.0),
                             ElevatedButton(
                               onPressed: () {
-                                submitPressed.value = true; // Set to true when the Submit button is pressed
+                                submitPressed.value =
+                                    true; // Set to true when the Submit button is pressed
 
-                                if (formKey.currentState!.validate() && imageState.imageFile != null) {
+                                if (formKey.currentState!.validate() &&
+                                    imageState.imageFile != null) {
                                   final pill = Pill(
                                     id: 0, // id will get set by the server
                                     name: nameController.text,

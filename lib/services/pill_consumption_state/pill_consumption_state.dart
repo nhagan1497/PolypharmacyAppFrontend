@@ -1,5 +1,4 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
 import 'package:polypharmacy/models/pill_consumption/pill_consumption.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,7 +11,8 @@ class PillConsumptionState extends _$PillConsumptionState {
   @override
   Future<IList<PillConsumption>> build() async {
     final polyPharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
-    final pillConsumptions = await polyPharmacyRepo.getPillConsumptions(0, 1000);
+    final pillConsumptions =
+        await polyPharmacyRepo.getPillConsumptions(0, 1000);
     return pillConsumptions.lock;
   }
 
@@ -20,8 +20,8 @@ class PillConsumptionState extends _$PillConsumptionState {
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     state = AsyncData(state.value!.add(pillConsumption));
 
-    final pillConsumptionWithId =
-        await polyPharmacyRepo.postPillConsumption(contentType: "application/json", pillConsumption: pillConsumption);
+    final pillConsumptionWithId = await polyPharmacyRepo.postPillConsumption(
+        contentType: "application/json", pillConsumption: pillConsumption);
 
     final previousState = await future;
     state = AsyncData(
@@ -31,6 +31,7 @@ class PillConsumptionState extends _$PillConsumptionState {
   Future<void> deletePillConsumption(PillConsumption pillConsumption) async {
     final polyPharmacyRepo = ref.watch(polypharmacyRepoProvider).value!;
     state = AsyncData(state.value!.remove(pillConsumption));
-    await polyPharmacyRepo.deletePillConsumption(pillConsumptionId: pillConsumption.id!);
+    await polyPharmacyRepo.deletePillConsumption(
+        pillConsumptionId: pillConsumption.id!);
   }
 }

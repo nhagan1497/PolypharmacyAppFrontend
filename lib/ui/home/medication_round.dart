@@ -93,7 +93,7 @@ class MedicationRound extends HookConsumerWidget {
                                         PillConsumption(
                                           pillId: medication.pillId,
                                           time: getCombinedDateTime(),
-                                          quantity: quantity!,
+                                          quantity: quantity,
                                         ),
                                       );
                                     } else {

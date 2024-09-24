@@ -6,7 +6,6 @@ import 'package:polypharmacy/services/medication_state/medication_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../models/pill_schedule/pill_schedule.dart';
 import '../../repos/polypharmacy_repo.dart';
-import '../../utilities/time_helpers.dart';
 
 part 'schedule_state.g.dart';
 part 'schedule_state.freezed.dart';
@@ -35,8 +34,7 @@ class ScheduleState extends _$ScheduleState {
   Future<void> sendScheduleRequests() async {
     state = const AsyncLoading();
     final currentState = state.value!;
-    final addedSchedules =
-      currentState.originalSchedules.isEmpty
+    final addedSchedules = currentState.originalSchedules.isEmpty
         ? currentState.schedules.toList()
         : currentState.schedules
             .where((schedule) => !currentState.originalSchedules
@@ -57,8 +55,8 @@ class ScheduleState extends _$ScheduleState {
     }
 
     final deletedSchedules = currentState.originalSchedules
-        .where((original) =>
-            !currentState.schedules.any((schedule) => schedule.id == original.id))
+        .where((original) => !currentState.schedules
+            .any((schedule) => schedule.id == original.id))
         .toList();
 
     final futures = <Future>[];
@@ -74,16 +72,16 @@ class ScheduleState extends _$ScheduleState {
 
     await Future.wait(futures);
 
-    state = AsyncData(currentState.copyWith(
-       successfullyUpdatedSchedules: true));
+    state =
+        AsyncData(currentState.copyWith(successfullyUpdatedSchedules: true));
     ref.invalidate(medicationStateProvider);
   }
-
 
   void addSchedule(String quantity, TimeOfDay time) {
     final currentState = state.value!;
     final schedule = _createPillSchedule(quantity, time);
-    state = AsyncData(currentState.copyWith(schedules: currentState.schedules.add(schedule)));
+    state = AsyncData(
+        currentState.copyWith(schedules: currentState.schedules.add(schedule)));
   }
 
   void updateSchedule(int index, String quantity, TimeOfDay time) {
@@ -97,35 +95,38 @@ class ScheduleState extends _$ScheduleState {
   void addScheduleToDelete(PillSchedule schedule) {
     final currentState = state.value!;
 
-    state = AsyncData(currentState.copyWith(schedules: currentState.schedules.remove(schedule)));
+    state = AsyncData(currentState.copyWith(
+        schedules: currentState.schedules.remove(schedule)));
   }
 
-  Future<void> _sendPillScheduleCreateRequests(List<PillSchedule> schedulesToCreate) async {
+  Future<void> _sendPillScheduleCreateRequests(
+      List<PillSchedule> schedulesToCreate) async {
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
-    final json = schedulesToCreate.first.toJson();
     final futures = schedulesToCreate.map((schedule) {
-      return polypharmacyRepo.postPillSchedule(contentType: "application/json", pillSchedule: schedule);
+      return polypharmacyRepo.postPillSchedule(
+          contentType: "application/json", pillSchedule: schedule);
     }).toList();
     await Future.wait(futures);
   }
 
-
-  Future<void> _sendPillScheduleUpdateRequests(List<PillSchedule> schedulesToUpdate) async {
+  Future<void> _sendPillScheduleUpdateRequests(
+      List<PillSchedule> schedulesToUpdate) async {
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
     final futures = schedulesToUpdate.map((schedule) {
-      return polypharmacyRepo.putPillSchedule(pillScheduleId: schedule.id, pillSchedule: schedule);
+      return polypharmacyRepo.putPillSchedule(
+          pillScheduleId: schedule.id, pillSchedule: schedule);
     }).toList();
     await Future.wait(futures);
   }
 
-  Future<void> sendPillScheduleDeleteRequests(List<PillSchedule> schedulesToDelete) async {
+  Future<void> sendPillScheduleDeleteRequests(
+      List<PillSchedule> schedulesToDelete) async {
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
     final futures = schedulesToDelete.map((schedule) {
       return polypharmacyRepo.deletePillSchedule(pillScheduleId: schedule.id);
     }).toList();
     await Future.wait(futures);
   }
-
 
   PillSchedule _createPillSchedule(String quantity, TimeOfDay time) {
     final medicationState = ref.read(medicationStateProvider).value!;

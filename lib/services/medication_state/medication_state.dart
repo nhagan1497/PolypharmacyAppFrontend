@@ -1,8 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:polypharmacy/services/pill_consumption_state/pill_consumption_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../models/medication/medication.dart';
 import '../../models/pill/pill.dart';
@@ -66,10 +64,8 @@ class MedicationState extends _$MedicationState {
       try {
         matchingPill = pills.firstWhere((pill) => pill.id == pillId);
       } catch (e, s) {
-        logger.e(
-            "Schedule had pill_id: $pillId but no matching pill was found",
-            error: e,
-            stackTrace: s);
+        logger.e("Schedule had pill_id: $pillId but no matching pill was found",
+            error: e, stackTrace: s);
       }
 
       return Medication(

@@ -20,7 +20,7 @@ class PillsState extends _$PillsState {
 
   Future<void> postPill(Pill pill) async {
     state = const AsyncLoading();
-    try{
+    try {
       final polypharmacyRepo = ref.read(polypharmacyRepoProvider).value!;
       final medicationStateActions = ref.read(medicationStateProvider.notifier);
       final imageState = ref.read(imageStateProvider);
@@ -46,4 +46,3 @@ class PillsState extends _$PillsState {
     ref.invalidateSelf();
   }
 }
-

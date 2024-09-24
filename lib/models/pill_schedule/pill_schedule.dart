@@ -10,8 +10,7 @@ class PillSchedule with _$PillSchedule {
     required int id,
     @JsonKey(name: 'pill_id') required int pillId,
     required int quantity,
-    @JsonKey(fromJson: _fromJson, toJson: _toJson)
-    required TimeOfDay time,
+    @JsonKey(fromJson: _fromJson, toJson: _toJson) required TimeOfDay time,
   }) = _PillSchedule;
 
   factory PillSchedule.fromJson(Map<String, dynamic> json) =>
@@ -23,14 +22,15 @@ TimeOfDay _fromJson(String timeString) {
   final utcHour = int.parse(parts[0]);
   final minute = int.parse(parts[1]);
   final now = DateTime.now();
-  final utcDateTime = DateTime.utc(now.year, now.month, now.day, utcHour, minute);
+  final utcDateTime =
+      DateTime.utc(now.year, now.month, now.day, utcHour, minute);
   final localDateTime = utcDateTime.toLocal();
   return TimeOfDay(hour: localDateTime.hour, minute: localDateTime.minute);
 }
 
 String _toJson(TimeOfDay time) {
   final now = DateTime.now();
-  final dateTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+  final dateTime =
+      DateTime(now.year, now.month, now.day, time.hour, time.minute);
   return dateTime.toUtc().toIso8601String().split("T")[1];
 }
-

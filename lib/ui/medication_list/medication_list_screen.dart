@@ -24,43 +24,44 @@ class MedicationListScreen extends ConsumerWidget {
           Positioned.fill(
             child: switch (medicationState) {
               AsyncData(:final value) => RefreshIndicator(
-                onRefresh: () async =>
-                    ref.refresh(medicationStateProvider.future),
-                child: value.medicationList.isEmpty
-                    ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Symbols.pill, // Use Symbols.pill if necessary
-                        size: 80, // Adjust icon size as needed
-                        color: Colors.blue, // Customize color
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        "Add prescriptions to your account using the button below.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                  onRefresh: () async =>
+                      ref.refresh(medicationStateProvider.future),
+                  child: value.medicationList.isEmpty
+                      ? const Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Symbols.pill, // Use Symbols.pill if necessary
+                                size: 80, // Adjust icon size as needed
+                                color: Colors.blue, // Customize color
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                "Add prescriptions to your account using the button below.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          padding: const EdgeInsets.only(
+                              bottom: 80), // Add padding to avoid overlap
+                          itemCount: value.medicationList.length,
+                          itemBuilder: (context, index) {
+                            return MedicationTile(
+                              medication: value.medicationList[index],
+                            );
+                          },
                         ),
-                      ),
-                    ],
-                  ),
-                )
-                    : ListView.builder(
-                  padding: const EdgeInsets.only(
-                      bottom: 80), // Add padding to avoid overlap
-                  itemCount: value.medicationList.length,
-                  itemBuilder: (context, index) {
-                    return MedicationTile(
-                      medication: value.medicationList[index],
-                    );
-                  },
                 ),
-              ),
-              AsyncError() =>
-              const CustomErrorWidget(errorMessage: "An error occurred while fetching medications. Please try again later."),
+              AsyncError() => const CustomErrorWidget(
+                  errorMessage:
+                      "An error occurred while fetching medications. Please try again later."),
               _ => const Center(child: CircularProgressIndicator()),
             },
           ),
@@ -82,7 +83,6 @@ class MedicationListScreen extends ConsumerWidget {
                     );
                     medicationStateActions.setSelectedMedication(null);
                   },
-
                   icon: const Icon(Icons.medication_sharp),
                   label: const Text('Add New Medication'),
                   style: ElevatedButton.styleFrom(
