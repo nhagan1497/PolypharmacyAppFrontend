@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:polypharmacy/ui/medication_list/remove_medication_button.dart';
 import '../../models/medication/medication.dart';
 import '../../services/medication_state/medication_state.dart';
+import '../../utilities/time_helpers.dart';
 import 'medication_screen.dart';
 
 class MedicationTile extends ConsumerWidget {
@@ -37,10 +39,11 @@ class MedicationTile extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: medication.schedules
+                      .sorted((a, b) => compareTimeOfDay(a.time, b.time))
                       .map((sch) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 2),
                             child: Text(
-                              "• Take ${sch.quantity} at ${DateFormat.jm().format(sch.time)}",
+                              "• Take ${sch.quantity} at ${formatTime(sch.time)}",
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ))
@@ -57,9 +60,7 @@ class MedicationTile extends ConsumerWidget {
                     medicationStateActions.setSelectedMedication(medication);
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MedicationScreen(
-                          medication: medication,
-                        ),
+                        builder: (context) => const MedicationScreen(),
                       ),
                     );
                   },
@@ -74,42 +75,7 @@ class MedicationTile extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Delete ${medication.name}?"),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text("Cancel"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text("Delete"),
-                                onPressed: () {
-                                  medicationStateActions
-                                      .deleteMedicationAndSchedules(medication);
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  icon: const Icon(Icons.delete, size: 20),
-                  label: const Text('Delete'),
-                  style: ElevatedButton.styleFrom(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // Oval shape
-                    ),
-                  ),
-                ),
+                RemoveMedicationButton(medication: medication),
               ],
             ),
           ],

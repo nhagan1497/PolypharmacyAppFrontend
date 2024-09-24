@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:polypharmacy/ui/home/medication_round.dart';
 import 'package:polypharmacy/services/medication_state/medication_state.dart';
-
+import 'package:polypharmacy/utilities/custom_error_widget.dart';
 import '../../services/pill_consumption_state/pill_consumption_state.dart';
 import '../../utilities/time_helpers.dart';
 
@@ -13,64 +14,100 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medicationState = ref.watch(medicationStateProvider);
-    ref.watch(pillConsumptionStateProvider);
 
     return Scaffold(
-      body: Column(
-        children: [
-          switch (medicationState) {
-            AsyncData(:final value) => Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async =>
-                      ref.refresh(medicationStateProvider.future),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    itemCount:
-                        getMedicationTimes(value.medicationList).length + 1,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${getGreeting()}, ${FirebaseAuth.instance.currentUser?.displayName?.split(" ").first}!",
-                                style: Theme.of(context).textTheme.titleLarge,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Future.wait([
+            ref.refresh(medicationStateProvider.future),
+            ref.refresh(pillConsumptionStateProvider.future),
+          ]);
+        },
+        child: Stack(
+          children: [
+            // Main content
+            Positioned.fill(
+              child: ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  ...switch (medicationState) {
+                    AsyncData(:final value) => value.medicationList.isEmpty
+                        ? [
+                            const Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 200),
+                                  Icon(
+                                    Symbols.pill,
+                                    size: 80, // Adjust icon size as needed
+                                    color: Colors.blue, // Customize color
+                                  ),
+                                  SizedBox(height: 16),
+                                  Text(
+                                    "Add some prescriptions to your account to start logging your medication intake.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 16),
-                              Text(
-                                "You have ${getMedicationTimes(value.medicationList).length} rounds of medication today.",
-                                style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ]
+                        : [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${getGreeting()}, ${FirebaseAuth.instance.currentUser?.displayName?.split(" ").first}!",
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    "You have ${getMedicationTimes(value.medicationList).length} rounds of medication today.",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                            for (var ingestionTime
+                                in getMedicationTimes(value.medicationList))
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: MedicationRound(
+                                    time: ingestionTime, date: DateTime.now()),
+                              ),
+                          ],
+                    AsyncError() => [
+                        const SizedBox(height: 200),
+                        const Center(
+                          child: CustomErrorWidget(
+                            errorMessage:
+                                "An error occurred while fetching medications. Please try again later.",
                           ),
-                        );
-                      }
-                      final distinctTimes =
-                          getMedicationTimes(value.medicationList);
-                      final ingestionTime = distinctTimes[index - 1];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: MedicationRound(
-                            time: DateTime(
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day,
-                          ingestionTime.hour,
-                          ingestionTime.minute, // Minutes
-                          0, // Seconds
-                        )),
-                      );
-                    },
-                  ),
-                ),
+                        ),
+                      ],
+                    _ =>
+                      <Widget>[], // Ensure we return an empty list of widgets
+                  } as Iterable<Widget>, // Ensure we cast to Iterable<Widget>
+                ],
               ),
-            AsyncError() => const Text('An unexpected error occurred.'),
-            _ =>
-              const Expanded(child: Center(child: CircularProgressIndicator())),
-          },
-        ],
+            ),
+            // Center the CircularProgressIndicator
+            if (medicationState is AsyncLoading)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:polypharmacy/services/medication_state/medication_state.dart';
+import 'package:polypharmacy/services/pill_consumption_state/pill_consumption_state.dart';
+import 'package:polypharmacy/services/schedule_state/schedule_state.dart';
+import 'package:polypharmacy/utilities/custom_loading_widget.dart';
 import '../../models/pill/pill.dart';
 import '../../services/image_state/image_state.dart';
 import '../../services/pill_identification_state/pill_identification_state.dart';
@@ -11,52 +15,28 @@ class IdentificationScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(pillConsumptionStateProvider);
+    ref.watch(medicationStateProvider);
+    ref.watch(scheduleStateProvider);
     final imageState = ref.watch(imageStateProvider);
+
     AsyncValue<Pill>? pillIdentificationState;
     Pill? identifiedPill;
 
-    if (imageState.imageBase64 != null) {
+    if (imageState.imageFile != null) {
       pillIdentificationState =
-          ref.watch(pillIdentificationStateProvider(imageState.imageBase64!));
+          ref.watch(pillIdentificationStateProvider(imageState.imageFile!));
       if (pillIdentificationState?.value != null) {
         identifiedPill = pillIdentificationState!.value!;
       }
     }
 
     if (pillIdentificationState?.isLoading == true) {
-      return const AnalyzingPillScreen();
-    }
-    else if (identifiedPill != null) {
+      return const CustomLoadingWidget(loadingMessage: "Analyzing image...");
+    } else if (identifiedPill != null) {
       return IdentifiedPillScreen(identifiedMedication: identifiedPill);
     } else {
       return const IdentifyMedicationStartScreen();
     }
   }
 }
-
-class AnalyzingPillScreen extends StatelessWidget {
-  const AnalyzingPillScreen({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return  Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Analyzing Image...',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 16),
-            const CircularProgressIndicator(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-

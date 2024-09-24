@@ -1,4 +1,6 @@
-String formatTime(DateTime time) {
+import 'package:flutter/material.dart';
+
+String formatTime(TimeOfDay time) {
   final hour = time.hour % 12 == 0 ? 12 : time.hour % 12;
   final minute = time.minute.toString().padLeft(2, '0');
   final period = time.hour >= 12 ? 'PM' : 'AM';
@@ -32,10 +34,16 @@ String getGreeting() {
   }
 }
 
-bool isSameTime(DateTime time1, DateTime time2) {
+bool isSameTime(TimeOfDay time1, TimeOfDay time2) {
   return time1.hour == time2.hour && time1.minute == time2.minute;
 }
 
-DateTime getTimeOnly (DateTime time) {
+DateTime getTimeOnly(DateTime time) {
   return DateTime(1970, 1, 1, time.hour, time.minute);
+}
+
+int compareTimeOfDay(TimeOfDay a, TimeOfDay b) {
+  final int aMinutes = a.hour * 60 + a.minute;
+  final int bMinutes = b.hour * 60 + b.minute;
+  return aMinutes.compareTo(bMinutes);
 }

@@ -15,13 +15,15 @@ class PolypharmacyAppScaffold extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final currentIndex = useState(0);
+    final PageStorageBucket bucket = PageStorageBucket();
 
+    // List of screens
     final List<Widget> screens = [
-      const HomeScreen(),
-      const CalendarScreen(),
-      const IdentificationScreen(),
-      const MedicationListScreen(),
-      const ProfileScreen(),
+      const HomeScreen(key: PageStorageKey('HomeScreen')),
+      const CalendarScreen(key: PageStorageKey('CalendarScreen')),
+      const IdentificationScreen(key: PageStorageKey('IdentificationScreen')),
+      const MedicationListScreen(key: PageStorageKey('MedicationListScreen')),
+      const ProfileScreen(key: PageStorageKey('ProfileScreen')),
     ];
 
     final List<String> screenTitles = [
@@ -29,8 +31,16 @@ class PolypharmacyAppScaffold extends HookWidget {
       'Schedule',
       'Identify Medication',
       'Medications',
-      'Settings'
+      'Settings',
     ];
+
+    // Helper function to build the selected screen
+    Widget buildScreen(int index) {
+      return PageStorage(
+        bucket: bucket,
+        child: screens[index],
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -45,10 +55,8 @@ class PolypharmacyAppScaffold extends HookWidget {
           ),
         ),
       ),
-      body: IndexedStack(
-        index: currentIndex.value,
-        children: screens,
-      ),
+      // Display only the currently selected screen
+      body: buildScreen(currentIndex.value),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.blue[900],

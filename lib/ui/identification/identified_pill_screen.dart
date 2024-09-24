@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/pill/pill.dart';
@@ -27,7 +26,7 @@ class IdentifiedPillScreen extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 16),
-            if (imageState.image != null)
+            if (imageState.imageFile != null)
               ClipRRect(
                 borderRadius: BorderRadius.circular(8), // Rounding the corners
                 child: Container(
@@ -37,7 +36,7 @@ class IdentifiedPillScreen extends ConsumerWidget {
                     border: Border.all(color: Colors.grey), // Optional border
                   ),
                   child: Image.file(
-                    File(imageState.image!.path),
+                    imageState.imageFile!,
                     fit: BoxFit.cover, // Adjust to fit the container
                   ),
                 ),

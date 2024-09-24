@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'dart:convert';
 
 import '../../services/image_state/image_state.dart';
 import '../login/blue_box_decoration.dart'; // For base64 encoding
@@ -73,12 +71,11 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (cameraController != null && cameraController!.value.isInitialized) {
+          if (cameraController != null &&
+              cameraController!.value.isInitialized) {
             try {
-              final image = await cameraController!.takePicture();
-              imageStateActions.setImage(image);
-              imageStateActions
-                  .setImageBase64(base64Encode(await image.readAsBytes()));
+              final imageXFile = await cameraController!.takePicture();
+              imageStateActions.setImageData(imageXFile);
               Navigator.of(context).pop();
             } catch (e) {
               print('Error capturing image: $e');
