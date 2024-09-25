@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/pill/pill.dart';
 import '../../services/image_state/image_state.dart';
 
-class IdentifiedPillScreen extends ConsumerWidget {
+class IdentifiedPill extends ConsumerWidget {
   final Pill identifiedMedication;
 
-  const IdentifiedPillScreen({
+  const IdentifiedPill({
     super.key,
     required this.identifiedMedication,
   });

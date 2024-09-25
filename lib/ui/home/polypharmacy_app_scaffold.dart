@@ -29,7 +29,7 @@ class PolypharmacyAppScaffold extends HookWidget {
     final List<String> screenTitles = [
       'Home',
       'Schedule',
-      'Identify Medication',
+      'Single Pill ID',
       'Medications',
       'Settings',
     ];
@@ -77,8 +77,8 @@ class PolypharmacyAppScaffold extends HookWidget {
             label: 'Schedule',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.photo_camera_outlined),
-            label: 'Identify',
+            icon: Icon(Symbols.search_check_2),
+            label: 'Pill ID',
           ),
           BottomNavigationBarItem(
             icon: Icon(Symbols.prescriptions),

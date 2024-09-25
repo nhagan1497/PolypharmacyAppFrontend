@@ -7,8 +7,8 @@ import 'package:polypharmacy/utilities/custom_loading_widget.dart';
 import '../../models/pill/pill.dart';
 import '../../services/image_state/image_state.dart';
 import '../../services/pill_identification_state/pill_identification_state.dart';
-import 'identification_start_screen.dart';
-import 'identified_pill_screen.dart';
+import 'identification_start.dart';
+import 'identified_pill.dart';
 
 class IdentificationScreen extends HookConsumerWidget {
   const IdentificationScreen({super.key});
@@ -34,9 +34,9 @@ class IdentificationScreen extends HookConsumerWidget {
     if (pillIdentificationState?.isLoading == true) {
       return const CustomLoadingWidget(loadingMessage: "Analyzing image...");
     } else if (identifiedPill != null) {
-      return IdentifiedPillScreen(identifiedMedication: identifiedPill);
+      return IdentifiedPill(identifiedMedication: identifiedPill);
     } else {
-      return const IdentifyMedicationStartScreen();
+      return const IdentifyMedicationStart();
     }
   }
 }

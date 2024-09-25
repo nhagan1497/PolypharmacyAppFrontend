@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../services/image_state/image_state.dart';
-import '../login/blue_box_decoration.dart'; // For base64 encoding
+import '../../utilities/logger.dart';
+import '../login/blue_box_decoration.dart';
 
-class CameraPreviewScreen extends StatefulHookConsumerWidget {
-  const CameraPreviewScreen({super.key});
+class CameraScreen extends StatefulHookConsumerWidget {
+  final String appBarText;
+  const CameraScreen({super.key, required this.appBarText});
 
   @override
-  _CameraPreviewScreenState createState() => _CameraPreviewScreenState();
+  _CameraScreenState createState() => _CameraScreenState();
 }
 
-class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
-  CameraController? cameraController; // Make nullable
+class _CameraScreenState extends ConsumerState<CameraScreen> {
+  CameraController? cameraController;
 
   @override
   void initState() {
@@ -23,7 +25,7 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
 
   @override
   void dispose() {
-    cameraController?.dispose(); // Use null check
+    cameraController?.dispose();
     super.dispose();
   }
 
@@ -43,7 +45,7 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
         setState(() {}); // Trigger a rebuild after camera initialization
       }
     } catch (e) {
-      print('Error initializing camera: $e');
+      logger.e('Error initializing camera.', error: e);
     }
   }
 
@@ -57,16 +59,16 @@ class _CameraPreviewScreenState extends ConsumerState<CameraPreviewScreen> {
           decoration: blueBoxDecoration,
         ),
         centerTitle: true,
-        title: const Text(
-          "Photograph Meds",
-          style: TextStyle(
+        title: Text(
+          widget.appBarText,
+          style: const TextStyle(
             fontSize: 36,
           ),
         ),
       ),
       body: Center(
         child: cameraController != null && cameraController!.value.isInitialized
-            ? CameraPreview(cameraController!)
+            ? CameraPreview(cameraController!,)
             : const CircularProgressIndicator(), // Show loading if not initialized
       ),
       floatingActionButton: FloatingActionButton(

@@ -5,7 +5,6 @@ import 'package:polypharmacy/utilities/custom_error_widget.dart';
 
 import '../../services/medication_state/medication_state.dart';
 import '../../services/pill_consumption_state/pill_consumption_state.dart';
-import '../../utilities/riverpod_observer.dart';
 import 'medication_screen.dart';
 import 'medication_tile.dart';
 
@@ -76,9 +75,7 @@ class MedicationListScreen extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ProviderScope(
-                            observers: [RiverpodObserver()],
-                            child: const MedicationScreen()),
+                        builder: (context) => const MedicationScreen(),
                       ),
                     );
                     medicationStateActions.setSelectedMedication(null);

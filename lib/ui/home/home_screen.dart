@@ -21,7 +21,7 @@ class HomeScreen extends ConsumerWidget {
           await Future.wait([
             ref.refresh(medicationStateProvider.future),
             ref.refresh(pillConsumptionStateProvider.future),
-          ]);
+          ], eagerError: true);
         },
         child: Stack(
           children: [

@@ -6,7 +6,6 @@ import '../../models/medication/medication.dart';
 import '../../services/medication_state/medication_state.dart';
 import '../../services/pills_state/pills_state.dart';
 import '../../utilities/custom_error_widget.dart';
-import '../../utilities/riverpod_observer.dart';
 import 'medication_create_screen.dart';
 
 class MedicationSearch extends HookConsumerWidget {
@@ -109,18 +108,19 @@ class MedicationSearch extends HookConsumerWidget {
                             ),
                           ),
                         ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ProviderScope(
-                                  observers: [RiverpodObserver()],
-                                  child: const MedicationCreateScreen()),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.add),
-                        label: const Text('Create New Medication'),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const MedicationCreateScreen(),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.add),
+                          label: const Text('Create New Medication'),
+                        ),
                       ),
                     ],
                   ),

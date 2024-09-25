@@ -9,8 +9,7 @@ import '../../models/pill/pill.dart';
 import '../../services/image_state/image_state.dart';
 import '../../services/medication_state/medication_state.dart';
 import '../../services/pills_state/pills_state.dart';
-import '../../utilities/riverpod_observer.dart';
-import '../identification/camera_preview_screen.dart';
+import '../identification/camera_screen.dart';
 
 class MedicationCreateScreen extends HookConsumerWidget {
   const MedicationCreateScreen({super.key});
@@ -151,10 +150,7 @@ class MedicationCreateScreen extends HookConsumerWidget {
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => ProviderScope(
-                                      observers: [RiverpodObserver()],
-                                      child: const CameraPreviewScreen(),
-                                    ),
+                                    builder: (context) => const CameraScreen(appBarText: "New Med Picture"),
                                   ),
                                 );
                               },
