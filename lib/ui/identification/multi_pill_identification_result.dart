@@ -42,40 +42,36 @@ class MultiPillIdentificationResultDisplay extends ConsumerWidget {
         const SizedBox(height: 10),
 
         // Correct Pills Section
-        if (identificationResult.correctPills
-            .isNotEmpty)
+        if (identificationResult.correctPills.isNotEmpty)
           PillIdentificationCard(
             time: time,
             date: date,
             title: "Verified Pills",
             subtitle:
-            "These pills were verified in the image to be correct for this round:",
+                "These pills were verified in the image to be correct for this round:",
             pills: identificationResult.correctPills,
           ),
         const SizedBox(height: 10),
 
         // Missing Pills Section
-        if (identificationResult.missingPills
-            .isNotEmpty)
+        if (identificationResult.missingPills.isNotEmpty)
           PillIdentificationCard(
             time: time,
             date: date,
             title: "Missing Pills",
-            subtitle:
-            "These pills were expected in the image, but not found:",
+            subtitle: "These pills were expected in the image, but not found:",
             pills: identificationResult.missingPills,
           ),
         const SizedBox(height: 10),
 
         // Unexpected Pills Section
-        if (identificationResult.unexpectedPills
-            .isNotEmpty)
+        if (identificationResult.unexpectedPills.isNotEmpty)
           PillIdentificationCard(
             time: time,
             date: date,
             title: "Unexpected Pills",
             subtitle:
-            "These pills were found in the image, but are not supposed to be present:",
+                "These pills were found in the image, but are not supposed to be present:",
             pills: identificationResult.unexpectedPills,
           ),
         const SizedBox(height: 24),

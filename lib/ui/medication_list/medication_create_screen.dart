@@ -150,7 +150,8 @@ class MedicationCreateScreen extends HookConsumerWidget {
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => const CameraScreen(appBarText: "New Med Picture"),
+                                    builder: (context) => const CameraScreen(
+                                        appBarText: "New Med Picture"),
                                   ),
                                 );
                               },

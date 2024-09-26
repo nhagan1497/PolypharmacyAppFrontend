@@ -33,76 +33,86 @@ class HomeScreen extends ConsumerWidget {
                   ...switch (medicationState) {
                     AsyncData(:final value) => value.medicationList.isEmpty
                         ? [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height - 100,
-                        child: const Center(
-                          child: Card(
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height - 100,
+                              child: const Center(
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Symbols.pill,
+                                          size:
+                                              80, // Adjust icon size as needed
+                                          color: Colors.blue, // Customize color
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          "Add some prescriptions to your account to start logging your medication intake.",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]
+                        : [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Symbols.pill,
-                                    size: 80, // Adjust icon size as needed
-                                    color: Colors.blue, // Customize color
-                                  ),
-                                  SizedBox(height: 16),
                                   Text(
-                                    "Add some prescriptions to your account to start logging your medication intake.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                    "${getGreeting()}, ${FirebaseAuth.instance.currentUser?.displayName?.split(" ").first}!",
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    "You have ${getMedicationTimes(value.medicationList).length} rounds of medication today.",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ]
-                        : [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "${getGreeting()}, ${FirebaseAuth.instance.currentUser?.displayName?.split(" ").first}!",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              "You have ${getMedicationTimes(value.medicationList).length} rounds of medication today.",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
+                            for (var ingestionTime
+                                in getMedicationTimes(value.medicationList))
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: MedicationRound(
+                                  time: ingestionTime,
+                                  date: DateTime.now(),
+                                ),
+                              ),
                           ],
-                        ),
-                      ),
-                      for (var ingestionTime in getMedicationTimes(value.medicationList))
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: MedicationRound(
-                            time: ingestionTime,
-                            date: DateTime.now(),
-                          ),
-                        ),
-                    ],
                     AsyncError() => [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height - 100,
-                        child: const Center(
-                          child: CustomErrorWidget(
-                            errorMessage: "An error occurred while fetching medications. Please try again later.",
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height - 100,
+                          child: const Center(
+                            child: CustomErrorWidget(
+                              errorMessage:
+                                  "An error occurred while fetching medications. Please try again later.",
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                    _ => <Widget>[], // Ensure we return an empty list of widgets
+                      ],
+                    _ =>
+                      <Widget>[], // Ensure we return an empty list of widgets
                   } as Iterable<Widget>, // Ensure we cast to Iterable<Widget>
                 ],
               ),

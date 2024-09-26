@@ -114,7 +114,8 @@ class MedicationSearch extends HookConsumerWidget {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const MedicationCreateScreen(),
+                                builder: (context) =>
+                                    const MedicationCreateScreen(),
                               ),
                             );
                           },

@@ -35,11 +35,14 @@ class MedicationListScreen extends ConsumerWidget {
                                   child: Padding(
                                     padding: EdgeInsets.all(16.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
-                                          Symbols.pill, // Use Symbols.pill if necessary
-                                          size: 80, // Adjust icon size as needed
+                                          Symbols
+                                              .pill, // Use Symbols.pill if necessary
+                                          size:
+                                              80, // Adjust icon size as needed
                                           color: Colors.blue, // Customize color
                                         ),
                                         SizedBox(height: 16),

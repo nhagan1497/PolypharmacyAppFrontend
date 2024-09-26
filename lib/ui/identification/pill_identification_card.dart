@@ -25,7 +25,8 @@ class PillIdentificationCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final consumptionStateActions = ref.watch(pillConsumptionStateProvider.notifier);
+    final consumptionStateActions =
+        ref.watch(pillConsumptionStateProvider.notifier);
     final pillsTaken = useState<bool>(false);
 
     return Card(
@@ -75,7 +76,8 @@ class PillIdentificationCard extends HookConsumerWidget {
                           final pillConsumption = PillConsumption(
                             pillId: pill.id,
                             quantity: quantity,
-                            time: DateTime(date.year, date.month, date.day, time.hour, time.minute),
+                            time: DateTime(date.year, date.month, date.day,
+                                time.hour, time.minute),
                           );
                           consumptionStateActions
                               .addPillConsumption(pillConsumption);

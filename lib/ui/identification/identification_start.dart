@@ -43,14 +43,15 @@ class IdentifyMedicationStart extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const CameraScreen(appBarText: "Single Pill Picture",),
+                              builder: (context) => const CameraScreen(
+                                appBarText: "Single Pill Picture",
+                              ),
                             ),
                           );
                         },
                         icon: const Icon(Icons.camera_alt),
                         label: const Text('Open Camera'),
                       )
-
                     ],
                   ),
                 ),

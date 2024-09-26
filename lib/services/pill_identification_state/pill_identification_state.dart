@@ -42,19 +42,19 @@ class MultiPillIdentificationState extends _$MultiPillIdentificationState {
     // Create the expected pills list
     final expectedPills = medicationsInRound!
         .map((medication) {
-      final quantity = medication.schedules
-          .firstWhere((schedule) => isSameTime(schedule.time, time))
-          .quantity;
-      final pill = medicationState.pills
-          .firstWhere((p) => p.id == medication.pillId);
-      return MapEntry(pill, quantity);
-    })
+          final quantity = medication.schedules
+              .firstWhere((schedule) => isSameTime(schedule.time, time))
+              .quantity;
+          final pill = medicationState.pills
+              .firstWhere((p) => p.id == medication.pillId);
+          return MapEntry(pill, quantity);
+        })
         .expand((entry) => List.generate(entry.value, (_) => entry.key))
         .toList();
 
     final polypharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
     final identifiedPills =
-    await polypharmacyRepo.postPillScheduleIdentification(image: imageFile);
+        await polypharmacyRepo.postPillScheduleIdentification(image: imageFile);
 
     // Count the identified pills
     final identifiedPillCounts = <Pill, int>{};
@@ -82,14 +82,15 @@ class MultiPillIdentificationState extends _$MultiPillIdentificationState {
       if (identifiedQuantity == expectedQuantity) {
         correctPills = correctPills.add(pill, expectedQuantity);
       } else if (identifiedQuantity < expectedQuantity) {
-        missingPills = missingPills.add(pill, expectedQuantity - identifiedQuantity);
+        missingPills =
+            missingPills.add(pill, expectedQuantity - identifiedQuantity);
         if (identifiedQuantity > 0) {
           correctPills = correctPills.add(pill, identifiedQuantity);
         }
-      }
-      else{
+      } else {
         correctPills = correctPills.add(pill, expectedQuantity);
-        unexpectedPills = unexpectedPills.add(pill, identifiedQuantity - expectedQuantity);
+        unexpectedPills =
+            unexpectedPills.add(pill, identifiedQuantity - expectedQuantity);
       }
     }
 
