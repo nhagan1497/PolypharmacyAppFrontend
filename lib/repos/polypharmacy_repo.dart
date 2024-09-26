@@ -87,6 +87,12 @@ abstract class PolypharmacyRepo {
       {@Header('content-type') required String contentType,
       @Body() required PillSchedule pillSchedule});
 
+  @POST("/pill_schedule/identify/")
+  @MultiPart()
+  Future<List<Pill>> postPillScheduleIdentification({
+    @Part(name: "image", contentType: "image/png") required File image,
+  });
+
   @PUT("/pill_schedule/{pill_schedule_id}/")
   Future<PillSchedule> putPillSchedule(
       {@Path('pill_schedule_id') required int pillScheduleId,

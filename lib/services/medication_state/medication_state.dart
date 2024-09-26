@@ -14,12 +14,13 @@ part 'medication_state.freezed.dart';
 
 @freezed
 class MedicationStateData with _$MedicationStateData {
-  const factory MedicationStateData(
-          {Medication? selectedMedication,
-          @Default([]) List<Medication> medicationList,
-          @Default([]) List<PillSchedule> pillSchedules,
-          @Default({}) Map<TimeOfDay, List<Medication>> medicationRounds}) =
-      _MedicationStateData;
+  const factory MedicationStateData({
+    Medication? selectedMedication,
+    @Default([]) List<Medication> medicationList,
+    @Default([]) List<PillSchedule> pillSchedules,
+    @Default({}) Map<TimeOfDay, List<Medication>> medicationRounds,
+    @Default([]) List<Pill> pills,
+  }) = _MedicationStateData;
 }
 
 @riverpod
@@ -30,7 +31,7 @@ class MedicationState extends _$MedicationState {
     final results = await Future.wait([
       polyPharmacyRepo.getPillSchedules(null, 100),
       polyPharmacyRepo.getPills(),
-    ]);
+    ], eagerError: true);
 
     final List<PillSchedule> pillSchedules = results[0] as List<PillSchedule>;
     final List<Pill> pills = results[1] as List<Pill>;
@@ -43,7 +44,8 @@ class MedicationState extends _$MedicationState {
     return MedicationStateData(
         pillSchedules: pillSchedules,
         medicationList: userMedications,
-        medicationRounds: userMedicationRounds);
+        medicationRounds: userMedicationRounds,
+        pills: pills);
   }
 
   void setSelectedMedication(Medication? medication) {

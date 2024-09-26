@@ -5,7 +5,6 @@ import 'package:polypharmacy/utilities/custom_error_widget.dart';
 
 import '../../services/medication_state/medication_state.dart';
 import '../../services/pill_consumption_state/pill_consumption_state.dart';
-import '../../utilities/riverpod_observer.dart';
 import 'medication_screen.dart';
 import 'medication_tile.dart';
 
@@ -28,24 +27,39 @@ class MedicationListScreen extends ConsumerWidget {
                       ref.refresh(medicationStateProvider.future),
                   child: value.medicationList.isEmpty
                       ? const Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Symbols.pill, // Use Symbols.pill if necessary
-                                size: 80, // Adjust icon size as needed
-                                color: Colors.blue, // Customize color
-                              ),
-                              SizedBox(height: 16),
-                              Text(
-                                "Add prescriptions to your account using the button below.",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                          child: IntrinsicWidth(
+                            child: IntrinsicHeight(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Symbols
+                                              .pill, // Use Symbols.pill if necessary
+                                          size:
+                                              80, // Adjust icon size as needed
+                                          color: Colors.blue, // Customize color
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          "Add prescriptions to your account using the button below.",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         )
                       : ListView.builder(
@@ -76,9 +90,7 @@ class MedicationListScreen extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ProviderScope(
-                            observers: [RiverpodObserver()],
-                            child: const MedicationScreen()),
+                        builder: (context) => const MedicationScreen(),
                       ),
                     );
                     medicationStateActions.setSelectedMedication(null);

@@ -21,7 +21,7 @@ class HomeScreen extends ConsumerWidget {
           await Future.wait([
             ref.refresh(medicationStateProvider.future),
             ref.refresh(pillConsumptionStateProvider.future),
-          ]);
+          ], eagerError: true);
         },
         child: Stack(
           children: [
@@ -33,26 +33,38 @@ class HomeScreen extends ConsumerWidget {
                   ...switch (medicationState) {
                     AsyncData(:final value) => value.medicationList.isEmpty
                         ? [
-                            const Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 200),
-                                  Icon(
-                                    Symbols.pill,
-                                    size: 80, // Adjust icon size as needed
-                                    color: Colors.blue, // Customize color
-                                  ),
-                                  SizedBox(height: 16),
-                                  Text(
-                                    "Add some prescriptions to your account to start logging your medication intake.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height - 100,
+                              child: const Center(
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Symbols.pill,
+                                          size:
+                                              80, // Adjust icon size as needed
+                                          color: Colors.blue, // Customize color
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          "Add some prescriptions to your account to start logging your medication intake.",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           ]
@@ -83,15 +95,19 @@ class HomeScreen extends ConsumerWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
                                 child: MedicationRound(
-                                    time: ingestionTime, date: DateTime.now()),
+                                  time: ingestionTime,
+                                  date: DateTime.now(),
+                                ),
                               ),
                           ],
                     AsyncError() => [
-                        const SizedBox(height: 200),
-                        const Center(
-                          child: CustomErrorWidget(
-                            errorMessage:
-                                "An error occurred while fetching medications. Please try again later.",
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height - 100,
+                          child: const Center(
+                            child: CustomErrorWidget(
+                              errorMessage:
+                                  "An error occurred while fetching medications. Please try again later.",
+                            ),
                           ),
                         ),
                       ],
