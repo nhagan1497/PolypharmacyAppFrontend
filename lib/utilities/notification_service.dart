@@ -45,38 +45,6 @@ class NotificationService {
     await _notifications.show(id, title, body, notificationDetails);
   }
 
-  // static Future<void> scheduleNotification({
-  //   required int id,
-  //   required String title,
-  //   required String body,
-  //   required DateTime scheduledDate,
-  // }) async {
-  //   const androidDetails = AndroidNotificationDetails(
-  //     'channel_id',
-  //     'channel_name',
-  //     importance: Importance.max,
-  //     priority: Priority.high,
-  //   );
-  //
-  //   const iOSDetails = DarwinNotificationDetails();
-  //
-  //   const notificationDetails = NotificationDetails(
-  //     android: androidDetails,
-  //     iOS: iOSDetails,
-  //   );
-  //
-  //   await _notifications.zonedSchedule(
-  //     id,
-  //     title,
-  //     body,
-  //     tz.TZDateTime.from(scheduledDate, tz.local),
-  //     notificationDetails,
-  //     androidScheduleMode: AndroidScheduleMode.exact,
-  //     uiLocalNotificationDateInterpretation:
-  //     UILocalNotificationDateInterpretation.absoluteTime,
-  //   );
-  // }
-
   static Future<void> cancelAllNotifications() async {
     await _notifications.cancelAll();
     logger.d('All notifications have been cancelled.');
@@ -88,19 +56,21 @@ class NotificationService {
     required String body,
     required TimeOfDay time,
   }) async {
-    final detroit = tz.getLocation('America/Detroit');
-    final now = tz.TZDateTime.now(detroit);
+    DateTime now = DateTime.now();
+    DateTime dateTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    DateTime utcDateTime = dateTime.toUtc();
+
     final scheduledDate = tz.TZDateTime(
-      detroit,
-      now.year,
-      now.month,
-      now.day,
-      time.hour,
-      time.minute,
+      tz.local,
+      utcDateTime.year,
+      utcDateTime.month,
+      utcDateTime.day,
+      utcDateTime.hour,
+      utcDateTime.minute,
     );
 
     // Check if the time for today has already passed; if so, schedule for tomorrow
-    final nextScheduledDate = scheduledDate.isBefore(now)
+    final nextScheduledDate = scheduledDate.isBefore(tz.TZDateTime.now(tz.local))
         ? scheduledDate.add(const Duration(days: 1))
         : scheduledDate;
 
