@@ -80,14 +80,16 @@ class MultiPillIdentificationState extends _$MultiPillIdentificationState {
       final identifiedQuantity = identifiedPillCounts[pill] ?? 0;
 
       if (identifiedQuantity == expectedQuantity) {
-        // Add to correct pills
         correctPills = correctPills.add(pill, expectedQuantity);
       } else if (identifiedQuantity < expectedQuantity) {
-        // Add to missing pills
         missingPills = missingPills.add(pill, expectedQuantity - identifiedQuantity);
         if (identifiedQuantity > 0) {
           correctPills = correctPills.add(pill, identifiedQuantity);
         }
+      }
+      else{
+        correctPills = correctPills.add(pill, expectedQuantity);
+        unexpectedPills = unexpectedPills.add(pill, identifiedQuantity - expectedQuantity);
       }
     }
 

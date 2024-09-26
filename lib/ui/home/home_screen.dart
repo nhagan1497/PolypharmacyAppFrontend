@@ -33,11 +33,17 @@ class HomeScreen extends ConsumerWidget {
                   ...switch (medicationState) {
                     AsyncData(:final value) => value.medicationList.isEmpty
                         ? [
-                            const Center(
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height - 100,
+                        child: const Center(
+                          child: Card(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
                               child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SizedBox(height: 200),
                                   Icon(
                                     Symbols.pill,
                                     size: 80, // Adjust icon size as needed
@@ -55,48 +61,48 @@ class HomeScreen extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                          ]
-                        : [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "${getGreeting()}, ${FirebaseAuth.instance.currentUser?.displayName?.split(" ").first}!",
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    "You have ${getMedicationTimes(value.medicationList).length} rounds of medication today.",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            for (var ingestionTime
-                                in getMedicationTimes(value.medicationList))
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: MedicationRound(
-                                    time: ingestionTime, date: DateTime.now()),
-                              ),
-                          ],
-                    AsyncError() => [
-                        const SizedBox(height: 200),
-                        const Center(
-                          child: CustomErrorWidget(
-                            errorMessage:
-                                "An error occurred while fetching medications. Please try again later.",
                           ),
                         ),
-                      ],
-                    _ =>
-                      <Widget>[], // Ensure we return an empty list of widgets
+                      ),
+                    ]
+                        : [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${getGreeting()}, ${FirebaseAuth.instance.currentUser?.displayName?.split(" ").first}!",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              "You have ${getMedicationTimes(value.medicationList).length} rounds of medication today.",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                      for (var ingestionTime in getMedicationTimes(value.medicationList))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: MedicationRound(
+                            time: ingestionTime,
+                            date: DateTime.now(),
+                          ),
+                        ),
+                    ],
+                    AsyncError() => [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height - 100,
+                        child: const Center(
+                          child: CustomErrorWidget(
+                            errorMessage: "An error occurred while fetching medications. Please try again later.",
+                          ),
+                        ),
+                      ),
+                    ],
+                    _ => <Widget>[], // Ensure we return an empty list of widgets
                   } as Iterable<Widget>, // Ensure we cast to Iterable<Widget>
                 ],
               ),

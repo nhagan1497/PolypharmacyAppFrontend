@@ -27,24 +27,36 @@ class MedicationListScreen extends ConsumerWidget {
                       ref.refresh(medicationStateProvider.future),
                   child: value.medicationList.isEmpty
                       ? const Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Symbols.pill, // Use Symbols.pill if necessary
-                                size: 80, // Adjust icon size as needed
-                                color: Colors.blue, // Customize color
-                              ),
-                              SizedBox(height: 16),
-                              Text(
-                                "Add prescriptions to your account using the button below.",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                          child: IntrinsicWidth(
+                            child: IntrinsicHeight(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Symbols.pill, // Use Symbols.pill if necessary
+                                          size: 80, // Adjust icon size as needed
+                                          color: Colors.blue, // Customize color
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          "Add prescriptions to your account using the button below.",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         )
                       : ListView.builder(
