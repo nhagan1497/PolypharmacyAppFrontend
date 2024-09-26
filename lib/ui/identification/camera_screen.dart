@@ -66,12 +66,14 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
           ),
         ),
       ),
-      body: Center(
-        child: cameraController != null && cameraController!.value.isInitialized
-            ? CameraPreview(
-                cameraController!,
-              )
-            : const CircularProgressIndicator(), // Show loading if not initialized
+      body: SafeArea(
+        child: Center(
+          child: cameraController != null && cameraController!.value.isInitialized
+              ? CameraPreview(
+                  cameraController!,
+                )
+              : const CircularProgressIndicator(), // Show loading if not initialized
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

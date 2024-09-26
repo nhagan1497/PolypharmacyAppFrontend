@@ -7,6 +7,7 @@ import '../../models/pill/pill.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
 import '../../repos/polypharmacy_repo.dart';
 import '../../utilities/logger.dart';
+import '../../utilities/notification_service.dart';
 import '../schedule_state/schedule_state.dart';
 
 part 'medication_state.g.dart';
@@ -27,6 +28,13 @@ class MedicationStateData with _$MedicationStateData {
 class MedicationState extends _$MedicationState {
   @override
   Future<MedicationStateData> build() async {
+
+    // NotificationService.showNotification(
+    //   id: 1,
+    //   title: 'Test Notification',
+    //   body: 'This is a test notification',
+    // );
+
     final polyPharmacyRepo = await ref.read(polypharmacyRepoProvider.future);
     final results = await Future.wait([
       polyPharmacyRepo.getPillSchedules(null, 100),
