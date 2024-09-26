@@ -9,35 +9,34 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: blueBoxDecoration,
+        ),
+        toolbarHeight: 160, // Set the height similar to your previous header
+        centerTitle: true,
+        title: Column(
+          children: [
+            const SizedBox(height: 16), // Adjust vertical spacing
+            Text(
+              "Polypharmacy",
+              style: Theme.of(context)
+                  .textTheme
+                  .displayMedium
+                  ?.copyWith(color: Colors.white),
+            ),
+            const SizedBox(height: 4), // Space between text and icon
+            const Icon(
+              Icons.medication_outlined,
+              color: Colors.white,
+              size: 64,
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // Header
-            Container(
-              width: double.infinity,
-              height: 220, // Reduced height for the header
-              padding: const EdgeInsets.all(16), // Reduced padding
-              decoration: blueBoxDecoration,
-              child: Column(
-                children: [
-                  const SizedBox(height: 48), // Reduced space
-                  Text(
-                    "Polypharmacy",
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium
-                        ?.copyWith(color: Colors.white),
-                  ),
-                  const SizedBox(
-                      height: 4), // Reduced space between text and icon
-                  const Icon(
-                    Icons.medication_outlined, // "prescription" icon
-                    color: Colors.white,
-                    size: 64,
-                  ),
-                ],
-              ),
-            ),
             // Sign-in screen
             Expanded(
               child: Align(
@@ -51,19 +50,18 @@ class LoginScreen extends StatelessWidget {
                       EmailAuthProvider(),
                       GoogleProvider(
                         clientId:
-                            "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
+                        "27887611849-6smoqgqfo2im4svkkuvakegbs52v51eb.apps.googleusercontent.com",
                         iOSPreferPlist: true,
                       ),
                     ],
                     subtitleBuilder: (context, action) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4.0), // Reduced padding
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: action == AuthAction.signIn
                             ? const Text(
-                                'Welcome to Polypharmacy, please sign in!')
+                            'Welcome to Polypharmacy, please sign in!')
                             : const Text(
-                                'Welcome to Polypharmacy, please sign up!'),
+                            'Welcome to Polypharmacy, please sign up!'),
                       );
                     },
                   ),
