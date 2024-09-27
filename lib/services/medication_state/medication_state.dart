@@ -52,7 +52,7 @@ class MedicationState extends _$MedicationState {
               "It's time to log the pills for your ${formatTime(time)} round",
           time: time);
     }
-    logger.i("Scheduled notifications for ${userMedicationRounds.keys.length} rounds");
+    // logger.i("Scheduled notifications for ${userMedicationRounds.keys.length} rounds");
 
     return MedicationStateData(
         pillSchedules: pillSchedules,

@@ -47,7 +47,7 @@ class NotificationService {
 
   static Future<void> cancelAllNotifications() async {
     await _notifications.cancelAll();
-    logger.d('All notifications have been cancelled.');
+    // logger.d('All notifications have been cancelled.');
   }
 
   // Method to schedule a daily notification at a specified time
