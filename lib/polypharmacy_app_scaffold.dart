@@ -5,9 +5,9 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:polypharmacy/ui/identification/identification_screen.dart';
 import 'package:polypharmacy/ui/login/blue_box_decoration.dart';
 
-import '../calendar/calendar_screen.dart';
-import '../medication_list/medication_list_screen.dart';
-import 'home_screen.dart';
+import 'ui/calendar/calendar_screen.dart';
+import 'ui/medication_list/medication_list_screen.dart';
+import 'ui/home/home_screen.dart';
 
 class PolypharmacyAppScaffold extends HookWidget {
   const PolypharmacyAppScaffold({super.key});
@@ -56,7 +56,7 @@ class PolypharmacyAppScaffold extends HookWidget {
         ),
       ),
       // Display only the currently selected screen
-      body: buildScreen(currentIndex.value),
+      body: SafeArea(child: buildScreen(currentIndex.value)),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.blue[900],

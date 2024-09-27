@@ -1,14 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:polypharmacy/utilities/notification_service.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polypharmacy/firebase_options.dart';
-import 'package:polypharmacy/ui/home/polypharmacy_app_scaffold.dart';
+import 'package:polypharmacy/polypharmacy_app_scaffold.dart';
 import 'package:polypharmacy/ui/login/login_screen.dart';
 import 'package:polypharmacy/utilities/riverpod_observer.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  await NotificationService.initialize();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -69,3 +75,4 @@ class AuthGate extends StatelessWidget {
     );
   }
 }
+

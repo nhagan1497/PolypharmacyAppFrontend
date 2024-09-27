@@ -15,39 +15,37 @@ class IdentifiedPill extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imageState = ref.watch(imageStateProvider);
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "${identifiedMedication.name} - ${identifiedMedication.dosage}",
-              style: Theme.of(context).textTheme.titleLarge,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 16),
-            if (imageState.imageFile != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8), // Rounding the corners
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey), // Optional border
-                  ),
-                  child: Image.file(
-                    imageState.imageFile!,
-                    fit: BoxFit.cover, // Adjust to fit the container
-                  ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "${identifiedMedication.name} - ${identifiedMedication.dosage}",
+            style: Theme.of(context).textTheme.titleLarge,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 16),
+          if (imageState.imageFile != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8), // Rounding the corners
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey), // Optional border
+                ),
+                child: Image.file(
+                  imageState.imageFile!,
+                  fit: BoxFit.cover, // Adjust to fit the container
                 ),
               ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => ref.invalidate(imageStateProvider),
-              child: const Text('Take New Photo'),
             ),
-          ],
-        ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () => ref.invalidate(imageStateProvider),
+            child: const Text('Take New Photo'),
+          ),
+        ],
       ),
     );
   }

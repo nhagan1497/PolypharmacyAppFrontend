@@ -41,39 +41,41 @@ class MultiPillIdScreen extends ConsumerWidget {
           style: TextStyle(fontSize: 36),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: multiPillIdentificationState != null
-                      ? multiPillIdentificationState.when(
-                          data: (identificationResult) {
-                            return MultiPillIdentificationResultDisplay(
-                              time: time,
-                              date: date,
-                              identificationResult: identificationResult,
-                            );
-                          },
-                          loading: () => const Center(
-                            child: CustomLoadingWidget(
-                                loadingMessage: "Analyzing image..."),
-                          ),
-                          error: (error, stackTrace) => const Center(
-                            child: CustomErrorWidget(
-                                errorMessage:
-                                    "An error occurred while identifying medications. Please try again later."),
-                          ),
-                        )
-                      : MultiPillIdStart(
-                          time: time, medicationsInRound: medicationsInRound),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: multiPillIdentificationState != null
+                        ? multiPillIdentificationState.when(
+                            data: (identificationResult) {
+                              return MultiPillIdentificationResultDisplay(
+                                time: time,
+                                date: date,
+                                identificationResult: identificationResult,
+                              );
+                            },
+                            loading: () => const Center(
+                              child: CustomLoadingWidget(
+                                  loadingMessage: "Analyzing image..."),
+                            ),
+                            error: (error, stackTrace) => const Center(
+                              child: CustomErrorWidget(
+                                  errorMessage:
+                                      "An error occurred while identifying medications. Please try again later."),
+                            ),
+                          )
+                        : MultiPillIdStart(
+                            time: time, medicationsInRound: medicationsInRound),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

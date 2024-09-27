@@ -1,12 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:polypharmacy/utilities/time_helpers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../models/medication/medication.dart';
 import '../../models/pill/pill.dart';
 import '../../models/pill_schedule/pill_schedule.dart';
 import '../../repos/polypharmacy_repo.dart';
 import '../../utilities/logger.dart';
+import '../../utilities/notification_service.dart';
 import '../schedule_state/schedule_state.dart';
 
 part 'medication_state.g.dart';
@@ -40,6 +42,17 @@ class MedicationState extends _$MedicationState {
         _convertSchedulesToMedicationList(pillSchedules, pills);
     final userMedicationRounds =
         _convertSchedulesToMedicationRounds(pillSchedules, pills);
+
+    // Schedule notifications for each round
+    NotificationService.cancelAllNotifications();
+    for (var time in userMedicationRounds.keys) {
+      NotificationService.scheduleDailyNotification(
+          title: "Medication Reminder",
+          body:
+              "It's time to log the pills for your ${formatTime(time)} round",
+          time: time);
+    }
+    // logger.i("Scheduled notifications for ${userMedicationRounds.keys.length} rounds");
 
     return MedicationStateData(
         pillSchedules: pillSchedules,
