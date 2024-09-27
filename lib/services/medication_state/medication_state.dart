@@ -33,6 +33,7 @@ class MedicationState extends _$MedicationState {
     final results = await Future.wait([
       polyPharmacyRepo.getPillSchedules(null, 100),
       polyPharmacyRepo.getPills(),
+      NotificationService.cancelAllNotifications(),
     ], eagerError: true);
 
     final List<PillSchedule> pillSchedules = results[0] as List<PillSchedule>;
@@ -44,7 +45,6 @@ class MedicationState extends _$MedicationState {
         _convertSchedulesToMedicationRounds(pillSchedules, pills);
 
     // Schedule notifications for each round
-    await NotificationService.cancelAllNotifications();
     for (var time in userMedicationRounds.keys) {
       NotificationService.scheduleDailyNotification(
           title: "Medication Reminder",
