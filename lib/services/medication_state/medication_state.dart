@@ -44,7 +44,7 @@ class MedicationState extends _$MedicationState {
         _convertSchedulesToMedicationRounds(pillSchedules, pills);
 
     // Schedule notifications for each round
-    NotificationService.cancelAllNotifications();
+    await NotificationService.cancelAllNotifications();
     for (var time in userMedicationRounds.keys) {
       NotificationService.scheduleDailyNotification(
           title: "Medication Reminder",
