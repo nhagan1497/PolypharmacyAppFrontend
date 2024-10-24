@@ -35,6 +35,7 @@ class PillsState extends _$PillsState {
       medicationStateActions.setSelectedMedication(Medication(
         name: newPill.name,
         dosage: newPill.dosage,
+        manufacturer: newPill.manufacturer,
         pillId: newPill.id,
         schedules: [],
       ));

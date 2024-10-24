@@ -32,6 +32,13 @@ class MedicationTile extends ConsumerWidget {
               style: Theme.of(context).textTheme.titleLarge,
               overflow: TextOverflow.ellipsis,
             ),
+            Text(
+              medication.manufacturer,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontStyle: FontStyle.italic,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
             // Medication schedules
             ListTile(
               subtitle: Container(

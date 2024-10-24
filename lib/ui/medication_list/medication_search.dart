@@ -88,6 +88,7 @@ class MedicationSearch extends HookConsumerWidget {
                                   Medication(
                                     name: pill.name,
                                     dosage: pill.dosage,
+                                    manufacturer: pill.manufacturer,
                                     pillId: pill.id,
                                     schedules: [],
                                   ),

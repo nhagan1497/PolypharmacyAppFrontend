@@ -87,6 +87,7 @@ class MedicationState extends _$MedicationState {
         pillId: pillId,
         name: matchingPill!.name,
         dosage: matchingPill.dosage,
+        manufacturer: matchingPill.manufacturer,
         schedules: pillSchedules,
       );
     }).toList();
@@ -119,6 +120,7 @@ class MedicationState extends _$MedicationState {
           pillId: pillId,
           name: matchingPill!.name,
           dosage: matchingPill.dosage,
+          manufacturer: matchingPill.manufacturer,
           schedules: schedulesForPill,
         );
       }).toList();

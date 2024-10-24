@@ -10,6 +10,7 @@ class Medication with _$Medication {
   const factory Medication({
     required String name,
     required String dosage,
+    required String manufacturer,
     required int pillId,
     required List<PillSchedule> schedules,
   }) = _Medication;
