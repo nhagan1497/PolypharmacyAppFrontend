@@ -126,7 +126,7 @@ class PillCountChip extends ConsumerWidget {
                 TextEditingController pillCountController = TextEditingController();
 
                 return AlertDialog(
-                  title: const Text("Refill Prescription"),
+                  title: const Center(child: Text("Refill Prescription")),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -135,7 +135,7 @@ class PillCountChip extends ConsumerWidget {
                         keyboardType: TextInputType.number,  // Ensures only numbers are entered
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'New pill count',
+                          labelText: 'Pills to Add',
                         ),
                       ),
                     ],

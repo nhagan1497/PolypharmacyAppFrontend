@@ -1,24 +1,34 @@
+import 'package:polypharmacy/models/pill_consumption/pill_consumption.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../repos/polypharmacy_repo.dart';
 
 part 'pill_count_state.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class PillCountState extends _$PillCountState {
   @override
   Future<int> build(int pillId) async {
-    // final polyPharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
-    // final pillConsumptions =
-    // await polyPharmacyRepo.getPillConsumptions(0, 1000);
-    await Future.delayed(const Duration(seconds: 2));
-    const count = 7;
+    final polyPharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
+    final pillCount =
+        await polyPharmacyRepo.getRemainingPillCount(pillId: pillId);
+    final count =
+        pillCount.remainingPillCount < 0 ? 0 : pillCount.remainingPillCount;
     return count;
   }
 
   Future<void> updatePillCount(int pillId, int count) async {
-    // final polyPharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
-    // await polyPharmacyRepo.updatePillCount(pillId, count);
+    final currentCount = state.value;
     state = const AsyncLoading();
-    await Future.delayed(const Duration(seconds: 2));
-    state = AsyncData(count);
+    final polyPharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
+    final refillPillConsumption =
+        PillConsumption(pillId: pillId, quantity: -count, time: DateTime.now());
+    try {
+      await polyPharmacyRepo.postPillConsumption(
+          contentType: "application/json",
+          pillConsumption: refillPillConsumption);
+    } finally {
+      state = AsyncData(count + currentCount!);
+    }
   }
 }

@@ -31,7 +31,7 @@ class PillConsumptionState extends _$PillConsumptionState {
 
     // Get pill count to check if a low pill count notification should be sent
     final pillCount = await ref.read(pillCountStateProvider(pillConsumption.pillId).future);
-    if (pillCount <= 5) {
+    if (pillCount <= 5 && pillCount > 0) {
       NotificationService.showNotification(id: 1, title: "Low Pill Alert", body: "You are low on medication. Check and update your pill quantity on the Medicine page.");
     }
   }
