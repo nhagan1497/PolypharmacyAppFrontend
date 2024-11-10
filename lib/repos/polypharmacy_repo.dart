@@ -7,6 +7,7 @@ import 'package:polypharmacy/models/pill_schedule/pill_schedule.dart';
 import 'package:retrofit/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/pill/pill.dart';
+import '../models/pill_count/pill_count.dart';
 import '../utilities/dio_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -71,6 +72,11 @@ abstract class PolypharmacyRepo {
   @DELETE("/pill_consumption/{pill_consumption_id}")
   Future<PillConsumption> deletePillConsumption({
     @Path('pill_consumption_id') required int pillConsumptionId,
+  });
+
+  @GET("/pill_consumption/remaining_pill_count/{pill_id}")
+  Future<PillCount> getRemainingPillCount({
+    @Path('pill_id') required int pillId,
   });
 
   // **************************************************************************

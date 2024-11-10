@@ -13,11 +13,11 @@ class LoginScreen extends StatelessWidget {
         flexibleSpace: Container(
           decoration: blueBoxDecoration,
         ),
-        toolbarHeight: 160, // Set the height similar to your previous header
+        toolbarHeight: 160,
         centerTitle: true,
         title: Column(
           children: [
-            const SizedBox(height: 16), // Adjust vertical spacing
+            const SizedBox(height: 16),
             Text(
               "Polypharmacy",
               style: Theme.of(context)
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                   .displayMedium
                   ?.copyWith(color: Colors.white),
             ),
-            const SizedBox(height: 4), // Space between text and icon
+            const SizedBox(height: 4),
             const Icon(
               Icons.medication_outlined,
               color: Colors.white,
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 60, // Set a fixed height for the bottom bar
+        height: 60,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: blueBoxDecoration,
         child: const Center(
@@ -86,9 +86,9 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(width: 8), // Space between text and icon
+              SizedBox(width: 8),
               FlutterLogo(
-                size: 24, // Adjust the size as needed
+                size: 24,
               ),
             ],
           ),

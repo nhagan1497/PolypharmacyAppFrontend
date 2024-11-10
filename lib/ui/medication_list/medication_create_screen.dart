@@ -103,11 +103,11 @@ class MedicationCreateScreen extends HookConsumerWidget {
                         TextFormField(
                           controller: manufacturerController,
                           decoration: const InputDecoration(
-                            labelText: 'Manufacturer',
+                            labelText: 'Reason for Taking Medication',
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter the manufacturer';
+                              return 'Please enter a reason';
                             }
                             return null;
                           },
