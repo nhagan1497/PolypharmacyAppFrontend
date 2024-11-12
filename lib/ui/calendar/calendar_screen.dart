@@ -56,14 +56,17 @@ class CalendarScreen extends HookConsumerWidget {
             },
           ),
           // Tab bar for selecting between "Journal" and "Adherence"
-          TabBar(
-            labelColor: Theme.of(context).primaryColor,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Theme.of(context).primaryColor,
-            tabs: const [
-              Tab(text: "Journal"),
-              Tab(text: "Adherence"),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TabBar(
+              labelColor: Theme.of(context).primaryColor,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Theme.of(context).primaryColor,
+              tabs: const [
+                Tab(text: "Journal"),
+                Tab(text: "Adherence"),
+              ],
+            ),
           ),
           // Tab view content for "Journal" and "Adherence"
           Expanded(
