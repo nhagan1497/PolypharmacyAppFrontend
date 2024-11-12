@@ -38,6 +38,20 @@ bool isSameTime(TimeOfDay time1, TimeOfDay time2) {
   return time1.hour == time2.hour && time1.minute == time2.minute;
 }
 
+bool isRightDayAndTimeMatches(DateTime dateTime, DateTime expectedDate, TimeOfDay timeOfDay) {
+  // Check if the date is today
+  final isRightDat = dateTime.year == expectedDate.year &&
+      dateTime.month == expectedDate.month &&
+      dateTime.day == expectedDate.day;
+
+  // Check if the time matches the TimeOfDay
+  final isTimeMatch = dateTime.hour == timeOfDay.hour &&
+      dateTime.minute == timeOfDay.minute;
+
+  return isRightDat && isTimeMatch;
+}
+
+
 DateTime getTimeOnly(DateTime time) {
   return DateTime(1970, 1, 1, time.hour, time.minute);
 }

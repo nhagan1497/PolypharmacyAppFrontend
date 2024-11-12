@@ -14,7 +14,7 @@ class PillConsumptionState extends _$PillConsumptionState {
   Future<IList<PillConsumption>> build() async {
     final polyPharmacyRepo = await ref.watch(polypharmacyRepoProvider.future);
     final pillConsumptions =
-        await polyPharmacyRepo.getPillConsumptions(0, 1000);
+        await polyPharmacyRepo.getPillConsumptions(0, 1000000);
     return pillConsumptions.lock;
   }
 
