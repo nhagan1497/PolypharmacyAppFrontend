@@ -94,11 +94,11 @@ class Adherence extends HookConsumerWidget {
       IconData icon, Color iconColor) {
     String helpText;
     if (iconColor == Colors.green) {
-      helpText = 'This pill was taken as expected.';
+      helpText = 'This medication was taken as expected.';
     } else if (iconColor == Colors.blue) {
-      helpText = 'This pill is expected but has not been taken.';
+      helpText = 'This medication is expected but has not been taken.';
     } else if (iconColor == Colors.red) {
-      helpText = 'This pill was taken unexpectedly.';
+      helpText = 'This medication was taken unexpectedly.';
     } else {
       helpText = 'Unknown adherence status.';
     }
