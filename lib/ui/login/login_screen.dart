@@ -1,6 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polypharmacy/ui/login/blue_box_decoration.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,19 +18,8 @@ class LoginScreen extends StatelessWidget {
         centerTitle: true,
         title: Column(
           children: [
-            const SizedBox(height: 16),
-            Text(
-              "Polypharmacy",
-              style: Theme.of(context)
-                  .textTheme
-                  .displayMedium
-                  ?.copyWith(color: Colors.white),
-            ),
-            const SizedBox(height: 4),
-            const Icon(
-              Icons.medication_outlined,
-              color: Colors.white,
-              size: 64,
+            SvgPicture.asset(
+              'assets/svg/login_brand.svg',
             ),
           ],
         ),
@@ -59,9 +49,9 @@ class LoginScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: action == AuthAction.signIn
                             ? const Text(
-                            'Welcome to Polypharmacy, please sign in!')
+                            'Welcome to Polly, please sign in!')
                             : const Text(
-                            'Welcome to Polypharmacy, please sign up!'),
+                            'Welcome to Polly, please sign up!'),
                       );
                     },
                   ),
