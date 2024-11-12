@@ -67,6 +67,7 @@ dependencies:
   http_parser: ^4.0.2
   flutter_local_notifications: ^17.2.3
   timezone: ^0.9.4
+  flutter_svg: ^2.0.14
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +87,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icon/
+    - assets/svg/login_brand.svg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
