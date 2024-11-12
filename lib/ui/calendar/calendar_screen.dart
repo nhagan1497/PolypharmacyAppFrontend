@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../services/medication_state/medication_state.dart';
 import '../../utilities/custom_error_widget.dart';
+import '../home/adherence.dart';
 import '../home/medication_round.dart';
 
 class CalendarScreen extends HookConsumerWidget {
@@ -17,69 +18,102 @@ class CalendarScreen extends HookConsumerWidget {
     final focusedDay = useState(DateTime.now());
     final selectedDay = useState<DateTime>(DateTime.now());
 
-    return Column(
-      children: [
-        TableCalendar(
-          locale: 'en_US',
-          firstDay: DateTime.utc(2020, 1, 1),
-          lastDay: DateTime.utc(2030, 12, 31),
-          focusedDay: focusedDay.value,
-          calendarFormat: calendarFormat.value,
-          calendarStyle: CalendarStyle(
-            todayDecoration: BoxDecoration(
-              color: Colors.lightBlue[400],
-              shape: BoxShape.circle,
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          TableCalendar(
+            locale: 'en_US',
+            firstDay: DateTime.utc(2020, 1, 1),
+            lastDay: DateTime.utc(2030, 12, 31),
+            focusedDay: focusedDay.value,
+            calendarFormat: calendarFormat.value,
+            calendarStyle: CalendarStyle(
+              todayDecoration: BoxDecoration(
+                color: Colors.lightBlue[400],
+                shape: BoxShape.circle,
+              ),
+              selectedDecoration: BoxDecoration(
+                color: Colors.blue[900],
+                shape: BoxShape.circle,
+              ),
+              selectedTextStyle: const TextStyle(color: Colors.white),
             ),
-            selectedDecoration: BoxDecoration(
-              color: Colors.blue[900],
-              shape: BoxShape.circle,
-            ),
-            selectedTextStyle: const TextStyle(color: Colors.white),
-          ),
-          selectedDayPredicate: (day) {
-            return isSameDay(selectedDay.value, day);
-          },
-          onDaySelected: (newSelectedDay, newFocusedDay) {
-            selectedDay.value = newSelectedDay;
-            focusedDay.value = newFocusedDay;
-          },
-          onFormatChanged: (format) {
-            if (calendarFormat.value != format) {
-              calendarFormat.value = format;
-            }
-          },
-          onPageChanged: (newFocusedDay) {
-            focusedDay.value = newFocusedDay;
-          },
-        ),
-        Expanded(
-          child: medicationState.when(
-            data: (medicationData) {
-              final sortedTimes =
-                  getMedicationTimes(medicationData.medicationList);
-              return ListView.builder(
-                padding: const EdgeInsets.all(16.0),
-                itemCount: sortedTimes.length,
-                itemBuilder: (context, index) {
-                  final ingestionTime = sortedTimes.elementAt(index);
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: MedicationRound(
-                      time: ingestionTime,
-                      date: selectedDay.value,
-                    ),
-                  );
-                },
-              );
+            selectedDayPredicate: (day) {
+              return isSameDay(selectedDay.value, day);
             },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) => const CustomErrorWidget(
-              errorMessage:
-                  "An error occurred while fetching medications. Please try again later.",
+            onDaySelected: (newSelectedDay, newFocusedDay) {
+              selectedDay.value = newSelectedDay;
+              focusedDay.value = newFocusedDay;
+            },
+            onFormatChanged: (format) {
+              if (calendarFormat.value != format) {
+                calendarFormat.value = format;
+              }
+            },
+            onPageChanged: (newFocusedDay) {
+              focusedDay.value = newFocusedDay;
+            },
+          ),
+          // Tab bar for selecting between "Journal" and "Adherence"
+          TabBar(
+            labelColor: Theme.of(context).primaryColor,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: Theme.of(context).primaryColor,
+            tabs: const [
+              Tab(text: "Journal"),
+              Tab(text: "Adherence"),
+            ],
+          ),
+          // Tab view content for "Journal" and "Adherence"
+          Expanded(
+            child: medicationState.when(
+              data: (medicationData) {
+                final sortedTimes = getMedicationTimes(medicationData.medicationList);
+                return TabBarView(
+                  children: [
+                    // Journal Tab Content
+                    ListView.builder(
+                      padding: const EdgeInsets.all(16.0),
+                      itemCount: sortedTimes.length,
+                      itemBuilder: (context, index) {
+                        final ingestionTime = sortedTimes.elementAt(index);
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: MedicationRound(
+                            time: ingestionTime,
+                            date: selectedDay.value,
+                          ),
+                        );
+                      },
+                    ),
+                    // Adherence Tab Content
+                    ListView.builder(
+                      padding: const EdgeInsets.all(16.0),
+                      itemCount: sortedTimes.length,
+                      itemBuilder: (context, index) {
+                        final ingestionTime = sortedTimes.elementAt(index);
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Adherence(
+                            time: ingestionTime,
+                            date: selectedDay.value,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => const CustomErrorWidget(
+                errorMessage:
+                "An error occurred while fetching medications. Please try again later.",
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,6 +10,7 @@ import '../../models/pill/pill.dart';
 import '../../repos/polypharmacy_repo.dart';
 import '../../utilities/time_helpers.dart';
 import '../medication_state/medication_state.dart';
+import '../pill_consumption_state/pill_consumption_state.dart';
 
 part 'pill_identification_state.g.dart';
 part 'pill_identification_state.freezed.dart';
@@ -112,3 +114,89 @@ class MultiPillIdentificationState extends _$MultiPillIdentificationState {
     );
   }
 }
+
+// TODO: Merge logic with MultiPillIdentificationState
+MultiPillIdentificationResult getAdherence(WidgetRef ref, TimeOfDay time, DateTime date) {
+    final medicationState = ref.watch(medicationStateProvider).value!;
+    final medicationsInRound = medicationState.medicationRounds[time];
+    final pillConsumptions = ref.watch(pillConsumptionStateProvider).value!;
+
+    // Create the expected pills list
+    final expectedPills = medicationsInRound!
+        .map((medication) {
+      final quantity = medication.schedules
+          .firstWhere((schedule) => isSameTime(schedule.time, time))
+          .quantity;
+      final pill = medicationState.pills
+          .firstWhere((p) => p.id == medication.pillId);
+      return MapEntry(pill, quantity);
+    })
+        .expand((entry) => List.generate(entry.value, (_) => entry.key))
+        .toList();
+
+    final actualPills = pillConsumptions
+    .where((pc) => isRightDayAndTimeMatches(pc.time, date, time))
+        .map((pc) {
+      final quantity = pc.quantity;
+      final pill = medicationState.pills
+          .firstWhere((p) => p.id == pc.pillId);
+      return MapEntry(pill, quantity);
+    })
+        .expand((entry) => List.generate(entry.value, (_) => entry.key))
+        .toList();
+
+
+    final actualPillCounts = <Pill, int>{};
+    for (var pill in actualPills) {
+      actualPillCounts[pill] = (actualPillCounts[pill] ?? 0) + 1;
+    }
+
+    // Prepare the result maps
+    IMap<Pill, int> correctPills = IMap<Pill, int>();
+    IMap<Pill, int> missingPills = IMap<Pill, int>();
+    IMap<Pill, int> unexpectedPills = IMap<Pill, int>();
+
+    // Identify expected pills counts
+    final expectedPillCounts = <Pill, int>{};
+    for (var pill in expectedPills) {
+      expectedPillCounts[pill] = (expectedPillCounts[pill] ?? 0) + 1;
+    }
+
+    // Check for correct and missing pills
+    for (var entry in expectedPillCounts.entries) {
+      final pill = entry.key;
+      final expectedQuantity = entry.value;
+      final identifiedQuantity = actualPillCounts[pill] ?? 0;
+
+      if (identifiedQuantity == expectedQuantity) {
+        correctPills = correctPills.add(pill, expectedQuantity);
+      } else if (identifiedQuantity < expectedQuantity) {
+        missingPills =
+            missingPills.add(pill, expectedQuantity - identifiedQuantity);
+        if (identifiedQuantity > 0) {
+          correctPills = correctPills.add(pill, identifiedQuantity);
+        }
+      } else {
+        correctPills = correctPills.add(pill, expectedQuantity);
+        unexpectedPills =
+            unexpectedPills.add(pill, identifiedQuantity - expectedQuantity);
+      }
+    }
+
+    // Check for unexpected pills
+    for (var entry in actualPillCounts.entries) {
+      final pill = entry.key;
+      final identifiedQuantity = entry.value;
+
+      if (!expectedPillCounts.containsKey(pill)) {
+        // Add to unexpected pills
+        unexpectedPills = unexpectedPills.add(pill, identifiedQuantity);
+      }
+    }
+
+    return MultiPillIdentificationResult(
+      correctPills: correctPills,
+      missingPills: missingPills,
+      unexpectedPills: unexpectedPills,
+    );
+  }

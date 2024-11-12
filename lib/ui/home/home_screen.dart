@@ -7,6 +7,7 @@ import 'package:polypharmacy/services/medication_state/medication_state.dart';
 import 'package:polypharmacy/utilities/custom_error_widget.dart';
 import '../../services/pill_consumption_state/pill_consumption_state.dart';
 import '../../utilities/time_helpers.dart';
+import 'adherence.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -88,7 +89,7 @@ class HomeScreen extends ConsumerWidget {
                               unselectedLabelColor: Colors.grey,
                               indicatorColor: Theme.of(context).primaryColor,
                               tabs: const [
-                                Tab(text: "Log"),
+                                Tab(text: "Journal"),
                                 Tab(text: "Adherence"),
                               ],
                             ),
@@ -114,8 +115,17 @@ class HomeScreen extends ConsumerWidget {
                               ],
                             ),
                             // Adherence Tab Content (Placeholder)
-                            const Center(
-                              child: Text("Adherence Placeholder"),
+                            ListView(
+                              children: [
+                                for (var ingestionTime in getMedicationTimes(value.medicationList))
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Adherence(
+                                      time: ingestionTime,
+                                      date: DateTime.now(),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ],
                         ),
