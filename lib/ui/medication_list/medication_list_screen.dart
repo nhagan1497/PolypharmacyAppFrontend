@@ -82,7 +82,7 @@ class MedicationListScreen extends ConsumerWidget {
           right: 16.0,
           child: Center(
             child: SizedBox(
-              width: 200, // Set a fixed width for the button
+              width: 250, // Set a fixed width for the button
               child: ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).push(
